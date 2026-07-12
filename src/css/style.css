@@ -1,0 +1,256 @@
+/* Mitsurugi Ritual Guide — design tokens ported from the handoff. */
+:root {
+  --bg: #14101f;
+  --surface: #191225;
+  --surface-alt1: #1e1633;
+  --surface-alt2: #241b3d;
+  --border: rgba(185, 140, 255, 0.16);
+  --border-soft: rgba(185, 140, 255, 0.14);
+  --text: #ece8f5;
+  --text-muted: #b7add0;
+  --text-dim: #a79bc0;
+  --text-faint: #6f6488;
+  --text-caption: #8f84af;
+  --violet: #b98cff;
+  --violet-lt: #cbb0ff;
+  --violet-deep: #8a5cf0;
+  --gold: #e0c46a;
+  --gold-deep: #c9a24b;
+  --zone-gy: #8f9bd0;
+  --zone-field: #7fd8c6;
+
+  --stripe: repeating-linear-gradient(135deg, #1e1633, #1e1633 9px, #241b3d 9px, #241b3d 18px);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body.page-landing {
+  background:
+    radial-gradient(1200px 700px at 78% -8%, rgba(61, 42, 90, 0.55), transparent 60%),
+    radial-gradient(900px 600px at 8% 4%, rgba(185, 140, 255, 0.08), transparent 55%),
+    var(--bg);
+}
+body.page-cards {
+  background: radial-gradient(1100px 600px at 82% -10%, rgba(61, 42, 90, 0.5), transparent 60%), var(--bg);
+}
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--violet-lt); }
+::selection { background: rgba(185, 140, 255, 0.3); color: #fff; }
+h1, h2, h3 { font-family: "Space Grotesk", sans-serif; margin: 0; }
+p { margin: 0; }
+
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.mono { font-family: "IBM Plex Mono", monospace; }
+.kicker { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 0.12em; color: var(--violet); margin-bottom: 14px; }
+.em-gold { color: var(--gold); font-style: normal; }
+.container { max-width: 1280px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+.container-narrow { max-width: 1180px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+/* ---- diamond glyph ---- */
+.diamond { display: inline-flex; align-items: center; justify-content: center; transform: rotate(45deg); }
+.diamond > span { transform: rotate(-45deg); }
+
+/* ---- nav ---- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 40px;
+  background: rgba(20, 16, 31, 0.72);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+}
+.brand { display: flex; align-items: center; gap: 12px; color: var(--text); }
+.brand-mark {
+  width: 34px; height: 34px;
+  border: 1px solid rgba(224, 196, 106, 0.55);
+  background: linear-gradient(135deg, rgba(224, 196, 106, 0.16), rgba(185, 140, 255, 0.16));
+}
+.brand-mark > span { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--gold); font-size: 15px; }
+.wordmark { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.04em; }
+.nav { display: flex; align-items: center; gap: 6px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.03em; }
+.nav a, .nav .soon { padding: 8px 14px; border-radius: 8px; color: var(--text-dim); }
+.nav a:hover { color: var(--violet-lt); }
+.nav a.active { background: rgba(185, 140, 255, 0.12); color: var(--violet-lt); }
+.nav .soon { color: var(--text-faint); }
+
+/* ---- buttons ---- */
+.btn { display: inline-flex; align-items: center; gap: 9px; border-radius: 10px; font-size: 15px; font-weight: 600; }
+.btn-violet { padding: 14px 24px; background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--bg); }
+.btn-violet:hover { color: var(--bg); }
+.btn-outline { padding: 14px 22px; border: 1px solid rgba(185, 140, 255, 0.28); color: var(--violet-lt); font-weight: 500; }
+.btn-gold { padding: 16px 30px; border-radius: 12px; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--bg); font-weight: 700; font-size: 16px; }
+.btn-gold:hover { color: var(--bg); }
+
+/* ---- hero ---- */
+.hero { padding: 80px 40px 40px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
+.attr-pills { display: flex; gap: 8px; margin-bottom: 24px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: 0.08em; }
+.attr-pill { padding: 5px 11px; border-radius: 999px; border: 1px solid; }
+.attr-dark { border-color: rgba(185, 140, 255, 0.4); color: var(--violet-lt); }
+.attr-reptile { border-color: rgba(111, 191, 174, 0.4); color: var(--zone-field); }
+.attr-ritual { border-color: rgba(224, 196, 106, 0.45); color: var(--gold); }
+.hero h1 { font-weight: 700; font-size: 64px; line-height: 1.02; margin-bottom: 22px; letter-spacing: -0.02em; }
+.grad-text { background: linear-gradient(100deg, var(--gold), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p { font-size: 17.5px; line-height: 1.6; color: var(--text-muted); max-width: 560px; margin-bottom: 32px; }
+.hero-cta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.hero-art-wrap { position: relative; }
+.hero-art-glow { position: absolute; inset: -24px; background: radial-gradient(closest-side, rgba(185, 140, 255, 0.22), transparent); filter: blur(6px); }
+.hero-art { position: relative; animation: floaty 7s ease-in-out infinite; }
+.hero-card {
+  aspect-ratio: 59/86; border-radius: 14px; overflow: hidden;
+  border: 1px solid rgba(224, 196, 106, 0.35);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8);
+  background: repeating-linear-gradient(135deg, #1e1633, #1e1633 10px, #241b3d 10px, #241b3d 20px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 28px; text-align: center;
+}
+.hero-card .diamond { width: 60px; height: 60px; border: 1px solid rgba(224, 196, 106, 0.5); }
+.hero-card .diamond > span { font-size: 26px; color: var(--gold); }
+.art-caption { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: #7f74a0; letter-spacing: 0.06em; line-height: 1.7; }
+.hero-card .art-stat { font-family: "Space Grotesk", sans-serif; font-size: 13px; color: var(--violet-lt); letter-spacing: 0.04em; }
+
+/* ---- stat strip ---- */
+.stat-strip { padding: 24px 40px 64px; }
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: 14px; overflow: hidden; }
+.stat-cell { background: var(--surface); padding: 24px 26px; }
+.stat-value { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 30px; color: var(--gold); line-height: 1; }
+.stat-label { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--text-caption); margin-top: 9px; }
+
+/* ---- generic section heading ---- */
+.section { padding: 24px 40px; }
+.section-pad-lg { padding: 72px 40px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.two-col h2 { font-weight: 700; font-size: 36px; line-height: 1.1; }
+.prose { font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+.prose p + p { margin-top: 16px; }
+.prose strong { color: var(--text); font-weight: 600; }
+.prose strong.gold { color: var(--gold); }
+.center { text-align: center; }
+.section-head-center { text-align: center; margin-bottom: 44px; }
+.section-head-center h2 { font-weight: 700; font-size: 38px; margin-bottom: 14px; }
+.section-head-center p { font-size: 16.5px; color: var(--text-muted); max-width: 620px; margin: 0 auto; line-height: 1.6; }
+
+/* ---- loop / engine cards ---- */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.panel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px 22px; }
+.panel-card .step-n { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--gold); margin-bottom: 16px; }
+.panel-card h3 { font-weight: 600; font-size: 18px; margin-bottom: 10px; color: var(--text); }
+.panel-card .body { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+
+/* ---- bosses ---- */
+.section-head-row { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
+.section-head-row h2 { font-weight: 700; font-size: 38px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.boss-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.boss-art { aspect-ratio: 16/10; background: var(--stripe); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-soft); }
+.boss-art img { width: 100%; height: 100%; object-fit: cover; }
+.boss-art .art-caption { font-size: 11px; letter-spacing: 0.05em; }
+.boss-body { padding: 22px; }
+.boss-body h3 { font-weight: 600; font-size: 18px; margin-bottom: 6px; }
+.boss-stat { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.04em; margin-bottom: 14px; }
+.boss-desc { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+
+/* ---- synergy ---- */
+.synergy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.synergy-card { background: linear-gradient(160deg, rgba(37, 27, 58, 0.9), rgba(25, 18, 37, 0.9)); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+.synergy-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.synergy-dot { width: 9px; height: 9px; border-radius: 2px; transform: rotate(45deg); }
+.synergy-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 19px; }
+.synergy-rating { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--text-faint); margin-left: auto; }
+.synergy-body { font-size: 14px; line-height: 1.65; color: var(--text-dim); }
+
+/* ---- turn panel ---- */
+.turn-panel { background: radial-gradient(700px 300px at 20% 0%, rgba(185, 140, 255, 0.12), transparent), var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 48px; }
+.turn-panel h2 { font-weight: 700; font-size: 32px; margin-bottom: 30px; }
+.turn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+.turn-step { padding-right: 20px; }
+.turn-step .step-n { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--gold); margin-bottom: 10px; }
+.turn-step .card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 7px; }
+.turn-step .do { font-size: 13px; line-height: 1.55; color: var(--text-dim); }
+
+/* ---- CTA + footer ---- */
+.cta { padding: 24px 40px 96px; text-align: center; }
+.cta h2 { font-weight: 700; font-size: 40px; margin-bottom: 16px; }
+.cta p { font-size: 16.5px; color: var(--text-muted); margin-bottom: 28px; }
+.site-footer { border-top: 1px solid var(--border-soft); padding: 32px 40px; text-align: center; }
+.site-footer .mono { font-size: 12px; color: var(--text-faint); line-height: 1.7; }
+
+/* ---- compendium header + legend ---- */
+.comp-head { padding: 56px 40px 8px; }
+.comp-head h1 { font-weight: 700; font-size: 46px; line-height: 1.05; margin-bottom: 18px; letter-spacing: -0.02em; }
+.comp-head .intro { font-size: 17px; line-height: 1.6; color: var(--text-muted); max-width: 680px; margin-bottom: 26px; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; }
+.legend-label { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--text-caption); letter-spacing: 0.06em; margin-right: 4px; }
+.legend .note { font-size: 12px; color: var(--text-faint); margin-left: 2px; }
+
+/* zone pills — shared */
+.zone-pill { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; }
+.zone-hand { color: var(--gold); border: 1px solid #e0c46a55; }
+.zone-deck { color: var(--violet); border: 1px solid #b98cff55; }
+.zone-gy { color: var(--zone-gy); border: 1px solid #8f9bd055; }
+.zone-field { color: var(--zone-field); border: 1px solid #7fd8c655; }
+.zone-ontribute { background: var(--gold); color: var(--bg); }
+
+/* ---- filter tabs ---- */
+.tabs { padding: 28px 40px 8px; position: sticky; top: 66px; z-index: 40; background: linear-gradient(var(--bg) 70%, transparent); }
+.tabs-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.tab { cursor: pointer; padding: 9px 16px; border-radius: 9px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.02em; transition: all .15s; background: var(--surface); color: var(--text-dim); border: 1px solid rgba(185, 140, 255, 0.18); }
+.tab .count { opacity: 0.55; font-size: 11px; }
+.tab.active { background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--bg); font-weight: 600; border: 1px solid transparent; }
+
+/* ---- card groups + rows ---- */
+.groups { padding: 20px 40px 80px; }
+.card-group { margin-bottom: 52px; scroll-margin-top: 150px; }
+.group-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+.group-dot { width: 10px; height: 10px; transform: rotate(45deg); }
+.group-head h2 { font-weight: 700; font-size: 27px; }
+.group-tag { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--text-faint); }
+.group-blurb { font-size: 14.5px; color: #9a90b8; margin: 0 0 22px; padding-left: 24px; max-width: 720px; line-height: 1.55; }
+.card-list { display: flex; flex-direction: column; gap: 16px; }
+.card-row { scroll-margin-top: 160px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 210px 1fr; }
+.card-art { background: var(--stripe); border-right: 1px solid var(--border-soft); padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
+.card-art.has-img { padding: 16px; background: #120d1f; }
+.card-art img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+.card-art .diamond { width: 48px; height: 48px; border: 1px solid; }
+.card-art .diamond > span { font-size: 20px; }
+.card-art .art-caption { font-size: 10px; color: #7f74a0; }
+.card-art .art-stat { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--violet-lt); letter-spacing: 0.03em; }
+.card-content { padding: 24px 28px; }
+.card-role { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+.card-content h3 { font-weight: 600; font-size: 23px; margin-bottom: 12px; letter-spacing: -0.01em; }
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.badge { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: var(--text-dim); border: 1px solid rgba(167, 155, 192, 0.28); }
+.card-cols { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; }
+.col-head { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em; margin-bottom: 14px; }
+.col-head.zones-head { color: var(--text-faint); }
+.col-head.tips-head { color: var(--gold); }
+.zones { display: flex; flex-direction: column; gap: 13px; }
+.zone-row { display: flex; gap: 12px; align-items: flex-start; }
+.zone-row .zone-pill { flex: 0 0 auto; min-width: 82px; text-align: center; white-space: nowrap; }
+.zone-text { font-size: 13.5px; line-height: 1.5; color: #c4bbdd; }
+.tips-col { border-left: 1px solid var(--border-soft); padding-left: 26px; }
+.tips { display: flex; flex-direction: column; gap: 11px; }
+.tip { display: flex; gap: 10px; align-items: flex-start; }
+.tip-bullet { flex: 0 0 auto; width: 6px; height: 6px; transform: rotate(45deg); background: var(--gold); margin-top: 6px; }
+.tip span { font-size: 13.5px; line-height: 1.55; color: var(--text-dim); }
+
+/* ---- responsive: collapse multi-column grids under ~900px ---- */
+@media (max-width: 900px) {
+  .container, .container-narrow, .hero, .stat-strip, .section, .section-pad-lg,
+  .comp-head, .tabs, .groups, .cta { padding-left: 20px; padding-right: 20px; }
+  .hero { grid-template-columns: 1fr; padding-top: 48px; }
+  .hero h1 { font-size: 44px; }
+  .hero-art-wrap { max-width: 320px; margin: 0 auto; }
+  .two-col, .stat-grid, .grid-4, .grid-3, .synergy-grid, .turn-grid { grid-template-columns: 1fr; }
+  .turn-grid { gap: 22px; }
+  .card-row { grid-template-columns: 1fr; }
+  .card-art { flex-direction: row; min-height: 120px; }
+  .card-cols { grid-template-columns: 1fr; gap: 22px; }
+  .tips-col { border-left: 0; border-top: 1px solid var(--border-soft); padding-left: 0; padding-top: 18px; }
+  .tabs { position: static; }
+}

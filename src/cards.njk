@@ -1,0 +1,122 @@
+---
+title: Card Compendium
+nav: cards
+permalink: /cards/index.html
+---
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// CARD COMPENDIUM</div>
+  <h1>Every card, by where it resolves</h1>
+  <p class="intro">Card effects here are simplified and grouped by <em class="em-gold">where they activate</em> — hand, deck, graveyard, or field — plus the archetype's signature on-Tribute triggers. Each entry adds tips &amp; tricks for real games.</p>
+
+  <div class="legend">
+    <span class="legend-label">WHERE:</span>
+    <span class="zone-pill zone-hand">HAND</span>
+    <span class="zone-pill zone-deck">DECK</span>
+    <span class="zone-pill zone-gy">GY</span>
+    <span class="zone-pill zone-field">FIELD</span>
+    <span class="zone-pill zone-ontribute">ON TRIBUTE</span>
+    <span class="note">— the trigger that powers the whole deck</span>
+  </div>
+</section>
+
+<section class="container-narrow tabs">
+  <div class="tabs-row">
+    <button class="tab active" data-filter="all">All Cards <span class="count">{{ cards.total }}</span></button>
+    {% for g in cards.groups %}
+    <button class="tab" data-filter="{{ g.key }}">{{ g.title | replace(" Cards", "") | replace(" Staples", "") }} <span class="count">{{ g.cards | length }}</span></button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container-narrow groups">
+  {% for g in cards.groups %}
+  <div id="{{ g.key }}" class="card-group" data-section="{{ g.key }}">
+    <div class="group-head">
+      <span class="group-dot" style="background:{{ g.dot }};"></span>
+      <h2>{{ g.title }}</h2>
+      <span class="group-tag">{{ g.tag }}</span>
+    </div>
+    <p class="group-blurb">{{ g.blurb }}</p>
+
+    <div class="card-list">
+      {% for c in g.cards %}
+      <div id="{{ c.id }}" class="card-row">
+
+        <div class="card-art{% if c.image %} has-img{% endif %}">
+          {% if c.image %}
+          <img src="{{ c.image | url }}" alt="{{ c.name }}" loading="lazy">
+          {% else %}
+          <span class="diamond" style="border-color:{{ c.glyphColor }};"><span style="color:{{ c.glyphColor }};">{{ c.glyph }}</span></span>
+          <div class="art-caption mono">[ CARD ART ]<br>{{ c.short }}</div>
+          <div class="art-stat">{{ c.stat }}</div>
+          {% endif %}
+        </div>
+
+        <div class="card-content">
+          <span class="card-role" style="color:{{ c.glyphColor }};">{{ c.role }}</span>
+          <h3>{{ c.name }}</h3>
+          <div class="badges">
+            {% for b in c.badges %}<span class="badge">{{ b }}</span>{% endfor %}
+          </div>
+
+          <div class="card-cols">
+            <div>
+              <div class="col-head zones-head">WHERE IT RESOLVES</div>
+              <div class="zones">
+                {% for z in c.zones %}
+                <div class="zone-row">
+                  <span class="zone-pill zone-{{ z[0] | lower | replace(' ', '') }}">{{ z[0] }}</span>
+                  <span class="zone-text">{{ z[1] }}</span>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="tips-col">
+              <div class="col-head tips-head">TIPS &amp; TRICKS</div>
+              <div class="tips">
+                {% for tip in c.tips %}
+                <div class="tip"><span class="tip-bullet"></span><span>{{ tip | safe }}</span></div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+
+  <div id="synergy" class="card-group" style="scroll-margin-top:150px;">
+    <div class="group-head">
+      <span class="group-dot" style="background:var(--zone-field);"></span>
+      <h2>Expanding into other archetypes</h2>
+    </div>
+    <p class="group-blurb">Mitsurugi runs no in-archetype locks, so it welcomes partners. These pair especially well.</p>
+    <div class="synergy-grid">
+      {% for a in cards.synergy %}
+      <div class="synergy-card">
+        <div class="synergy-head">
+          <span class="synergy-dot" style="background:{{ a.dot }};"></span>
+          <span class="synergy-name">{{ a.name }}</span>
+          <span class="synergy-rating">{{ a.rating }}</span>
+        </div>
+        <div class="synergy-body">{{ a.body }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  // ponytail: one filter state, show/hide groups. No framework needed.
+  const tabs = document.querySelectorAll(".tab");
+  const groups = document.querySelectorAll("[data-section]");
+  tabs.forEach((tab) => tab.addEventListener("click", () => {
+    tabs.forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+    const f = tab.dataset.filter;
+    groups.forEach((g) => { g.style.display = (f === "all" || f === g.dataset.section) ? "" : "none"; });
+  }));
+</script>

@@ -1,0 +1,134 @@
+---
+title: Overview
+nav: landing
+---
+
+<section class="container hero">
+  <div>
+    <div class="attr-pills">
+      <span class="attr-pill attr-dark">DARK</span>
+      <span class="attr-pill attr-reptile">REPTILE</span>
+      <span class="attr-pill attr-ritual">RITUAL</span>
+    </div>
+    <h1>All roads lead to <span class="grad-text">Habakiri</span>.</h1>
+    <p>Mitsurugi is a DARK Reptile Ritual archetype where value comes not from summoning, but from what happens <em class="em-gold">after</em> a card leaves the field. Every monster triggers when tributed — searching, reviving, and rebuilding as you loop your resources into an unbreakable board.</p>
+    <div class="hero-cta">
+      <a href="{{ '/cards/' | url }}" class="btn btn-violet">Explore every card <span class="mono">→</span></a>
+      <a href="#engine" class="btn btn-outline">How it works</a>
+    </div>
+  </div>
+  <div class="hero-art-wrap">
+    <div class="hero-art-glow"></div>
+    <div class="hero-art">
+      <div class="hero-card">
+        <span class="diamond"><span>御</span></span>
+        <div class="art-caption">[ CARD ART ]<br>Ame no Murakumo<br>no Mitsurugi</div>
+        <div class="art-stat">LV 8 · ATK 2600 · DEF 800</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container stat-strip">
+  <div class="stat-grid">
+    {% for s in landing.stats %}
+    <div class="stat-cell">
+      <div class="stat-value">{{ s.value }}</div>
+      <div class="stat-label">{{ s.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container section">
+  <div class="two-col">
+    <div>
+      <div class="kicker">// 01 — THE ARCHETYPE</div>
+      <h2>A Ritual combo deck named for legendary blades</h2>
+    </div>
+    <div class="prose">
+      <p>Each Mitsurugi card is named after a legendary Japanese sword and the Shinto myth around it. Mechanically it revives two long-underused ideas at once: <strong>Ritual Summoning</strong> and the <strong>Reptile</strong> type.</p>
+      <p>It plays as a <strong>combo-recursion</strong> deck, not pure control — the Ritual Spell tributes Reptiles straight from the Deck to fire their on-Tribute effects, chaining searches and revivals into a reactive endboard. End on <strong class="gold">Ame no Murakumo</strong> and <strong class="gold">Futsu no Mitama</strong>: a board wipe, disruption, and near-endless recursion that grinds most decks out.</p>
+    </div>
+  </div>
+</section>
+
+<section id="engine" class="container section-pad-lg">
+  <div class="section-head-center">
+    <div class="kicker">// 02 — THE TRIBUTE ENGINE</div>
+    <h2>Costs become advantages</h2>
+    <p>Nearly every monster has an <em class="em-gold">on-Tribute</em> trigger. Ritual Summoning, defensive tributes, and the deck's own effects all feed the loop — so the cost of a play is also its payoff.</p>
+  </div>
+  <div class="grid-4">
+    {% for step in landing.loop %}
+    <div class="panel-card">
+      <div class="step-n">{{ step.n }}</div>
+      <h3>{{ step.title }}</h3>
+      <div class="body">{{ step.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head-row">
+    <div>
+      <div class="kicker">// 03 — THE BOSSES</div>
+      <h2>The three ritual blades</h2>
+    </div>
+    <a href="{{ '/cards/' | url }}" class="mono" style="font-size:13px; color:var(--violet-lt);">full breakdown →</a>
+  </div>
+  <div class="grid-3">
+    {% for c in landing.bosses %}
+    <div class="boss-card">
+      <div class="boss-art"><span class="art-caption mono">[ ART · {{ c.short }} ]</span></div>
+      <div class="boss-body">
+        <h3>{{ c.name }}</h3>
+        <div class="boss-stat">{{ c.stat }}</div>
+        <div class="boss-desc">{{ c.desc }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="synergy" class="container section">
+  <div style="margin-bottom:32px;">
+    <div class="kicker">// 04 — EXPANDING OUT</div>
+    <h2 style="font-weight:700; font-size:38px; margin-bottom:12px;">Archetypes that pair well</h2>
+    <p class="prose" style="max-width:640px;">Mitsurugi has no in-archetype locks, so its pieces slot into other strategies — and other engines slot into it.</p>
+  </div>
+  <div class="synergy-grid">
+    {% for a in landing.synergy %}
+    <div class="synergy-card">
+      <div class="synergy-head">
+        <span class="synergy-dot" style="background:{{ a.dot }};"></span>
+        <span class="synergy-name">{{ a.name }}</span>
+      </div>
+      <div class="synergy-body">{{ a.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container section">
+  <div class="turn-panel">
+    <div class="kicker">// 05 — A TURN AT A GLANCE</div>
+    <h2>From one card to a locked board</h2>
+    <div class="turn-grid">
+      {% for t in landing.turn %}
+      <div class="turn-step">
+        <div class="step-n">STEP {{ t.n }}</div>
+        <div class="card">{{ t.card }}</div>
+        <div class="do">{{ t.do }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="container cta">
+  <h2>Ready to learn the loop?</h2>
+  <p>Every card, simplified by where it resolves — plus tips and tricks for each.</p>
+  <a href="{{ '/cards/' | url }}" class="btn btn-gold">Open the Card Compendium <span class="mono">→</span></a>
+</section>
