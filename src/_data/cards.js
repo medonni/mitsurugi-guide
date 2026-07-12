@@ -1,5 +1,5 @@
 // Card compendium data. Ported from the design handoff (cardData()).
-// Card names & effects © Konami — reference only.
+// Card names & effects © Konami: reference only.
 //
 // Image auto-wiring: drop a file at src/assets/cards/<section>/<id>.<ext>
 // (jpg/png/webp/avif) and it gets picked up automatically as the card art.
@@ -21,9 +21,9 @@ function findImage(section, id) {
 
 const sections = [
   { key: "main", title: "Main Archetype Cards", tag: "the engine", dot: "#e0c46a",
-    blurb: "The core Mitsurugi monsters, spells, and traps. Every monster has an on-Tribute trigger — this is where the deck's power lives." },
+    blurb: "The core Mitsurugi monsters, spells, and traps. Every monster has an on-Tribute trigger: this is where the deck's power lives." },
   { key: "support", title: "Supporting Cards", tag: "generic glue", dot: "#b98cff",
-    blurb: "Non-Mitsurugi cards that specifically enable the engine — Ritual enablers and Reptile fodder that make the deck consistent." },
+    blurb: "Non-Mitsurugi cards that specifically enable the engine: Ritual enablers and Reptile fodder that make the deck consistent." },
   { key: "nonengine", title: "Non-Engine Staples", tag: "interaction", dot: "#7fd8c6",
     blurb: "Format staples and handtraps you run to protect the combo and disrupt the opponent." },
   { key: "extra", title: "Extra Deck", tag: "toolbox", dot: "#cbb0ff",
@@ -34,36 +34,37 @@ const cardData = [
   // ===== MAIN ARCHETYPE =====
   {
     id: "murakumo", section: "main", name: "Ame no Murakumo no Mitsurugi", short: "MURAKUMO", role: "Ritual Boss · Payoff",
-    glyph: "叢", glyphColor: "#e0c46a", stat: "LV8 · 2600 / 800",
+    glyph: "叢", glyphColor: "#e0c46a", stat: "LV8 · 3200 / 800",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
-      ["FIELD", "On Special Summon: destroy ALL monsters your opponent controls — a built-in board wipe."],
+      ["FIELD", "On Special Summon: destroy ALL monsters your opponent controls: a built-in board wipe."],
       ["FIELD", "Quick Effect, once per turn: when the opponent activates a card/effect, they discard 1 or that effect is negated."],
       ["ON TRIBUTE", "Add 1 Mitsurugi card from Deck (except itself), then Special Summon this card back."],
     ],
     tips: [
       "Summon it with Mitsurugi Ritual to clear their board before you push for game.",
-      "The negate is conditional — decks that WANT to discard (Dark World, Mermail) can pay it off. Respect the matchup.",
-      "Its self-revive makes it resilient, but D.D. Crow can banish it in response to the tribute trigger to break the loop.",
+      "The negate is conditional: decks that WANT to discard (Dark World, Mermail) can pay it off. Respect the matchup.",
+      "Ash Blossom is the common answer to the on-Tribute effect: negating the search also cancels the self-revive, since both resolve as one effect. The same is true for all three bosses.",
+      "Set Mitsurugi Prayers and activate it on the opponent's turn to Special Summon Murakumo from your hand or GY, dropping its board wipe like a surprise Raigeki.",
     ],
   },
   {
     id: "futsu", section: "main", name: "Futsu no Mitama no Mitsurugi", short: "FUTSU", role: "Ritual Boss · Grind",
-    glyph: "布", glyphColor: "#e0c46a", stat: "LV8 · 800 / 2600",
+    glyph: "布", glyphColor: "#e0c46a", stat: "LV8 · 2000 / 3400",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
       ["FIELD", "When the opponent Special Summons: target a Reptile in your GY (except itself) to search, revive, or replay. Once per Chain."],
       ["ON TRIBUTE", "Add 1 Mitsurugi card from Deck (except itself), then Special Summon this card back."],
     ],
     tips: [
-      "Your grind-game anchor — it keeps generating advantage off the opponent's own summons.",
+      "Your grind-game anchor: it keeps generating advantage off the opponent's own summons.",
       "End on Futsu + Murakumo together: a board wipe, a negate, a swarm, and full recursion.",
       "\"Once per Chain\" means fire it early in a Chain so it doesn't get stranded.",
     ],
   },
   {
     id: "habakiri", section: "main", name: "Ame no Habakiri no Mitsurugi", short: "HABAKIRI", role: "Ritual Boss · Starter",
-    glyph: "羽", glyphColor: "#e0c46a", stat: "LV8 · 2500 / 900",
+    glyph: "羽", glyphColor: "#e0c46a", stat: "LV8 · 2400 / 1800",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
       ["HAND", "Reveal this card: Special Summon 1 Mitsurugi from Deck, then tribute 1 monster you control. Once per DUEL."],
@@ -71,7 +72,7 @@ const cardData = [
       ["ON TRIBUTE", "Add 1 Mitsurugi card from Deck (except itself), then Special Summon this card back."],
     ],
     tips: [
-      "The deck's best starter — the hand reveal turns one card into a full combo. Run 3.",
+      "The deck's best starter: the hand reveal turns one card into a full combo. It's Limited, so you're capped at 1 copy.",
       "The reveal is once per Duel, so an Ash Blossom on it can end your game. Bait handtraps or protect it first.",
       "Tribute the summoned monster right away so its effect can't be negated on the field.",
     ],
@@ -81,12 +82,12 @@ const cardData = [
     glyph: "荒", glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
-      ["ON TRIBUTE", "If Normal/Special Summoned OR tributed: add 1 Mitsurugi monster from Deck (except itself)."],
-      ["FIELD", "If another Reptile you control would be destroyed by battle or effect, tribute this card instead (protection)."],
+      ["TRIGGER", "If Normal/Special Summoned or tributed: add 1 Mitsurugi monster from your Deck (except itself)."],
+      ["FIELD", "If another Reptile you control would be destroyed by battle or effect, tribute this card instead (protection). Shared by all three Level 4 Mikoto monsters."],
     ],
     tips: [
-      "Usually the first link of the combo — search Habakiri to snowball everything.",
-      "The protection tribute doubles as a free on-Tribute search when your board is attacked.",
+      "A common way to open: Normal Summon it to search Habakiri and snowball from there.",
+      "The protection tribute doubles as a free trigger, searching again when your board is attacked.",
     ],
   },
   {
@@ -94,12 +95,12 @@ const cardData = [
     glyph: "早", glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
-      ["DECK", "If Summoned or tributed: add 1 Mitsurugi Spell/Trap from your Deck to hand."],
-      ["ON TRIBUTE", "Same trigger fires when Saji is used as tribute material — search on the way out."],
+      ["TRIGGER", "If Normal/Special Summoned or tributed: add 1 Mitsurugi Spell/Trap from your Deck to your hand."],
+      ["FIELD", "If another Reptile you control would be destroyed by battle or effect, tribute this card instead (protection). Shared by all three Level 4 Mikoto monsters."],
     ],
     tips: [
-      "Your Spell/Trap searcher — grabs Mitsurugi Ritual to turn the engine on.",
-      "The closest thing the deck has to a normal searcher; run 1–3 copies.",
+      "Your Spell/Trap searcher: grabs Mitsurugi Ritual to turn the engine on.",
+      "Run just 1 copy: it's underwhelming drawn in hand, so you'd rather search or tribute it than open it.",
     ],
   },
   {
@@ -107,12 +108,12 @@ const cardData = [
     glyph: "草", glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
-      ["GY", "If Summoned or tributed: add 1 Mitsurugi card from your GY or banishment (NOT the Deck) back to hand."],
-      ["FIELD", "Helps protect your other Reptile monsters from destruction."],
+      ["TRIGGER", "If Normal/Special Summoned or tributed: add 1 Mitsurugi card from your GY or banishment (not the Deck) back to your hand."],
+      ["FIELD", "If another Reptile you control would be destroyed by battle or effect, tribute this card instead (protection). Shared by all three Level 4 Mikoto monsters."],
     ],
     tips: [
-      "The grind-game recovery piece — recycles used resources instead of thinning the Deck.",
-      "Best triggered by Tribute in the late game; usually just 1 copy.",
+      "The grind-game recovery piece: recycles used resources instead of thinning the Deck.",
+      "Best triggered by tribute in the late game; run just 1 copy.",
     ],
   },
   {
@@ -120,13 +121,14 @@ const cardData = [
     glyph: "儀", glyphColor: "#7fd8c6", stat: "Ritual Spell",
     badges: ["Spell", "Ritual"],
     zones: [
-      ["DECK", "Ritual Summon 1 Reptile Ritual from your DECK, tributing Reptiles from hand/field. Once per turn."],
-      ["HAND", "Ritual Summon 1 Reptile Ritual from your HAND, tributing up to 2 Reptiles from hand/Deck/field. Once per turn."],
+      ["HAND", "Ritual Summon 1 Reptile Ritual from your DECK, tributing Reptiles from your hand or field. Once per turn."],
+      ["HAND", "OR Ritual Summon 1 Reptile Ritual from your HAND, tributing up to 2 Reptiles from hand, Deck, or field. Once per turn."],
     ],
     tips: [
-      "The single most important card in the deck — run 3. Both modes are once per turn, so you can Ritual twice.",
+      "The single most important card in the deck: run 3 in Pure builds, usually 2 in hybrids. Both modes are once per turn, so you can Ritual twice.",
       "Summoning from Deck is an Ash Blossom chokepoint; hold an extender or bait it.",
-      "Requires exact Levels — the Level 4s and Level 8 bosses (and Ogdoadic) line up perfectly.",
+      "Requires exact Levels: the Level 4s and the Level 8 bosses line up perfectly.",
+      "If you run Night Sword Serpent, it can put a Reptile back on the field to refund fodder for the tribute cost.",
     ],
   },
   {
@@ -134,12 +136,14 @@ const cardData = [
     glyph: "祈", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play"],
     zones: [
-      ["DECK", "Tribute 1 Reptile from hand or field, then add 1 Mitsurugi monster from your Deck."],
-      ["GY", "In sequence, you can then Special Summon 1 Mitsurugi monster from your hand or GY."],
+      ["HAND", "Tribute 1 Reptile from your hand or field, then add 1 Mitsurugi monster from your Deck."],
+      ["HAND", "Then, in sequence, you can Special Summon 1 Mitsurugi monster from your hand or GY."],
     ],
     tips: [
-      "Recursion and extension in one card — your main tool to rebuild after disruption.",
+      "Recursion and extension in one card: your main tool to rebuild after disruption.",
       "Tributing a Reptile to pay the cost fires its on-Tribute trigger too. Value stacks.",
+      "It can be a starter on its own: tribute a Reptile to add Habakiri and get the combo going.",
+      "Biggest trick: activate it during your Draw Phase, where Droll & Lock Bird can't stop the add from Deck.",
     ],
   },
   {
@@ -152,7 +156,7 @@ const cardData = [
     ],
     tips: [
       "A Quick-Play, so it dodges Droll and gives you interaction on the opponent's turn.",
-      "The tribute cost fires a Reptile's on-Tribute effect — removal that plusses.",
+      "The tribute cost fires a Reptile's on-Tribute effect: removal that plusses.",
     ],
   },
   {
@@ -160,11 +164,13 @@ const cardData = [
     glyph: "鏡", glyphColor: "#7fd8c6", stat: "Ritual Spell",
     badges: ["Spell", "Ritual"],
     zones: [
-      ["HAND", "A second Ritual Spell that NAMES the three ritual bosses — so Pre-Preparation of Rites can search it."],
-      ["GY", "Shuffles itself back into the Deck when a Mitsurugi monster is tributed while it's in the GY."],
+      ["HAND", "Ritual Summon 1 Mitsurugi Ritual Monster from your hand or GY, tributing monsters from your hand or field. Once per turn."],
+      ["GY", "When a Mitsurugi monster is tributed while this is in the GY: shuffle this card back into the Deck."],
     ],
     tips: [
-      "Mostly played to make Pre-Preparation of Rites live — it's the key to a searchable Ritual Spell.",
+      "It names the three bosses, so Pre-Preparation of Rites can search it, that's its main reason to run.",
+      "The hand effect can revive a boss from the GY using field monsters as tribute, firing their on-Tribute triggers.",
+      "Whether to run 1 or 2 copies is a hot topic: a second copy reduces the odds of bricking alongside Pre-Prep.",
       "Its GY float means casting it early isn't a dead card later on.",
     ],
   },
@@ -177,7 +183,7 @@ const cardData = [
       ["GY", "Banish this from the GY: revive 1 Reptile from your GY by tributing another monster you control."],
     ],
     tips: [
-      "A \"win-more\" omni-negate — devastating when ahead, clunky when you're behind.",
+      "A \"win-more\" omni-negate: devastating when ahead, clunky when you're behind.",
       "The GY revive tributes a monster (another trigger) and reloads your board.",
     ],
   },
@@ -190,8 +196,9 @@ const cardData = [
       ["DECK", "Add 1 Ritual Spell + 1 matching Ritual Monster from your Deck to your hand, in one card."],
     ],
     tips: [
-      "Only lives because Mitsurugi Mirror names the bosses — it grabs Mirror + a Ritual boss together.",
-      "A powerful one-card extender that opens multiple combo lines.",
+      "In Mitsurugi it searches Mitsurugi Mirror plus a boss, so it only works while Mirror is still in the Deck.",
+      "Drawing Mirror and Pre-Prep together is a brick, which is why many players run 2 Mirror to avoid it.",
+      "One of the best cards in the deck: a clean +1, run 3.",
     ],
   },
   {
@@ -212,11 +219,11 @@ const cardData = [
     glyph: "妖", glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
-      ["DECK", "On Normal/Special Summon: add 1 Level 8 Reptile from your Deck — grabs a Mitsurugi boss directly. Once per turn."],
+      ["DECK", "On Normal/Special Summon: add 1 Level 8 Reptile from your Deck: grabs a Mitsurugi boss directly. Once per turn."],
       ["GY", "If banished: give 1 Reptile you control effect-destruction protection until the end of the next turn. Once per turn."],
     ],
     tips: [
-      "A DARK Reptile that fetches Murakumo, Futsu, or Habakiri on summon — and is Ritual fodder itself.",
+      "A DARK Reptile that fetches Murakumo, Futsu, or Habakiri on summon, and is Ritual fodder itself.",
       "The banish trigger fires off any banish cost or discard, shielding a boss for free.",
     ],
   },
@@ -228,7 +235,7 @@ const cardData = [
       ["DECK", "When Normal or Flip Summoned: add 1 Ritual Monster OR 1 Ritual Spell from your Deck to hand."],
     ],
     tips: [
-      "A generic one-card starter — grab Habakiri or Mitsurugi Ritual off a Normal Summon.",
+      "A generic one-card starter: grab Habakiri or Mitsurugi Ritual off a Normal Summon.",
       "It uses your Normal Summon, so sequence it before Saji/Aramasa lines that also want the summon.",
     ],
   },
@@ -237,11 +244,11 @@ const cardData = [
     glyph: "録", glyphColor: "#b98cff", stat: "Normal Spell",
     badges: ["Spell", "Ritual", "Generic"],
     zones: [
-      ["DECK", "Reveal 1 Ritual Spell (hand or Deck), then add 1 monster from Deck that mentions it — Mirror grabs a boss. Once per turn."],
+      ["DECK", "Reveal 1 Ritual Spell (hand or Deck), then add 1 monster from Deck that mentions it: Mirror grabs a boss. Once per turn."],
       ["GY", "If a Ritual Monster you control leaves by effect (and you control only Ritual Monsters): add this back from GY. Once per turn."],
     ],
     tips: [
-      "Live because Mitsurugi Mirror names the bosses — reveal Mirror to add a Ritual boss, same idea as Pre-Prep.",
+      "Live because Mitsurugi Ritual is named on the bosses: reveal Ritual to add a Ritual boss, same idea as Pre-Prep.",
       "The GY recur fires when your own boss is tributed, so it keeps refunding itself.",
     ],
   },
@@ -250,10 +257,10 @@ const cardData = [
     glyph: "次", glyphColor: "#b98cff", stat: "LV6 · Handtrap",
     badges: ["DARK", "Spellcaster", "Effect", "Level 6"],
     zones: [
-      ["HAND", "If your GY is empty (Quick Effect): send this from hand to GY — until the end of the next turn, cards sent to the GY are banished instead."],
+      ["HAND", "If your GY is empty (Quick Effect): send this from hand to GY: until the end of the next turn, cards sent to the GY are banished instead."],
     ],
     tips: [
-      "Disruptive tech that turns off Graveyard strategies before they start — best opened turn one on an empty GY.",
+      "Disruptive tech that turns off Graveyard strategies before they start: best opened turn one on an empty GY.",
       "Double-edged: it also banishes YOUR GY plays (Kusanagi, Futsu, Prayers), so run it in builds that lean on Deck/hand, not GY loops.",
     ],
   },
@@ -267,7 +274,7 @@ const cardData = [
     ],
     tips: [
       "The universal handtrap and your best answer to an opposing Mitsurugi Ritual.",
-      "Remember your own Ritual-from-Deck is Ash-able too — sequence to bait theirs.",
+      "Remember your own Ritual-from-Deck is Ash-able too: sequence to bait theirs.",
     ],
   },
   {
@@ -278,9 +285,9 @@ const cardData = [
       ["HAND", "After the opponent's 5th+ summon this turn: tribute ALL monsters both players control, gain a token."],
     ],
     tips: [
-      "Wrecks a pure Mitsurugi endboard mid-combo — a real threat to their whole plan.",
+      "Wrecks a pure Mitsurugi endboard mid-combo: a real threat to their whole plan.",
       "Careful: they can discard Nibiru to Murakumo's negate and dodge it. Timing matters.",
-      "Easily searchable — it's a Rock, so <a href=\"#granite\">Gallant Granite</a> tutors it straight from the Deck, making the handtrap far more consistent.",
+      "Easily searchable: it's a Rock, so <a href=\"#granite\">Gallant Granite</a> tutors it straight from the Deck, making the handtrap far more consistent.",
     ],
   },
   {
@@ -292,7 +299,7 @@ const cardData = [
       ["FIELD", "If Set, also nullifies other Spell/Trap effects in that column this turn."],
     ],
     tips: [
-      "Flexible interaction that works from hand on an empty board — great on the draw.",
+      "Flexible interaction that works from hand on an empty board: great on the draw.",
       "Set it to threaten column lockdown against backrow-reliant decks.",
     ],
   },
@@ -309,6 +316,102 @@ const cardData = [
       "Also neuters graveyard effects that would break your loops.",
     ],
   },
+  {
+    id: "droll", section: "nonengine", name: "Droll & Lock Bird", short: "DROLL", role: "Handtrap · Search Lock",
+    glyph: "封", glyphColor: "#7fd8c6", stat: "LV1 · Handtrap",
+    badges: ["WIND", "Winged Beast"],
+    zones: [
+      ["HAND", "If a card is added from the Deck to a hand (except during the Draw Phase): discard this. For the rest of this turn, neither player can add cards from the Deck to the hand."],
+    ],
+    tips: [
+      "A hard stop against search-heavy decks: they add one card, then everything else in the Deck is locked off.",
+      "Double-edged, it also shuts off your own Mitsurugi searches, so it's a go-second disruption you open with, not a combo piece.",
+    ],
+  },
+  {
+    id: "fuwalos", section: "nonengine", name: "Mulcharmy Fuwalos", short: "FUWALOS", role: "Handtrap · Draw",
+    glyph: "綿", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
+    badges: ["WIND", "Winged Beast"],
+    zones: [
+      ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Special Summons a monster from the Deck or Extra Deck this turn, draw 1 (keeping a set hand size at the End Phase)."],
+    ],
+    tips: [
+      "A go-second draw engine that punishes big combo turns, refueling your hand while the opponent builds.",
+      "Only live on an empty board, so it's a handtrap you open with, not something you set up.",
+    ],
+  },
+  {
+    id: "purulia", section: "nonengine", name: "Mulcharmy Purulia", short: "PURULIA", role: "Handtrap · Draw",
+    glyph: "毬", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
+    badges: ["DARK", "Beast"],
+    zones: [
+      ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Special Summons a monster from the Graveyard this turn, draw 1 (End Phase hand-size limit applies)."],
+    ],
+    tips: [
+      "The GY-Special-Summon counterpart to Fuwalos, aimed at revival-heavy decks.",
+      "Like every Mulcharmy card, it needs an empty board on your side to fire.",
+    ],
+  },
+  {
+    id: "extravagance", section: "nonengine", name: "Pot of Extravagance", short: "EXTRAVAGANCE", role: "Normal Spell · Draw",
+    glyph: "壺", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    badges: ["Spell", "Draw"],
+    zones: [
+      ["HAND", "Banish 3 or 6 random cards from your Extra Deck face-down; draw 1 or 2. You can't draw more cards by effects this turn."],
+    ],
+    tips: [
+      "Mitsurugi leans on the main deck, so its small Extra Deck is cheap to banish: close to a free draw 1 or 2.",
+      "It fights the Extra Deck toolbox (Gallant Granite, Fiendsmith), so run it only if you can spare those pieces.",
+    ],
+  },
+  {
+    id: "prosperity", section: "nonengine", name: "Pot of Prosperity", short: "PROSPERITY", role: "Normal Spell · Dig",
+    glyph: "繁", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    badges: ["Spell", "Dig"],
+    zones: [
+      ["HAND", "Banish 3 or 6 cards from your Extra Deck face-down; excavate that many from the top of your Deck, add 1 to your hand, send the rest to the bottom. No other draws that turn."],
+    ],
+    tips: [
+      "Deck-fixing over raw cards: dig 6 to find your best starter or the missing combo piece.",
+      "Same Extra Deck tension as Extravagance, so pick one Pot based on how much you lean on the toolbox.",
+    ],
+  },
+  {
+    id: "crossout", section: "nonengine", name: "Crossout Designator", short: "CROSSOUT", role: "Quick-Play · Protection",
+    glyph: "抹", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    badges: ["Spell", "Quick-Play"],
+    zones: [
+      ["HAND", "Declare 1 card name, then banish a copy of it from your Deck; every card with that name has its effects negated for the rest of the turn."],
+    ],
+    tips: [
+      "Your best protection for the once-per-Duel Habakiri reveal: name Ash Blossom, Droll, or Maxx \"C\" to force the combo through.",
+      "You must own a copy in the Deck to banish, so run a couple of maindeck handtraps as designator fodder.",
+    ],
+  },
+  {
+    id: "ttt", section: "nonengine", name: "Triple Tactics Talent", short: "TRIPLE TACTICS", role: "Normal Spell · Value",
+    glyph: "策", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    badges: ["Spell", "Generic"],
+    zones: [
+      ["HAND", "After the opponent activates a monster effect on your turn, choose 1: draw 2 cards; take control of an opponent's monster until the End Phase; or look at their hand."],
+    ],
+    tips: [
+      "Turns an opposing handtrap into a plus: they Ash your Ritual, you draw 2 and keep pushing.",
+      "Only live once they've used a monster effect during your turn, so bait the handtrap first.",
+    ],
+  },
+  {
+    id: "mst", section: "nonengine", name: "Mystical Space Typhoon", short: "MST", role: "Quick-Play · S/T Removal",
+    glyph: "颶", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    badges: ["Spell", "Quick-Play"],
+    zones: [
+      ["FIELD", "Target 1 Spell/Trap on the field; destroy it."],
+    ],
+    tips: [
+      "Cheap, splashable backrow removal to clear a floodgate or trap before you commit to the combo.",
+      "A Quick-Play, so you can also pop the opponent's set cards on their turn.",
+    ],
+  },
   // ===== EXTRA DECK =====
   {
     id: "granite", section: "extra", name: "Gallant Granite", short: "GRANITE", role: "Rank 4 Xyz · Rock Searcher",
@@ -318,16 +421,90 @@ const cardData = [
       ["FIELD", "2 Level 4 monsters. Detach 1 material: add 1 Rock from Deck to hand, OR Special Summon 1 Rock from hand face-down. Once per turn."],
     ],
     tips: [
-      "Made off any two Level 4s — the Mikoto searchers (Aramasa/Saji/Kusanagi) line up for it.",
+      "Made off any two Level 4s, so the searchers (Aramasa/Saji/Kusanagi) line up for it perfectly.",
       "Its Rock search grabs <a href=\"#nibiru\">Nibiru</a> from the Deck, turning a situational brick into a reliable disruption target.",
+    ],
+  },
+  {
+    id: "ipmask", section: "extra", name: "I:P Masquerena", short: "I:P MASQUERENA", role: "Link 2 · Turn-Skip",
+    glyph: "仮", glyphColor: "#cbb0ff", stat: "LINK-2 · 800",
+    badges: ["DARK", "Cyberse", "Link"],
+    zones: [
+      ["FIELD", "2 non-Link monsters. Quick Effect, on the opponent's turn: Link Summon a Link Monster using materials you control including this card, usually S:P Little Knight."],
+    ],
+    tips: [
+      "Two of the Level 4 searchers make her, then she converts into disruption on the opponent's turn.",
+      "Leaving her up at end of turn threatens a Link play right through the opponent's setup.",
+    ],
+  },
+  {
+    id: "splittle", section: "extra", name: "S:P Little Knight", short: "S:P LITTLE KNIGHT", role: "Link 2 · Disruptor",
+    glyph: "騎", glyphColor: "#cbb0ff", stat: "LINK-2 · 1600",
+    badges: ["DARK", "Warrior", "Link"],
+    zones: [
+      ["FIELD", "2 Effect Monsters. Quick Effect: banish 1 other card on the field or in either Graveyard, face-down, until the End Phase."],
+    ],
+    tips: [
+      "A generic disruptor off two Level 4s: banish a key combo piece on their turn, or protect your own board.",
+      "Pairs with I:P Masquerena to interact during the opponent's turn.",
+    ],
+  },
+  {
+    id: "dugares", section: "extra", name: "Number 60: Dugares the Timeless", short: "DUGARES", role: "Rank 4 Xyz · Value",
+    glyph: "刻", glyphColor: "#cbb0ff", stat: "R4 · 1000 / 1000",
+    badges: ["FIRE", "Fairy", "Xyz", "Rank 4"],
+    zones: [
+      ["FIELD", "3 Level 4 monsters. Once per turn, detach 1 material and pick one: draw 2 then discard 1; double a face-up monster's ATK; or Special Summon a monster from your GY."],
+    ],
+    tips: [
+      "Mitsurugi floods the board with Level 4 searchers, so a 3-material Rank 4 is realistic; use it for cards or a revived body.",
+      "The GY-summon mode can bring back a tributed Reptile to re-trigger its on-Tribute effect.",
+    ],
+  },
+  {
+    id: "bagooska", section: "extra", name: "Number 41: Bagooska the Terribly Tired Tapir", short: "BAGOOSKA", role: "Rank 4 Xyz · Wall",
+    glyph: "眠", glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
+    badges: ["EARTH", "Beast", "Xyz", "Rank 4"],
+    zones: [
+      ["FIELD", "2 Level 4 monsters. While in Defense Position: flip your opponent's monsters to face-up Defense and stop them changing position, a defensive wall."],
+      ["FIELD", "Detach 1 material during each of your Standby Phases, or send this card to the GY."],
+    ],
+    tips: [
+      "A go-first stall body off two Level 4s that neuters non-piercing beatdown while you set up the grind.",
+      "Useful insurance when you can't reach the full Murakumo/Futsu endboard.",
+    ],
+  },
+  {
+    id: "tornado", section: "extra", name: "Tornado Dragon", short: "TORNADO DRAGON", role: "Rank 4 Xyz · S/T Removal",
+    glyph: "旋", glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
+    badges: ["WIND", "Dragon", "Xyz", "Rank 4"],
+    zones: [
+      ["FIELD", "2 Level 4 monsters. Once per turn, detach 1 material; target 1 Spell/Trap on the field and destroy it."],
+    ],
+    tips: [
+      "Backrow removal attached to a 2100 body, made from any two of the Level 4 searchers.",
+      "Clears a floodgate or trap that would otherwise stop Mitsurugi Ritual.",
+    ],
+  },
+  {
+    id: "exciton", section: "extra", name: "Evilswarm Exciton Knight", short: "EXCITON KNIGHT", role: "Rank 4 Xyz · Reset",
+    glyph: "掃", glyphColor: "#cbb0ff", stat: "R4 · 1800 / 1000",
+    badges: ["DARK", "Fiend", "Xyz", "Rank 4"],
+    zones: [
+      ["FIELD", "2 Level 4 monsters. Once per turn, if the opponent has more cards (hand + field) than you, detach 1 material: destroy all other cards on the field. Nothing can respond."],
+    ],
+    tips: [
+      "A one-sided reset when you're behind: wipe the board, then rebuild off Mitsurugi's recursion.",
+      "Built from two Level 4s, so it's a live comeback button the deck reaches naturally.",
     ],
   },
 ];
 
 const synergy = [
-  { name: "Ogdoadic", dot: "#7fd8c6", rating: "S-TIER", body: "The best partner. Ogdoadic tributes field monsters to revive from the GY — free-triggering your Mitsurugi on-Tribute effects. Shared Level 8s also open Rank 8 plays." },
-  { name: "Ryzeal", dot: "#b98cff", rating: "STRONG", body: "A Rank-4 engine adding consistent starters and generic Xyz access to Habakiri. A high-power hybrid, though it pushes the balance ceiling." },
-  { name: "Dogmatika / Drytron", dot: "#e0c46a", rating: "FLEX", body: "Ritual-adjacent shells that share the subtheme and lean on Mitsurugi's flexible summoning to run the snakes as a splashable engine." },
+  { name: "Ogdoadic", dot: "#7fd8c6", rating: "S-TIER", body: "The best Reptile partner. Ogdoadic tributes its own field monsters to revive from the GY, free-triggering your Mitsurugi on-Tribute effects. Shared Level 8s also open Rank 8 plays." },
+  { name: "Azamina", dot: "#e0c46a", rating: "TBA", body: "TBA." },
+  { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile bosses on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
+  { name: "Ryzeal", dot: "#b98cff", rating: "FLEX", body: "A Rank-4 engine adding consistent starters and generic Xyz access to Habakiri. A high-power hybrid for raw speed." },
 ];
 
 // Attach detected image path, then group cards by section.
