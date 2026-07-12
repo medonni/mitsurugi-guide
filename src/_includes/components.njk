@@ -1,0 +1,55 @@
+{#
+  Reusable UI components (Nunjucks macros).
+  Import into a template with, e.g.:
+    {% from "components.njk" import synergyCard, cardArt, bossArt %}
+#}
+
+{# Synergy / partner-archetype card. `rating` is optional (compendium shows it,
+   the landing page omits it). Shared by index.njk and cards.njk. #}
+{% macro synergyCard(a) %}
+<div class="synergy-card">
+  <div class="synergy-head">
+    <span class="synergy-dot" style="background:{{ a.dot }};"></span>
+    <span class="synergy-name">{{ a.name }}</span>
+    {% if a.rating %}<span class="synergy-rating">{{ a.rating }}</span>{% endif %}
+  </div>
+  <div class="synergy-body">{{ a.body }}</div>
+</div>
+{% endmacro %}
+
+{# Compendium card art: real image when present, else a glyph placeholder. #}
+{% macro cardArt(c) %}
+<div class="card-art{% if c.image %} has-img{% endif %}">
+  {% if c.image %}
+  <img src="{{ c.image | url }}" alt="{{ c.name }}" loading="lazy">
+  {% else %}
+  <span class="diamond" style="border-color:{{ c.glyphColor }};"><span style="color:{{ c.glyphColor }};">{{ c.glyph }}</span></span>
+  <div class="art-caption mono">[ CARD ART ]<br>{{ c.short }}</div>
+  <div class="art-stat">{{ c.stat }}</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# Desktop-only hover accordion of the three ritual bosses. Each occupies a
+   third at rest; hovering a slice expands it to reveal the full card. Order is
+   Murakumo · Habakiri · Futsu so Habakiri sits in the middle. #}
+{% macro bossStack(bosses) %}
+<div class="boss-stack">
+  {% for i in [0, 2, 1] %}
+  {% set c = bosses[i] %}
+  <a class="boss-slice" href="{{ '/cards/' | url }}#{{ c.id }}" style="background-image:url('{{ c.image | url }}');" aria-label="{{ c.name }}">
+    <span class="boss-slice-info">
+      <span class="boss-slice-name">{{ c.name }}</span>
+      <span class="boss-slice-stat">{{ c.stat }}</span>
+    </span>
+  </a>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{# Landing boss-card art: real image when present, else a caption placeholder. #}
+{% macro bossArt(c) %}
+<div class="boss-art{% if c.image %} has-img{% endif %}">
+  {% if c.image %}<img src="{{ c.image | url }}" alt="{{ c.name }}" loading="lazy">{% else %}<span class="art-caption mono">[ ART · {{ c.short }} ]</span>{% endif %}
+</div>
+{% endmacro %}

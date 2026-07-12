@@ -3,11 +3,12 @@ title: Card Compendium
 nav: cards
 permalink: /cards/index.html
 ---
+{% from "components.njk" import synergyCard, cardArt %}
 
 <section class="container-narrow comp-head">
   <div class="kicker">// CARD COMPENDIUM</div>
-  <h1>Every card, by where it resolves</h1>
-  <p class="intro">Card effects here are simplified and grouped by <em class="em-gold">where they activate</em> — hand, deck, graveyard, or field — plus the archetype's signature on-Tribute triggers. Each entry adds tips &amp; tricks for real games.</p>
+  <h1>Every card, by where it activates</h1>
+  <p class="intro">Card effects here are simplified and grouped by <em class="em-gold">where they activate</em> (hand, deck, graveyard, or field), plus the archetype's signature on-Tribute triggers. Each entry adds tips &amp; tricks for real games.</p>
 
   <div class="legend">
     <span class="legend-label">WHERE:</span>
@@ -15,8 +16,9 @@ permalink: /cards/index.html
     <span class="zone-pill zone-deck">DECK</span>
     <span class="zone-pill zone-gy">GY</span>
     <span class="zone-pill zone-field">FIELD</span>
+    <span class="zone-pill zone-trigger">TRIGGER</span>
     <span class="zone-pill zone-ontribute">ON TRIBUTE</span>
-    <span class="note">— the trigger that powers the whole deck</span>
+    <span class="note">· the trigger that powers the whole deck</span>
   </div>
 </section>
 
@@ -43,15 +45,7 @@ permalink: /cards/index.html
       {% for c in g.cards %}
       <div id="{{ c.id }}" class="card-row">
 
-        <div class="card-art{% if c.image %} has-img{% endif %}">
-          {% if c.image %}
-          <img src="{{ c.image | url }}" alt="{{ c.name }}" loading="lazy">
-          {% else %}
-          <span class="diamond" style="border-color:{{ c.glyphColor }};"><span style="color:{{ c.glyphColor }};">{{ c.glyph }}</span></span>
-          <div class="art-caption mono">[ CARD ART ]<br>{{ c.short }}</div>
-          <div class="art-stat">{{ c.stat }}</div>
-          {% endif %}
-        </div>
+        {{ cardArt(c) }}
 
         <div class="card-content">
           <span class="card-role" style="color:{{ c.glyphColor }};">{{ c.role }}</span>
@@ -62,7 +56,7 @@ permalink: /cards/index.html
 
           <div class="card-cols">
             <div>
-              <div class="col-head zones-head">WHERE IT RESOLVES</div>
+              <div class="col-head zones-head">WHERE IT ACTIVATES</div>
               <div class="zones">
                 {% for z in c.zones %}
                 <div class="zone-row">
@@ -96,14 +90,7 @@ permalink: /cards/index.html
     <p class="group-blurb">Mitsurugi runs no in-archetype locks, so it welcomes partners. These pair especially well.</p>
     <div class="synergy-grid">
       {% for a in cards.synergy %}
-      <div class="synergy-card">
-        <div class="synergy-head">
-          <span class="synergy-dot" style="background:{{ a.dot }};"></span>
-          <span class="synergy-name">{{ a.name }}</span>
-          <span class="synergy-rating">{{ a.rating }}</span>
-        </div>
-        <div class="synergy-body">{{ a.body }}</div>
-      </div>
+      {{ synergyCard(a) }}
       {% endfor %}
     </div>
   </div>
