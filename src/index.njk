@@ -11,7 +11,7 @@ nav: landing
       <span class="attr-pill attr-reptile">REPTILE</span>
       <span class="attr-pill attr-ritual">RITUAL</span>
     </div>
-    <h1>All roads lead to <span class="grad-text">Habakiri</span>.</h1>
+    <h1>All roads lead to <span class="em-gold">Habakiri</span>.</h1>
     <p>Mitsurugi is a DARK Reptile Ritual archetype where value comes not from summoning, but from what happens <em class="em-gold">after</em> a card leaves the field. Every monster triggers when tributed, searching, reviving, and rebuilding as you loop your resources into an unbreakable board.</p>
     <div class="hero-cta">
       <a href="{{ '/cards/' | url }}" class="btn btn-violet">Explore every card <span class="mono">→</span></a>
@@ -29,21 +29,21 @@ nav: landing
   </div>
 </section>
 
-<section class="container stat-strip">
-  <div class="stat-grid">
+<section class="container spec-strip">
+  <dl class="spec-row">
     {% for s in landing.stats %}
-    <div class="stat-cell">
-      <div class="stat-value">{{ s.value }}</div>
-      <div class="stat-label">{{ s.label }}</div>
+    <div class="spec-item">
+      <dt>{{ s.label }}</dt>
+      <dd>{{ s.value }}</dd>
     </div>
     {% endfor %}
-  </div>
+  </dl>
 </section>
 
 <section class="container section">
   <div class="two-col">
     <div>
-      <div class="kicker">// 01 · THE ARCHETYPE</div>
+      <div class="kicker">// THE ARCHETYPE</div>
       <h2>A Ritual combo deck named after legendary blades</h2>
     </div>
     <div class="prose">
@@ -55,7 +55,6 @@ nav: landing
 
 <section id="engine" class="container section-pad-lg">
   <div class="section-head-center">
-    <div class="kicker">// 02 · THE TRIBUTE ENGINE</div>
     <h2>Costs become advantages</h2>
     <p>Nearly every Mitsurugi monster has an <em class="em-gold">on-Tribute</em> trigger. Ritual Summoning, defensive tributes, and the deck's own effects all feed the loop, so the cost of a play is also its payoff.</p>
   </div>
@@ -73,10 +72,9 @@ nav: landing
 <section class="container section">
   <div class="section-head-row">
     <div>
-      <div class="kicker">// 03 · THE RITUAL MONSTERS</div>
       <h2>The three ritual monsters</h2>
     </div>
-    <a href="{{ '/cards/' | url }}" class="mono" style="font-size:13px; color:var(--violet-lt);">full breakdown →</a>
+    <a href="{{ '/cards/' | url }}" class="mono link-more">full breakdown →</a>
   </div>
   <div class="grid-3">
     {% for c in landing.bosses %}
@@ -93,21 +91,20 @@ nav: landing
 </section>
 
 <section id="synergy" class="container section">
-  <div style="margin-bottom:32px;">
-    <div class="kicker">// 04 · EXPANDING OUT</div>
-    <h2 style="font-weight:700; font-size:38px; margin-bottom:12px;">Archetypes that pair well</h2>
-    <p class="prose" style="max-width:640px;">Mitsurugi has no in-archetype locks, so its pieces slot into other strategies, and other engines slot into it.</p>
+  <div class="section-head">
+    <h2>Archetypes that pair well</h2>
+    <p class="prose">Mitsurugi has no in-archetype locks, so its pieces slot into other strategies, and other engines slot into it.</p>
   </div>
   <div class="synergy-grid">
     {% for a in landing.synergy %}
     {{ synergyCard(a) }}
     {% endfor %}
   </div>
+  <p class="pending-note mono">More partners in progress: {{ landing.synergyPending | join(" · ") }}</p>
 </section>
 
 <section class="container section">
   <div class="turn-panel">
-    <div class="kicker">// 05 · A TURN AT A GLANCE</div>
     <h2>From one card to a full board</h2>
     <div class="turn-grid">
       {% for t in landing.turn %}

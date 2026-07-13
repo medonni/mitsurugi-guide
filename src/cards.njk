@@ -88,6 +88,11 @@ permalink: /cards/index.html
   </details>
   {% endfor %}
 
+  <p class="filter-empty" id="filter-empty" style="display:none;">
+    No cards activate in <span class="filter-empty-zone em-gold"></span>.
+    <button type="button" class="filter-reset" id="filter-reset">Clear filter</button>
+  </p>
+
   <details id="synergy" class="card-group" style="scroll-margin-top:150px;" open>
     <summary class="group-head">
       <span class="group-dot" style="background:var(--zone-field);"></span>
@@ -99,6 +104,7 @@ permalink: /cards/index.html
       {{ synergyCard(a) }}
       {% endfor %}
     </div>
+    <p class="pending-note mono">More partners in progress: {{ cards.synergyPending | join(" · ") }}</p>
   </details>
 </section>
 
@@ -109,6 +115,8 @@ permalink: /cards/index.html
   const groups = document.querySelectorAll("[data-section]");
   const rows = document.querySelectorAll(".card-row");
   const subLabels = document.querySelectorAll(".sub-label");
+  const empty = document.getElementById("filter-empty");
+  const emptyZone = empty.querySelector(".filter-empty-zone");
   const state = { section: "all", zone: "all" };
 
   function apply() {
@@ -118,11 +126,22 @@ permalink: /cards/index.html
     });
     // sub-label dividers only make sense in the unfiltered functional view
     subLabels.forEach((s) => { s.style.display = state.zone === "all" ? "" : "none"; });
+    let anyGroup = false;
     groups.forEach((g) => {
       const okSection = state.section === "all" || g.dataset.section === state.section;
       const hasVisible = !!g.querySelector('.card-row:not([style*="none"])');
-      g.style.display = okSection && hasVisible ? "" : "none";
+      const show = okSection && hasVisible;
+      g.style.display = show ? "" : "none";
+      if (show) anyGroup = true;
     });
+    // no card group survived the filters: explain the blank instead of showing nothing
+    if (!anyGroup) {
+      const chip = [...zoneChips].find((c) => c.dataset.zone === state.zone);
+      emptyZone.textContent = chip ? chip.textContent.trim() : "this zone";
+      empty.style.display = "";
+    } else {
+      empty.style.display = "none";
+    }
   }
 
   tabs.forEach((tab) => tab.addEventListener("click", () => {
@@ -131,6 +150,14 @@ permalink: /cards/index.html
     state.section = tab.dataset.filter;
     apply();
   }));
+
+  document.getElementById("filter-reset").addEventListener("click", () => {
+    state.section = "all";
+    state.zone = "all";
+    tabs.forEach((t) => t.classList.toggle("active", t.dataset.filter === "all"));
+    zoneChips.forEach((c) => c.classList.remove("active"));
+    apply();
+  });
 
   function toggleZone(chip) {
     const z = chip.dataset.zone;

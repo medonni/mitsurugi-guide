@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-13T00:00:00Z",
+  "title": "Design System: Mitsurugi Ritual Guide",
+  "extensions": {
+    "colorMeta": {
+      "violet": { "role": "primary", "displayName": "Arcane Violet", "canonical": "#b98cff", "tonalRamp": ["#1a1230", "#2a1e4d", "#3d2b6e", "#543a94", "#6d4fbb", "#8a5cf0", "#b98cff", "#ddccff"] },
+      "gold": { "role": "secondary", "displayName": "Ritual Gold", "canonical": "#e0c46a", "tonalRamp": ["#2a2410", "#45391a", "#63522a", "#86713a", "#a88f4c", "#c9a24b", "#e0c46a", "#f0e0a8"] },
+      "zone-field": { "role": "tertiary", "displayName": "Reptile Teal", "canonical": "#7fd8c6", "tonalRamp": ["#12261f", "#1d4438", "#2a6355", "#3a8474", "#55a595", "#6cc4b0", "#7fd8c6", "#b6ece0"] },
+      "zone-gy": { "role": "tertiary", "displayName": "Ash Blue-Violet", "canonical": "#8f9bd0", "tonalRamp": ["#1a1d2e", "#2a3050", "#3d4670", "#545f94", "#6d78b3", "#8f9bd0", "#aab3dd", "#cdd3ec"] },
+      "bg": { "role": "neutral", "displayName": "Void Purple-Black", "canonical": "#14101f", "tonalRamp": ["#14101f", "#191225", "#1e1633", "#241b3d", "#3a2f52", "#6f6488", "#a79bc0", "#ece8f5"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only, one per page; gold-violet clip gradient on the payoff word." },
+      "headline": { "displayName": "Headline", "purpose": "Group and section titles." },
+      "label": { "displayName": "Label", "purpose": "The signature face: every eyebrow, pill, badge, nav item, caption. Mono, wide-tracked, uppercase." }
+    },
+    "shadows": [
+      { "name": "floating-art", "value": "0 40px 80px -30px rgba(0,0,0,0.8)", "purpose": "Reserved for elements that genuinely float: hero card and boss-stack frame." },
+      { "name": "popover", "value": "0 18px 40px rgba(0,0,0,0.45)", "purpose": "Mobile nav sheet and nav sub-menus." },
+      { "name": "selection-ring", "value": "0 0 0 2px rgba(255,255,255,0.75)", "purpose": "Active/focused zone chip; a state indicator, not elevation." }
+    ],
+    "motion": [
+      { "name": "state-fast", "value": "0.15s", "purpose": "Default transition for hover/active state changes on chips, tabs, links." },
+      { "name": "boss-expand", "value": "0.5s cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "The signature boss-stack slice expansion on hover (desktop only)." }
+    ],
+    "breakpoints": [
+      { "name": "single", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (Violet)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main explore/see action; violet gradient with dark ink.",
+      "html": "<a class=\"ds-btn-violet\">Explore every card</a>",
+      "css": ".ds-btn-violet { display: inline-flex; align-items: center; gap: 9px; padding: 14px 24px; border-radius: 10px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; font-weight: 600; background: linear-gradient(135deg, #b98cff, #8a5cf0); color: #14101f; text-decoration: none; transition: transform 0.15s; } .ds-btn-violet:hover { transform: translateY(-1px); color: #14101f; } .ds-btn-violet:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.75); }"
+    },
+    {
+      "name": "Gold CTA",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "The single strongest closing CTA per page; used sparingly.",
+      "html": "<a class=\"ds-btn-gold\">Open the compendium</a>",
+      "css": ".ds-btn-gold { display: inline-flex; align-items: center; gap: 9px; padding: 16px 30px; border-radius: 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; font-weight: 700; background: linear-gradient(135deg, #e0c46a, #c9a24b); color: #14101f; text-decoration: none; transition: transform 0.15s; } .ds-btn-gold:hover { transform: translateY(-1px); color: #14101f; } .ds-btn-gold:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.75); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary/fallback action; ghost with violet border.",
+      "html": "<a class=\"ds-btn-outline\">How it works</a>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 9px; padding: 14px 22px; border-radius: 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; font-weight: 500; background: transparent; border: 1px solid rgba(185,140,255,0.28); color: #cbb0ff; text-decoration: none; transition: border-color 0.15s, color 0.15s; } .ds-btn-outline:hover { border-color: rgba(185,140,255,0.55); color: #ece8f5; } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.75); }"
+    },
+    {
+      "name": "Filter Tab",
+      "kind": "chip",
+      "refersTo": "tab",
+      "description": "Section filter tab with count; active state fills violet.",
+      "html": "<div style=\"display:flex; gap:8px;\"><button class=\"ds-tab ds-tab-active\">All Cards <span class=\"ds-tab-count\">37</span></button><button class=\"ds-tab\">Ritual Monsters <span class=\"ds-tab-count\">3</span></button></div>",
+      "css": ".ds-tab { cursor: pointer; padding: 9px 16px; border-radius: 9px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.02em; background: #191225; color: #a79bc0; border: 1px solid rgba(185,140,255,0.18); transition: all 0.15s; } .ds-tab:hover { color: #ece8f5; } .ds-tab .ds-tab-count { opacity: 0.55; font-size: 11px; } .ds-tab-active { background: linear-gradient(135deg, #b98cff, #8a5cf0); color: #14101f; font-weight: 600; border: 1px solid transparent; } .ds-tab:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.75); }"
+    },
+    {
+      "name": "Zone Chip",
+      "kind": "chip",
+      "refersTo": "zone-chip",
+      "description": "Activation-zone filter chip, colored per zone; selected adds a white ring.",
+      "html": "<div style=\"display:flex; gap:8px;\"><span class=\"ds-zone ds-zone-hand ds-zone-active\">HAND</span><span class=\"ds-zone ds-zone-deck\">DECK</span><span class=\"ds-zone ds-zone-gy\">GY</span><span class=\"ds-zone ds-zone-field\">FIELD</span></div>",
+      "css": ".ds-zone { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; cursor: pointer; user-select: none; opacity: 0.72; transition: opacity 0.15s, box-shadow 0.15s; } .ds-zone:hover { opacity: 1; } .ds-zone-active { opacity: 1; box-shadow: 0 0 0 2px rgba(255,255,255,0.75); } .ds-zone-hand { color: #e0c46a; border: 1px solid #e0c46a55; } .ds-zone-deck { color: #b98cff; border: 1px solid #b98cff55; } .ds-zone-gy { color: #8f9bd0; border: 1px solid #8f9bd055; } .ds-zone-field { color: #7fd8c6; border: 1px solid #7fd8c655; }"
+    },
+    {
+      "name": "Type Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Card type badge; mono, hairline-bordered.",
+      "html": "<div style=\"display:flex; gap:6px;\"><span class=\"ds-badge\">DARK</span><span class=\"ds-badge\">Reptile</span><span class=\"ds-badge\">Ritual</span></div>",
+      "css": ".ds-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: #a79bc0; border: 1px solid rgba(167,155,192,0.28); }"
+    },
+    {
+      "name": "Card Row",
+      "kind": "card",
+      "refersTo": "card-row",
+      "description": "Compendium unit: flat surface, hairline border, tonal art rail.",
+      "html": "<div class=\"ds-card-row\"><div class=\"ds-card-art\"><span class=\"ds-diamond\"><span>刀</span></span><span class=\"ds-art-cap\">CARD ART</span></div><div class=\"ds-card-body\"><span class=\"ds-role\">Ritual Monster &middot; Payoff</span><h3 class=\"ds-card-name\">Mitsurugi Ritual Monster</h3><div style=\"display:flex; gap:6px;\"><span class=\"ds-badge\">DARK</span><span class=\"ds-badge\">Reptile</span></div></div></div>",
+      "css": ".ds-card-row { background: #191225; border: 1px solid rgba(185,140,255,0.16); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 160px 1fr; } .ds-card-art { background: repeating-linear-gradient(135deg, #1e1633, #1e1633 9px, #241b3d 9px, #241b3d 18px); border-right: 1px solid rgba(185,140,255,0.14); padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; } .ds-diamond { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1px solid rgba(224,196,106,0.5); transform: rotate(45deg); } .ds-diamond > span { transform: rotate(-45deg); font-size: 20px; color: #e0c46a; } .ds-art-cap { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #7f74a0; } .ds-card-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; } .ds-role { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: #b98cff; } .ds-card-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: #ece8f5; margin: 0; } .ds-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: #a79bc0; border: 1px solid rgba(167,155,192,0.28); }"
+    },
+    {
+      "name": "Nav Item",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Sticky-header nav link; mono, dim at rest, violet-tint when active.",
+      "html": "<div class=\"ds-nav\"><a class=\"ds-nav-link ds-nav-active\">Overview</a><a class=\"ds-nav-link\">Cards</a><a class=\"ds-nav-link\">Combos</a></div>",
+      "css": ".ds-nav { display: flex; gap: 6px; align-items: center; background: rgba(20,16,31,0.72); padding: 8px; border-radius: 12px; } .ds-nav-link { padding: 8px 14px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.03em; color: #a79bc0; text-decoration: none; transition: color 0.15s, background 0.15s; } .ds-nav-link:hover { color: #cbb0ff; } .ds-nav-active { background: rgba(185,140,255,0.12); color: #cbb0ff; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ritual Codex",
+    "overview": "A dark reference tome for a single Yu-Gi-Oh! deck: disciplined, legible, and quietly scholarly. Everything sits on a purple-black ground the color of a shrine at night, and meaning is carried by two accents that never trade jobs: gold is the payoff, violet is the interaction language. The page reads like an illuminated manuscript, dense with content but calm, gold catching the eye only where something actually matters. The system rejects the generic TCG wiki, official Konami styling, corporate SaaS clichés, and loud gamer/RGB. Restraint is the point: color is scarce so it can mean something, and one signature motion is allowed per page.",
+    "keyCharacteristics": [
+      "Purple-black ground; color is scarce and therefore meaningful.",
+      "Two accents, strictly separated: gold = payoff, violet = interaction.",
+      "Near-flat surfaces built from tonal violet layering, not shadows.",
+      "The diamond motif at every scale.",
+      "Mono-uppercase labels as the signature texture.",
+      "One breakpoint (900px); one signature motion per page."
+    ],
+    "rules": [
+      { "name": "The Two Voices Rule", "body": "Gold and violet are never interchangeable. Gold means payoff/emphasis/stats; violet means interaction/links/eyebrows. If a color choice can't be justified by that split, it's wrong.", "section": "colors" },
+      { "name": "The Purple-Gray Rule", "body": "There is no neutral gray anywhere. Every 'gray' is a purple-leaning value off the text ramp, and every border is alpha-violet.", "section": "colors" },
+      { "name": "The Scarce Gold Rule", "body": "Gold appears only where something is a genuine reward or the single most important number on screen.", "section": "colors" },
+      { "name": "The Mono-Label Rule", "body": "Every label, eyebrow, pill, badge, nav item, and caption is IBM Plex Mono, wide-tracked. Never set a label in the body or display face.", "section": "typography" },
+      { "name": "The Eyebrow Rule", "body": "Eyebrows are mono, violet, prefixed // LABEL. Use them deliberately as page or key-section markers, never above every section. The numbered form // 01 · LABEL is reserved for content that is a true ordered sequence.", "section": "typography" },
+      { "name": "The No-Em-Dash Rule", "body": "No em-dashes anywhere in copy. Use colons or commas.", "section": "typography" },
+      { "name": "The Flat-Codex Rule", "body": "Surfaces are flat at rest and separated by tone and hairline borders. A drop shadow is earned only by something that genuinely floats.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep gold and violet in their lanes: gold = payoff/stats/emphasis, violet = interaction/links/eyebrows.",
+      "Do build depth from tonal surface steps (#191225 to #1e1633 to #241b3d) and alpha-violet hairline borders, not shadows.",
+      "Do set every label, pill, badge, nav item, and eyebrow in IBM Plex Mono, wide-tracked, usually uppercase.",
+      "Do reserve the big soft shadow (0 40px 80px -30px rgba(0,0,0,0.8)) for elements that genuinely float.",
+      "Do use the diamond (45-degree rotated square) as the recurring motif at every scale.",
+      "Do keep body copy purple-leaning off the text ramp and comfortably readable against #14101f.",
+      "Do keep to one signature motion per page and give it room."
+    ],
+    "donts": [
+      "Don't look like a generic TCG wiki: no dense table-dumps, no ad slots, no undifferentiated wall of card text.",
+      "Don't mimic official Konami styling; this fan guide has its own violet-black voice.",
+      "Don't drift into corporate SaaS clichés: no cream/navy landing pages, no hero-metric templates, no identical icon-card grids, no tracked-uppercase eyebrow above every section.",
+      "Don't go loud gamer/RGB: no neon, no harsh multi-stop gradients, no angular esports styling.",
+      "Don't introduce neutral gray text or gray borders anywhere; every gray is purple-leaning and every border is alpha-violet.",
+      "Don't spend gold on decoration; if it isn't marking a payoff or the single key number, it shouldn't be gold.",
+      "Don't use em-dashes in any copy; use colons or commas.",
+      "Don't put a shadow on a resting card, or a numbered 01 marker on a section that isn't a true sequence."
+    ]
+  }
+}

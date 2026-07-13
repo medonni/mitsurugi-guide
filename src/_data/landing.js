@@ -19,15 +19,12 @@ export default {
   ],
   synergy: [
     { name: "Fiendsmith", dot: "#cbb0ff", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
-    { name: "Ryzeal", dot: "#b98cff", body: "TBA." },
-    { name: "Sky Striker", dot: "#7fd8c6", body: "TBA." },
-    { name: "Clown Crew", dot: "#e0c46a", body: "TBA." },
-    { name: "Chaos", dot: "#8f9bd0", body: "TBA." },
   ],
+  synergyPending: ["Ryzeal", "Sky Striker", "Clown Crew", "Chaos"],
   turn: [
     { n: "1", card: "Pre-Prep of Rites", do: "Add Mitsurugi Mirror and Habakiri from the Deck." },
     { n: "2", card: "Reveal Habakiri", do: "Special Summon Saji from the Deck, then tribute it." },
-    { n: "3", card: "Saji trigger", do: "The tributed Saji searches Mitsurugi Ritual,." },
+    { n: "3", card: "Saji trigger", do: "The tributed Saji searches Mitsurugi Ritual." },
     { n: "4", card: "Mitsurugi Ritual (hand)", do: "Ritual Summon Habakiri, using Aramasa and Kusanagi as material. CL1 Kusanagi returns Mitsurugi Ritual from the GY; CL2 Aramasa adds a Level 8 Mitsurugi Ritual Monster." },
     { n: "5", card: "Mitsurugi Ritual (Deck)", do: "Cast the recovered Ritual again, tributing Habakiri to Summon Ame no Murakumo from the Deck and wipe their board. From here you branch into the full combos." },
   ],

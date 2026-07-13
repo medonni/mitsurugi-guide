@@ -550,11 +550,8 @@ const cardData = [
 
 const synergy = [
   { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
-  { name: "Ryzeal", dot: "#b98cff", rating: "FLEX", body: "TBA." },
-  { name: "Sky Striker", dot: "#7fd8c6", rating: "TBA", body: "TBA." },
-  { name: "Clown Crew", dot: "#e0c46a", rating: "TBA", body: "TBA." },
-  { name: "Chaos", dot: "#8f9bd0", rating: "TBA", body: "TBA." },
 ];
+const synergyPending = ["Ryzeal", "Sky Striker", "Clown Crew", "Chaos"];
 
 // Attach detected image path, then group cards by section.
 for (const c of cardData) c.image = findImage(c.section, c.id);
@@ -563,7 +560,7 @@ for (const c of cardData) c.image = findImage(c.section, c.id);
 // Cards keep section:"main" so image auto-wiring (assets/cards/main/) still works.
 const isSpellTrap = (c) => c.badges.includes("Spell") || c.badges.includes("Trap");
 const mainGroups = [
-  { key: "ritual", title: "Ritual Monsters", tag: "the payoff", dot: "#e0c46a",
+  { key: "ritualmon", title: "Ritual Monsters", tag: "the payoff", dot: "#e0c46a",
     blurb: "The Level 8 Ritual Monsters. Each has a unique on-field effect, but all share the on-Tribute trigger: fetch any Mitsurugi card and revive themselves, once per turn.",
     filter: (c) => !isSpellTrap(c) && c.badges.includes("Ritual") },
   { key: "normalmon", title: "Normal Monsters", tag: "the engine", dot: "#b98cff",
@@ -588,4 +585,4 @@ const ZONE_ORDER = ["HAND", "DECK", "GY", "FIELD", "TRIGGER", "ON TRIBUTE"];
 const usedZones = new Set(cardData.flatMap((c) => c.zones.map((z) => z[0])));
 const zones = ZONE_ORDER.filter((z) => usedZones.has(z));
 
-export default { groups, synergy, total: cardData.length, zones };
+export default { groups, synergy, synergyPending, total: cardData.length, zones };
