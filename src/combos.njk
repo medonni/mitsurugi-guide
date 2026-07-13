@@ -1,0 +1,62 @@
+---
+title: Combos
+nav: combos
+permalink: /combos/index.html
+---
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// COMBO LINES</div>
+  <h1>From one card to a locked board</h1>
+  <p class="intro">{{ combos.intro }}</p>
+</section>
+
+<section class="container-narrow combos">
+  {% for line in combos.lines %}
+  <article id="{{ line.id }}" class="combo-line">
+    <div class="combo-head">
+      <div>
+        <span class="group-tag">{{ line.tag }}</span>
+        <h2>{{ line.name }}</h2>
+      </div>
+      <div class="combo-meta">
+        <div class="combo-meta-row"><span class="combo-meta-k">START</span><span>{{ line.starter | safe }}</span></div>
+        <div class="combo-meta-row"><span class="combo-meta-k end">END</span><span>{{ line.result }}</span></div>
+      </div>
+    </div>
+    {% if line.note %}<p class="combo-note">{{ line.note }}</p>{% endif %}
+
+    <ol class="combo-steps">
+      {% for s in line.steps %}
+      <li class="combo-step">
+        <span class="combo-n">{{ s.n if s.n is defined else loop.index }}</span>
+        <div class="combo-step-body">
+          <div class="combo-card">{{ s.card }}</div>
+          <div class="combo-do">{{ s.do }}</div>
+          {% if s.why %}<div class="combo-why"><span class="combo-why-tag">WHY</span>{{ s.why }}</div>{% endif %}
+          {% if s.warn %}<div class="combo-warn"><span class="combo-warn-tag">WATCH OUT</span>{{ s.warn }}</div>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </article>
+  {% endfor %}
+
+  <div class="combo-interactions">
+    <div class="group-head">
+      <span class="group-dot" style="background:var(--gold);"></span>
+      <h2>Key interactions mid-combo</h2>
+    </div>
+    <div class="grid-3">
+      {% for x in combos.interactions %}
+      <div class="panel-card">
+        <h3>{{ x.name }}</h3>
+        <div class="body">{{ x.body }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if combos.pending.length %}
+  <p class="combo-pending mono">More lines to document: {{ combos.pending | join(" · ") }}</p>
+  {% endif %}
+</section>
