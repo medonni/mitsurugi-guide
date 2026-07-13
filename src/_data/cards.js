@@ -392,6 +392,30 @@ const cardData = [
     ],
   },
   {
+    id: "dominusimpulse", section: "nonengine", name: "Dominus Impulse", short: "IMPULSE", role: "Handtrap · Negate",
+    glyph: "衝", glyphColor: "#7fd8c6", stat: "Trap Card",
+    badges: ["Trap", "Normal"],
+    zones: [
+      ["HAND", "If opponent controls a card, activate from hand: when an effect that Special Summons is activated, negate it, then if you have a Trap in GY, destroy that card."],
+    ],
+    tips: [
+      "From hand it negates a Special Summon, so it stops combos before they start, then can pop the source if you have a Trap in GY.",
+      "Pure only: the hand activation locks off LIGHT, EARTH, and WIND monster effects for the rest of the Duel. Pure Mitsurugi is all DARK, so your engine is fine, but off-attribute handtraps (Nibiru, the Mulcharmies) become dead. Only run it in a build that isn't leaning on those.",
+    ],
+  },
+  {
+    id: "dominusspark", section: "nonengine", name: "Dominus Spark", short: "SPARK", role: "Handtrap · Banish",
+    glyph: "閃", glyphColor: "#7fd8c6", stat: "Trap Card",
+    badges: ["Trap", "Normal"],
+    zones: [
+      ["HAND", "On a turn the opponent used a monster effect in hand or GY, activate from hand: banish 1 monster they control (if you have no Traps in GY, they may Special Summon 1 from hand)."],
+    ],
+    tips: [
+      "From hand it banishes a monster the opponent controls, clean removal that answers a boss the moment they activate a hand or GY effect. Having a Trap in GY suppresses the give-back Special Summon.",
+      "Pure only: the hand lock cuts off EARTH, WATER, FIRE, and WIND monster effects for the rest of the Duel, leaving just LIGHT and DARK. Pure Mitsurugi is all DARK so the engine is untouched, but it kills your off-attribute handtraps (Ash, the Mulcharmies). Same reasoning as Impulse.",
+    ],
+  },
+  {
     id: "droll", section: "nonengine", name: "Droll & Lock Bird", short: "DROLL", role: "Handtrap · Search Lock",
     glyph: "封", glyphColor: "#7fd8c6", stat: "LV1 · Handtrap",
     badges: ["WIND", "Winged Beast"],
