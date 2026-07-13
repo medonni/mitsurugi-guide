@@ -237,6 +237,10 @@ a.boss-card:hover { color: inherit; border-color: rgba(224, 196, 106, 0.5); }
 
 /* zone pills — shared */
 .zone-pill { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; }
+#zone-filter .zone-pill { cursor: pointer; user-select: none; opacity: 0.72; transition: opacity .15s, box-shadow .15s; }
+#zone-filter .zone-pill:hover { opacity: 1; }
+#zone-filter .zone-pill.active { opacity: 1; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+#zone-filter .zone-pill:focus-visible { outline: none; opacity: 1; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
 .zone-hand { color: var(--gold); border: 1px solid #e0c46a55; }
 .zone-deck { color: var(--violet); border: 1px solid #b98cff55; }
 .zone-gy { color: var(--zone-gy); border: 1px solid #8f9bd055; }

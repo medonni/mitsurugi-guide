@@ -552,4 +552,10 @@ const groups = sections.map((s) => ({
   cards: cardData.filter((c) => c.section === s.key),
 }));
 
-export default { groups, synergy, total: cardData.length };
+// Zone-filter chips: canonical order, but only zones some card actually uses
+// (so an unused label like DECK never renders a dead filter).
+const ZONE_ORDER = ["HAND", "DECK", "GY", "FIELD", "TRIGGER", "ON TRIBUTE"];
+const usedZones = new Set(cardData.flatMap((c) => c.zones.map((z) => z[0])));
+const zones = ZONE_ORDER.filter((z) => usedZones.has(z));
+
+export default { groups, synergy, total: cardData.length, zones };

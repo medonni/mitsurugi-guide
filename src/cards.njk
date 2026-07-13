@@ -10,15 +10,12 @@ permalink: /cards/index.html
   <h1>Every card, by where it activates</h1>
   <p class="intro">Card effects here are simplified and grouped by <em class="em-gold">where they activate</em> (hand, deck, graveyard, or field), plus the archetype's signature on-Tribute triggers. Each entry adds tips &amp; tricks for real games.</p>
 
-  <div class="legend">
+  <div class="legend" id="zone-filter">
     <span class="legend-label">WHERE:</span>
-    <span class="zone-pill zone-hand">HAND</span>
-    <span class="zone-pill zone-deck">DECK</span>
-    <span class="zone-pill zone-gy">GY</span>
-    <span class="zone-pill zone-field">FIELD</span>
-    <span class="zone-pill zone-trigger">TRIGGER</span>
-    <span class="zone-pill zone-ontribute">ON TRIBUTE</span>
-    <span class="note">· the trigger that powers the whole deck</span>
+    {% for z in cards.zones %}
+    <span class="zone-pill zone-{{ z | lower | replace(' ', '') }}" role="button" tabindex="0" data-zone="{{ z | lower | replace(' ', '') }}">{{ z }}</span>
+    {% endfor %}
+    <span class="note">· tap to filter · the trigger that powers the whole deck</span>
   </div>
 </section>
 
@@ -44,7 +41,7 @@ permalink: /cards/index.html
     <div class="card-list">
       {% for c in g.cards %}
       {% if c.label %}<div class="sub-label"><span>{{ c.label }}</span></div>{% endif %}
-      <div id="{{ c.id }}" class="card-row">
+      <div id="{{ c.id }}" class="card-row" data-zones="{% for z in c.zones %}{{ z[0] | lower | replace(' ', '') }} {% endfor %}">
 
         {{ cardArt(c) }}
 
@@ -105,13 +102,45 @@ permalink: /cards/index.html
 </section>
 
 <script>
-  // ponytail: one filter state, show/hide groups. No framework needed.
+  // ponytail: two independent filter axes (section tabs + zone chips), one apply(). No framework.
   const tabs = document.querySelectorAll(".tab");
+  const zoneChips = document.querySelectorAll("#zone-filter .zone-pill");
   const groups = document.querySelectorAll("[data-section]");
+  const rows = document.querySelectorAll(".card-row");
+  const subLabels = document.querySelectorAll(".sub-label");
+  const state = { section: "all", zone: "all" };
+
+  function apply() {
+    rows.forEach((r) => {
+      const ok = state.zone === "all" || r.dataset.zones.split(" ").includes(state.zone);
+      r.style.display = ok ? "" : "none";
+    });
+    // sub-label dividers only make sense in the unfiltered functional view
+    subLabels.forEach((s) => { s.style.display = state.zone === "all" ? "" : "none"; });
+    groups.forEach((g) => {
+      const okSection = state.section === "all" || g.dataset.section === state.section;
+      const hasVisible = !!g.querySelector('.card-row:not([style*="none"])');
+      g.style.display = okSection && hasVisible ? "" : "none";
+    });
+  }
+
   tabs.forEach((tab) => tab.addEventListener("click", () => {
     tabs.forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
-    const f = tab.dataset.filter;
-    groups.forEach((g) => { g.style.display = (f === "all" || f === g.dataset.section) ? "" : "none"; });
+    state.section = tab.dataset.filter;
+    apply();
   }));
+
+  function toggleZone(chip) {
+    const z = chip.dataset.zone;
+    state.zone = state.zone === z ? "all" : z; // click active chip again to clear
+    zoneChips.forEach((c) => c.classList.toggle("active", c.dataset.zone === state.zone));
+    apply();
+  }
+  zoneChips.forEach((chip) => {
+    chip.addEventListener("click", () => toggleZone(chip));
+    chip.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleZone(chip); }
+    });
+  });
 </script>
