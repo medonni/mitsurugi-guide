@@ -18,10 +18,11 @@ export default {
     { id: "habakiri", name: "Ame no Habakiri", short: "HABAKIRI", stat: "LV8 · ATK 2400 · DEF 1800", image: "/assets/cards/main/habakiri.webp", desc: "Reveal it in hand to Special Summon a Mitsurugi from Deck; the deck's best one-card starter, with a lingering -800 ATK." },
   ],
   synergy: [
-    { name: "Ogdoadic", dot: "#7fd8c6", body: "The premier Reptile partner. Ogdoadic tributes its own monsters to revive from the GY, triggering your Mitsurugi on-Tribute effects for free. Shared Level 8s enable Rank 8 plays too." },
-    { name: "Azamina", dot: "#e0c46a", body: "TBA." },
     { name: "Fiendsmith", dot: "#cbb0ff", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile bosses on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
     { name: "Ryzeal", dot: "#b98cff", body: "A Rank-4 engine adding consistent starters and generic Xyz access to Habakiri. A high-power hybrid for raw speed." },
+    { name: "Sky Striker", dot: "#7fd8c6", body: "TBA." },
+    { name: "Clown Crew", dot: "#e0c46a", body: "TBA." },
+    { name: "Chaos", dot: "#8f9bd0", body: "TBA." },
   ],
   turn: [
     { n: "1", card: "Pre-Prep of Rites", do: "Add Mitsurugi Mirror and Habakiri from the Deck." },

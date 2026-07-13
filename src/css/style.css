@@ -307,6 +307,30 @@ a.boss-card:hover { color: inherit; border-color: rgba(224, 196, 106, 0.5); }
 .tip-bullet { flex: 0 0 auto; width: 6px; height: 6px; transform: rotate(45deg); background: var(--gold); margin-top: 6px; }
 .tip span { font-size: 13.5px; line-height: 1.55; color: var(--text-dim); }
 
+/* ---- card image zoom ---- */
+.zoomable { cursor: zoom-in; }
+.card-art.has-img { position: relative; }
+.card-art.has-img::after {
+  content: "\2922\00a0 Zoom"; /* ⤢ */
+  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
+  font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.05em;
+  line-height: 1; color: var(--text); background: rgba(10, 7, 18, 0.78);
+  border: 1px solid var(--border-soft); border-radius: 999px;
+  padding: 5px 11px; pointer-events: none; white-space: nowrap;
+}
+@media (hover: none) { .card-art.has-img::after { content: "\2922\00a0 Tap to zoom"; } }
+.lightbox {
+  position: fixed; inset: 0; z-index: 100; display: none;
+  align-items: center; justify-content: center; padding: 24px;
+  background: rgba(10, 7, 18, 0.86); backdrop-filter: blur(6px); cursor: zoom-out;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: min(92vw, 460px); max-height: 90vh; border-radius: 12px;
+  border: 1px solid rgba(224, 196, 106, 0.35); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+@media (prefers-reduced-motion: reduce) { .lightbox { backdrop-filter: none; } }
+
 /* ---- combos page ---- */
 .combos { padding-bottom: 80px; }
 .combo-line { background: radial-gradient(700px 300px at 15% 0%, rgba(185, 140, 255, 0.1), transparent), var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-bottom: 34px; }
@@ -346,12 +370,39 @@ a.boss-card:hover { color: inherit; border-color: rgba(224, 196, 106, 0.5); }
   .nav-discord { margin-left: 0; justify-content: center; margin-top: 4px; }
   .hero { grid-template-columns: 1fr; padding-top: 48px; }
   .hero h1 { font-size: 44px; }
-  .hero-art-wrap { max-width: 320px; margin: 0 auto; }
-  .two-col, .stat-grid, .grid-4, .grid-3, .synergy-grid, .turn-grid { grid-template-columns: 1fr; }
+  .hero-art-wrap { max-width: 260px; margin: 0 auto; }
+  .two-col, .grid-4, .grid-3, .synergy-grid, .turn-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .turn-grid { gap: 22px; }
-  .card-row { grid-template-columns: 1fr; }
-  .card-art { flex-direction: row; min-height: 120px; }
   .card-cols { grid-template-columns: 1fr; gap: 22px; }
   .tips-col { border-left: 0; border-top: 1px solid var(--border-soft); padding-left: 0; padding-top: 18px; }
   .tabs { position: static; }
+
+  /* Card images become compact thumbnails beside text, not full-width banners.
+     Portrait art at full container width is what eats the screen, and it gets
+     TALLER as the viewport widens toward tablet, so we cap it here for the whole
+     collapsed range instead of stacking giant images. */
+  .boss-card { display: grid; grid-template-columns: 112px 1fr; align-items: start; }
+  .boss-art { border-bottom: 0; }
+  .boss-body { padding: 16px 18px; }
+  /* Card image sits on top, centered, height-capped so it reads at a glance
+     without eating the screen. Tap it to open the full-size lightbox. */
+  .card-row { grid-template-columns: 1fr; }
+  .card-art, .card-art.has-img { padding: 16px; }
+  .card-art img { max-height: 240px; width: auto; max-width: 100%; }
+}
+
+/* Tablet: the single-column collapse wastes horizontal space, so reclaim it. */
+@media (min-width: 561px) and (max-width: 900px) {
+  .stat-grid { grid-template-columns: repeat(4, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .boss-card { grid-template-columns: 140px 1fr; }
+}
+
+/* Small phones: tighten the boss thumbnail, hero, and card image further. */
+@media (max-width: 460px) {
+  .hero-art-wrap { max-width: 208px; }
+  .boss-card { grid-template-columns: 92px 1fr; }
+  .card-art img { max-height: 200px; }
+  .card-content { padding: 20px 18px; }
 }

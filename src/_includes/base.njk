@@ -35,6 +35,30 @@
   <footer class="site-footer">
     <div class="mono">MITSURUGI RITUAL GUIDE · fan-made resource<br>Card names &amp; effects © Konami, used for reference only.</div>
   </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Card image"><img alt=""></div>
+
+  <script>
+    // Tap/click any card image to view it full size. ponytail: one delegated
+    // listener, no per-image wiring, works for lazily-rendered cards too.
+    (function () {
+      const lb = document.getElementById("lightbox");
+      if (!lb) return;
+      const img = lb.querySelector("img");
+      const open = (el) => { img.src = el.currentSrc || el.src; img.alt = el.alt || ""; lb.classList.add("open"); };
+      const close = () => { lb.classList.remove("open"); img.removeAttribute("src"); };
+      document.addEventListener("click", (e) => {
+        const z = e.target.closest(".zoomable");
+        if (z) { open(z); return; }
+        if (e.target.closest("#lightbox")) close();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") return close();
+        const a = document.activeElement;
+        if ((e.key === "Enter" || e.key === " ") && a && a.classList.contains("zoomable")) { e.preventDefault(); open(a); }
+      });
+    })();
+  </script>
   <script>
     // Mobile nav toggle. ponytail: one button flips a class + aria; CSS does the rest.
     (function () {
@@ -44,6 +68,21 @@
       const set = (open) => { nav.classList.toggle("open", open); btn.setAttribute("aria-expanded", open); };
       btn.addEventListener("click", () => set(nav.classList.contains("open") ? false : true));
       nav.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+
+      // Synergy is a section of the Cards page, so both links point there. On that
+      // page (where the server marked Cards active), move the highlight to whichever
+      // matches the hash instead of always lighting Cards.
+      const cardsLink = nav.querySelector('a[href$="/cards/"]');
+      const synLink = nav.querySelector('a[href*="#synergy"]');
+      if (cardsLink && synLink && cardsLink.classList.contains("active")) {
+        const syncActive = () => {
+          const onSyn = location.hash === "#synergy";
+          cardsLink.classList.toggle("active", !onSyn);
+          synLink.classList.toggle("active", onSyn);
+        };
+        syncActive();
+        window.addEventListener("hashchange", syncActive);
+      }
     })();
   </script>
 </body>

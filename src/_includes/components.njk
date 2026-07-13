@@ -21,7 +21,7 @@
 {% macro cardArt(c) %}
 <div class="card-art{% if c.image %} has-img{% endif %}">
   {% if c.image %}
-  <img src="{{ c.image | url }}" alt="{{ c.name }}" loading="lazy">
+  <img class="zoomable" src="{{ c.image | url }}" alt="{{ c.name }}" loading="lazy" tabindex="0" role="button" aria-label="View {{ c.name }} full size">
   {% else %}
   <span class="diamond" style="border-color:{{ c.glyphColor }};"><span style="color:{{ c.glyphColor }};">{{ c.glyph }}</span></span>
   <div class="art-caption mono">[ CARD ART ]<br>{{ c.short }}</div>

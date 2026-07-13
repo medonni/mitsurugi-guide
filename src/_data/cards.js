@@ -538,10 +538,11 @@ const cardData = [
 ];
 
 const synergy = [
-  { name: "Ogdoadic", dot: "#7fd8c6", rating: "F-TIER", body: "The best Reptile partner. Ogdoadic tributes its own field monsters to revive from the GY, free-triggering your Mitsurugi on-Tribute effects. Shared Level 8s also open Rank 8 plays." },
-  { name: "Azamina", dot: "#e0c46a", rating: "TBA", body: "TBA." },
   { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile bosses on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
   { name: "Ryzeal", dot: "#b98cff", rating: "FLEX", body: "A Rank-4 engine adding consistent starters and generic Xyz access to Habakiri. A high-power hybrid for raw speed." },
+  { name: "Sky Striker", dot: "#7fd8c6", rating: "TBA", body: "TBA." },
+  { name: "Clown Crew", dot: "#e0c46a", rating: "TBA", body: "TBA." },
+  { name: "Chaos", dot: "#8f9bd0", rating: "TBA", body: "TBA." },
 ];
 
 // Attach detected image path, then group cards by section.
