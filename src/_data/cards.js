@@ -33,7 +33,7 @@ const sections = [
 const cardData = [
   // ===== MAIN ARCHETYPE =====
   {
-    id: "murakumo", section: "main", name: "Ame no Murakumo no Mitsurugi", short: "MURAKUMO", role: "Ritual Monster · Payoff",
+    id: "murakumo", section: "main", name: "Ame no Murakumo no Mitsurugi", short: "MURAKUMO", role: "Ritual Monster",
     glyph: "叢", glyphColor: "#e0c46a", stat: "LV8 · 3200 / 800",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
@@ -48,7 +48,7 @@ const cardData = [
     ],
   },
   {
-    id: "futsu", section: "main", name: "Futsu no Mitama no Mitsurugi", short: "FUTSU", role: "Ritual Monster · Grind",
+    id: "futsu", section: "main", name: "Futsu no Mitama no Mitsurugi", short: "FUTSU", role: "Ritual Monster",
     glyph: "布", glyphColor: "#e0c46a", stat: "LV8 · 2000 / 3400",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
@@ -61,7 +61,7 @@ const cardData = [
     ],
   },
   {
-    id: "habakiri", section: "main", name: "Ame no Habakiri no Mitsurugi", short: "HABAKIRI", role: "Ritual Monster · Starter",
+    id: "habakiri", section: "main", name: "Ame no Habakiri no Mitsurugi", short: "HABAKIRI", role: "Ritual Monster",
     glyph: "羽", glyphColor: "#e0c46a", stat: "LV8 · 2400 / 1800",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
@@ -76,7 +76,7 @@ const cardData = [
     ],
   },
   {
-    id: "aramasa", section: "main", name: "Mitsurugi no Mikoto, Aramasa", short: "ARAMASA", role: "Lv4 Searcher",
+    id: "aramasa", section: "main", name: "Mitsurugi no Mikoto, Aramasa", short: "ARAMASA", role: "Lv4 MonsterSearcher",
     glyph: "荒", glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
@@ -131,12 +131,12 @@ const cardData = [
     ],
   },
   {
-    id: "prayers", section: "main", name: "Mitsurugi Prayers", short: "PRAYERS", role: "Quick-Play",
+    id: "prayers", section: "main", name: "Mitsurugi Prayers", short: "PRAYERS", role: "Quick-Play Spell",
     glyph: "祈", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
+    badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["HAND", "Tribute 1 Reptile from your hand or field, then add 1 Mitsurugi monster from your Deck to hand."],
-      ["HAND", "Then, in sequence, you can Special Summon 1 Mitsurugi monster from your hand or GY. This monster cannot attack."],
+      ["HAND", "Then, in sequence, you can Special Summon 1 Mitsurugi monster from your hand or GY. This monster cannot attack."]
     ],
     tips: [
       "Tributing a Reptile to pay the cost fires its on-Tribute trigger too.",
@@ -145,9 +145,9 @@ const cardData = [
     ],
   },
   {
-    id: "magatama", section: "main", name: "Mitsurugi Magatama", short: "MAGATAMA", role: "Quick-Play",
+    id: "magatama", section: "main", name: "Mitsurugi Magatama", short: "MAGATAMA", role: "Quick-Play Spell",
     glyph: "勾", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
+    badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["FIELD", "Tribute 1 Reptile, then target and destroy 1 face-up card your opponent controls."],
       ["HAND", "Ritual Summon 1 Mitsurugi Ritual Monster from your hand by tributing monsters you control."],
@@ -296,7 +296,7 @@ const cardData = [
   {
     id: "rtv", section: "nonengine", name: "Radiant Typhoon Vision", short: "RADIANT TYPHOON", role: "Quick-Play · Draw & Search",
     glyph: "閃", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play", "Draw"],
+    badges: ["Spell", "Quick-Play Spell", "Draw"],
     zones: [
       ["HAND", "Draw 2, then discard a Quick-Play/Radiant Typhoon card (or your whole hand if you have none); OR add 1 Mystical Space Typhoon from Deck or GY. Each effect once per turn."],
       ["FIELD", "If destroyed by Mystical Space Typhoon's effect: Set this card again. This doesn't come that often."],
@@ -309,7 +309,7 @@ const cardData = [
   {
     id: "mst", section: "nonengine", name: "Mystical Space Typhoon", short: "MST", role: "Quick-Play · S/T Removal",
     glyph: "颶", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
+    badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["FIELD", "Target 1 Spell/Trap on the field; destroy it."],
     ],
@@ -321,7 +321,7 @@ const cardData = [
     id: "cbtg", section: "nonengine", name: "Called by the Grave", short: "CALLED BY", role: "Quick-Play · Protection",
     label: "PROTECTION",
     glyph: "墓", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
+    badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["HAND", "Banish 1 monster in opponent's GY; if it's a handtrap, negate its effects for the turn."],
       ["FIELD", "Your main protection against Ash, Droll, and more."],
@@ -333,7 +333,7 @@ const cardData = [
   {
     id: "crossout", section: "nonengine", name: "Crossout Designator", short: "CROSSOUT", role: "Quick-Play · Protection",
     glyph: "抹", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
+    badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["HAND", "Declare 1 card name, then banish a copy of it from your Deck; every card with that name has its effects negated for the rest of the turn."],
     ],
@@ -559,10 +559,28 @@ const synergy = [
 // Attach detected image path, then group cards by section.
 for (const c of cardData) c.image = findImage(c.section, c.id);
 
-const groups = sections.map((s) => ({
-  ...s,
-  cards: cardData.filter((c) => c.section === s.key),
-}));
+// The "main" archetype cards are split into three display groups by card kind.
+// Cards keep section:"main" so image auto-wiring (assets/cards/main/) still works.
+const isSpellTrap = (c) => c.badges.includes("Spell") || c.badges.includes("Trap");
+const mainGroups = [
+  { key: "ritual", title: "Ritual Monsters", tag: "the payoff", dot: "#e0c46a",
+    blurb: "The Level 8 Ritual Monsters. Each has a unique on-field effect, but all share the on-Tribute trigger: fetch any Mitsurugi card and revive themselves, once per turn.",
+    filter: (c) => !isSpellTrap(c) && c.badges.includes("Ritual") },
+  { key: "normalmon", title: "Normal Monsters", tag: "the engine", dot: "#b98cff",
+    blurb: "The Level 4 Reptiles. Each fetches a certain type of card from the Deck or GY/Banishment, and can tribute itself on the field to protect another Reptile.",
+    filter: (c) => !isSpellTrap(c) && !c.badges.includes("Ritual") },
+  { key: "spelltrap", title: "Spell / Traps", tag: "enablers", dot: "#7fd8c6",
+    blurb: "The archetype's Ritual enablers, extenders, removal, and negation.",
+    filter: (c) => isSpellTrap(c) },
+];
+
+const mainCards = cardData.filter((c) => c.section === "main");
+const groups = [
+  ...mainGroups.map(({ filter, ...g }) => ({ ...g, cards: mainCards.filter(filter) })),
+  ...sections
+    .filter((s) => s.key !== "main")
+    .map((s) => ({ ...s, cards: cardData.filter((c) => c.section === s.key) })),
+];
 
 // Zone-filter chips: canonical order, but only zones some card actually uses
 // (so an unused label like DECK never renders a dead filter).

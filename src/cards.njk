@@ -30,12 +30,13 @@ permalink: /cards/index.html
 
 <section class="container-narrow groups">
   {% for g in cards.groups %}
-  <div id="{{ g.key }}" class="card-group" data-section="{{ g.key }}">
-    <div class="group-head">
+  <details id="{{ g.key }}" class="card-group" data-section="{{ g.key }}" open>
+    <summary class="group-head">
       <span class="group-dot" style="background:{{ g.dot }};"></span>
       <h2>{{ g.title }}</h2>
       <span class="group-tag">{{ g.tag }}</span>
-    </div>
+      <span class="group-count">{{ g.cards | length }}</span>
+    </summary>
     <p class="group-blurb">{{ g.blurb }}</p>
 
     <div class="card-list">
@@ -84,21 +85,21 @@ permalink: /cards/index.html
       </div>
       {% endfor %}
     </div>
-  </div>
+  </details>
   {% endfor %}
 
-  <div id="synergy" class="card-group" style="scroll-margin-top:150px;">
-    <div class="group-head">
+  <details id="synergy" class="card-group" style="scroll-margin-top:150px;" open>
+    <summary class="group-head">
       <span class="group-dot" style="background:var(--zone-field);"></span>
       <h2>Expanding into other archetypes</h2>
-    </div>
+    </summary>
     <p class="group-blurb">Mitsurugi runs no in-archetype locks, so it welcomes partners. These pair especially well.</p>
     <div class="synergy-grid">
       {% for a in cards.synergy %}
       {{ synergyCard(a) }}
       {% endfor %}
     </div>
-  </div>
+  </details>
 </section>
 
 <script>
