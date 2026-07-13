@@ -122,7 +122,7 @@ const cardData = [
     badges: ["Spell", "Ritual"],
     zones: [
       ["HAND", "Ritual Summon 1 Reptile Ritual from your DECK, tributing Reptiles from your hand or field. Once per turn."],
-      ["HAND", "OR Ritual Summon 1 Reptile Ritual from your HAND, tributing up to 2 Reptiles from hand, Deck, or field. Once per turn."],
+      ["HAND", "Ritual Summon 1 Reptile Ritual from your HAND, tributing up to 2 Reptiles from hand, Deck, or field. Once per turn."],
     ],
     tips: [
       "The single most important card in the deck: run 3 in Pure builds, usually 2 in hybrids. Both modes are once per turn, so you can Ritual twice.",
@@ -142,8 +142,9 @@ const cardData = [
     tips: [
       "Recursion and extension in one card: your main tool to rebuild after disruption.",
       "Tributing a Reptile to pay the cost fires its on-Tribute trigger too. Value stacks.",
-      "It can be a starter on its own: tribute a Reptile to add Habakiri and get the combo going.",
+      "It can be a starter on its own: add Habakiri and get the combo going.",
       "Biggest trick: activate it during your Draw Phase, where Droll & Lock Bird can't stop the add from Deck.",
+      "It is named on the bosses, so it can be searched by Ragged Records of Rites.",
     ],
   },
   {
@@ -152,11 +153,12 @@ const cardData = [
     badges: ["Spell", "Quick-Play"],
     zones: [
       ["FIELD", "Tribute 1 Reptile, then target and destroy 1 face-up card your opponent controls."],
-      ["HAND", "OR Ritual Summon 1 Mitsurugi Ritual from your hand by tributing monsters you control. Once per turn."],
+      ["HAND", "Ritual Summon 1 Mitsurugi Ritual from your hand by tributing monsters you control."],
     ],
     tips: [
-      "A Quick-Play, so it dodges Droll and gives you interaction on the opponent's turn.",
+      "A Quick-Play, so it gives you interaction on the opponent's turn.",
       "The tribute cost fires a Reptile's on-Tribute effect: removal that plusses.",
+      "Once per turn."
     ],
   },
   {
@@ -190,10 +192,11 @@ const cardData = [
   // ===== SUPPORTING =====
   {
     id: "preprep", section: "support", name: "Pre-Preparation of Rites", short: "PRE-PREP", role: "Normal Spell · Extender",
+    label: "RITUAL ACCESS",
     glyph: "備", glyphColor: "#b98cff", stat: "Normal Spell",
     badges: ["Spell", "Generic"],
     zones: [
-      ["DECK", "Add 1 Ritual Spell + 1 matching Ritual Monster from your Deck to your hand, in one card."],
+      ["HAND", "Add 1 Ritual Spell + 1 matching Ritual Monster from your Deck to your hand, in one card."],
     ],
     tips: [
       "In Mitsurugi it searches Mitsurugi Mirror plus a boss, so it only works while Mirror is still in the Deck.",
@@ -202,49 +205,11 @@ const cardData = [
     ],
   },
   {
-    id: "nightsword", section: "support", name: "Night Sword Serpent", short: "NIGHT SWORD", role: "Lv4 Reptile Fodder",
-    glyph: "夜", glyphColor: "#b98cff", stat: "LV4 · Reptile",
-    badges: ["DARK", "Reptile", "Effect"],
-    zones: [
-      ["DECK", "A Level-4 Reptile body you can send or summon to serve as Ritual material."],
-      ["FIELD", "Extra Reptile presence for tributes and Rank 4 plays."],
-    ],
-    tips: [
-      "Cheap Reptile fodder when you need bodies for Mitsurugi Ritual's exact Levels.",
-      "Flexible filler in more Reptile-focused builds.",
-    ],
-  },
-  {
-    id: "lamia", section: "support", name: "Lamia", short: "LAMIA", role: "Lv4 Reptile · Boss Searcher",
-    glyph: "妖", glyphColor: "#b98cff", stat: "LV4 · Reptile",
-    badges: ["DARK", "Reptile", "Effect", "Level 4"],
-    zones: [
-      ["DECK", "On Normal/Special Summon: add 1 Level 8 Reptile from your Deck: grabs a Mitsurugi boss directly. Once per turn."],
-      ["GY", "If banished: give 1 Reptile you control effect-destruction protection until the end of the next turn. Once per turn."],
-    ],
-    tips: [
-      "A DARK Reptile that fetches Murakumo, Futsu, or Habakiri on summon, and is Ritual fodder itself.",
-      "The banish trigger fires off any banish cost or discard, shielding a boss for free.",
-    ],
-  },
-  {
-    id: "manju", section: "support", name: "Manju of the Ten Thousand Hands", short: "MANJU", role: "Lv4 · Ritual Searcher",
-    glyph: "萬", glyphColor: "#b98cff", stat: "LV4 · Fairy",
-    badges: ["LIGHT", "Fairy", "Effect", "Level 4"],
-    zones: [
-      ["DECK", "When Normal or Flip Summoned: add 1 Ritual Monster OR 1 Ritual Spell from your Deck to hand."],
-    ],
-    tips: [
-      "A generic one-card starter: grab Habakiri or Mitsurugi Ritual off a Normal Summon.",
-      "It uses your Normal Summon, so sequence it before Saji/Aramasa lines that also want the summon.",
-    ],
-  },
-  {
     id: "raggedrecords", section: "support", name: "Ragged Records of Rites", short: "RAGGED RECORDS", role: "Normal Spell · Searcher",
     glyph: "録", glyphColor: "#b98cff", stat: "Normal Spell",
     badges: ["Spell", "Ritual", "Generic"],
     zones: [
-      ["DECK", "Reveal 1 Ritual Spell (hand or Deck), then add 1 monster from Deck that mentions it: Mirror grabs a boss. Once per turn."],
+      ["HAND", "Reveal 1 Ritual Spell (hand or Deck), then add 1 monster from Deck that mentions ita. Once per turn."],
       ["GY", "If a Ritual Monster you control leaves by effect (and you control only Ritual Monsters): add this back from GY. Once per turn."],
     ],
     tips: [
@@ -253,20 +218,143 @@ const cardData = [
     ],
   },
   {
-    id: "dshifter", section: "support", name: "Dimension Shifter", short: "DIM. SHIFTER", role: "Handtrap · GY Hate",
-    glyph: "次", glyphColor: "#b98cff", stat: "LV6 · Handtrap",
-    badges: ["DARK", "Spellcaster", "Effect", "Level 6"],
+    id: "manju", section: "support", name: "Manju of the Ten Thousand Hands", short: "MANJU", role: "Lv4 · Ritual Searcher",
+    glyph: "萬", glyphColor: "#b98cff", stat: "LV4 · Fairy",
+    badges: ["LIGHT", "Fairy", "Effect", "Level 4"],
     zones: [
-      ["HAND", "If your GY is empty (Quick Effect): send this from hand to GY: until the end of the next turn, cards sent to the GY are banished instead."],
+      ["FIELD", "When Normal or Flip Summoned: add 1 Ritual Monster OR 1 Ritual Spell from your Deck to hand."],
     ],
     tips: [
-      "Disruptive tech that turns off Graveyard strategies before they start: best opened turn one on an empty GY.",
-      "Double-edged: it also banishes YOUR GY plays (Kusanagi, Futsu, Prayers), so run it in builds that lean on Deck/hand, not GY loops.",
+      "A generic one-card starter: grab Habakiri or Mitsurugi Ritual off a Normal Summon.",
+      "It's LIGHT attribute which may not work if you play Dominus Impulse.",
+      "It's not a Reptile, so it can't be tributed for Mitsurugi Ritual's cost, unlike Lamia.",
+    ],
+  },
+  {
+    id: "lamia", section: "support", name: "Lamia", short: "LAMIA", role: "Lv4 Reptile · Boss Searcher",
+    label: "REPTILE ENGINE",
+    glyph: "妖", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    badges: ["DARK", "Reptile", "Effect", "Level 4"],
+    zones: [
+      ["FIELD", "On Normal/Special Summon: add 1 Level 8 Reptile from your Deck: grabs a Mitsurugi boss directly. Once per turn."],
+      ["GY", "If banished: give 1 Reptile you control effect-destruction protection until the end of the next turn. Once per turn."],
+    ],
+    tips: [
+      "A DARK Reptile that fetches Murakumo, Futsu, or Habakiri on summon, and is Ritual fodder itself.",
+      "The banish trigger fires off any banish cost or discard, shielding a boss for free.",
+      "Is a DARK attribute, so it works with Dominus Impulse."
+    ],
+  },
+  {
+    id: "nightsword", section: "support", name: "Night Sword Serpent", short: "NIGHT SWORD", role: "Lv4 Reptile Fodder",
+    glyph: "夜", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    badges: ["DARK", "Reptile", "Effect", "Level 4"],
+    zones: [
+      ["GY", "If sent to the GY by an effect of Mitsurugi Ritual, it special summons itself."],
+      ["FIELD", "Extra Reptile presence for tributes and Rank 4 plays."],
+    ],
+    tips: [
+      "Cheap Reptile fodder when you need bodies for Mitsurugi Ritual's exact Levels.",
+      "Flexible filler in more Reptile-focused builds.",
+      "Great for Rank 4 Xyz plays, since it can be summoned from the GY by Mitsurugi Ritual.",
     ],
   },
   // ===== NON-ENGINE =====
   {
+    id: "extravagance", section: "nonengine", name: "Pot of Extravagance", short: "EXTRAVAGANCE", role: "Normal Spell · Draw",
+    label: "DRAW & CONSISTENCY",
+    glyph: "壺", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    badges: ["Spell", "Draw"],
+    zones: [
+      ["HAND", "Banish 3 or 6 random cards from your Extra Deck face-down; draw 1 or 2. You can't draw more cards by effects this turn."],
+    ],
+    tips: [
+      "Must be activated at the start of MP1. If running additional card draw cards, you may draw this and not be able to activate it.",
+      "Mitsurugi leans on the main deck, so its small Extra Deck is cheap to banish: close to a free draw 1 or 2.",
+      "It fights the Extra Deck toolbox (Gallant Granite, Fiendsmith), so run it only if you can spare those pieces.",
+    ],
+  },
+  {
+    id: "prosperity", section: "nonengine", name: "Pot of Prosperity", short: "PROSPERITY", role: "Normal Spell · Dig",
+    glyph: "繁", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    badges: ["Spell", "Dig"],
+    zones: [
+      ["HAND", "Banish 3 or 6 cards from your Extra Deck face-down; excavate that many from the top of your Deck, add 1 to your hand, send the rest to the bottom. No other draws that turn."],
+    ],
+    tips: [
+      "Your opponent takes half the damage the turn you activate it, don't forget.",
+      "Deck-fixing over raw cards: dig 6 to find your best starter or the missing combo piece.",
+      "Same Extra Deck tension as Extravagance, so pick one Pot based on how much you lean on the toolbox.",
+    ],
+  },
+  {
+    id: "ttt", section: "nonengine", name: "Triple Tactics Talent", short: "TRIPLE TACTICS", role: "Normal Spell · Value",
+    glyph: "策", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    badges: ["Spell", "Generic"],
+    zones: [
+      ["HAND", "After the opponent activates a monster effect on your turn, choose 1: draw 2 cards; take control of an opponent's monster until the End Phase; or look at their hand."],
+    ],
+    tips: [
+      "Turns an opposing handtrap into a plus: they Ash your Ritual, you draw 2 and keep pushing.",
+      "Only live once they've used a monster effect during your turn, so bait the handtrap first.",
+    ],
+  },
+  {
+    id: "rtv", section: "nonengine", name: "Radiant Typhoon Vision", short: "RADIANT TYPHOON", role: "Quick-Play · Draw & Search",
+    glyph: "閃", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    badges: ["Spell", "Quick-Play", "Draw"],
+    zones: [
+      ["HAND", "Draw 2, then discard a Quick-Play/Radiant Typhoon card (or your whole hand if you have none); OR add 1 Mystical Space Typhoon from Deck or GY. Each effect once per turn."],
+      ["FIELD", "If destroyed by Mystical Space Typhoon's effect: Set this card again."],
+    ],
+    tips: [
+      "Run it with Mystical Space Typhoon: MST pops it, you Set it back, then draw 2 or fetch another MST, turning removal into card advantage.",
+      "A consistency tool that digs toward your combo while keeping backrow interaction live.",
+    ],
+  },
+  {
+    id: "mst", section: "nonengine", name: "Mystical Space Typhoon", short: "MST", role: "Quick-Play · S/T Removal",
+    glyph: "颶", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    badges: ["Spell", "Quick-Play"],
+    zones: [
+      ["FIELD", "Target 1 Spell/Trap on the field; destroy it."],
+    ],
+    tips: [
+      "Cheap, splashable backrow removal to clear a floodgate or trap before you commit to the combo.",
+      "A Quick-Play, so you can also pop the opponent's set cards on their turn.",
+      "Easily fetched by Radiant Typhoon Vision, which is often used for consistency in Mitsurugi builds.",
+      "It does NOT negate the effect."
+    ],
+  },
+  {
+    id: "cbtg", section: "nonengine", name: "Called by the Grave", short: "CALLED BY", role: "Quick-Play · Protection",
+    label: "PROTECTION",
+    glyph: "墓", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    badges: ["Spell", "Quick-Play"],
+    zones: [
+      ["HAND", "Banish 1 monster in opponent's GY; if it's a handtrap, negate its effects for the turn."],
+      ["FIELD", "Your main protection for the fragile combo against Ash, Droll , and more."],
+    ],
+    tips: [
+      "Point it at their handtrap so your once-per-Duel Habakiri reveal resolves safely.",
+      "Best used against Droll & Lock Bird, as that card kills your combo.",
+    ],
+  },
+  {
+    id: "crossout", section: "nonengine", name: "Crossout Designator", short: "CROSSOUT", role: "Quick-Play · Protection",
+    glyph: "抹", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    badges: ["Spell", "Quick-Play"],
+    zones: [
+      ["HAND", "Declare 1 card name, then banish a copy of it from your Deck; every card with that name has its effects negated for the rest of the turn."],
+    ],
+    tips: [
+      "Your best protection, next to Called by the Grave: name Ash Blossom or Droll to force the combo through.",
+      "You must own a copy in the Deck to banish, so run a couple of maindeck handtraps as designator fodder.",
+    ],
+  },
+  {
     id: "ash", section: "nonengine", name: "Ash Blossom & Joyous Spring", short: "ASH", role: "Handtrap",
+    label: "HANDTRAPS",
     glyph: "灰", glyphColor: "#7fd8c6", stat: "LV3 · Handtrap",
     badges: ["FIRE", "Zombie", "Tuner"],
     zones: [
@@ -304,19 +392,6 @@ const cardData = [
     ],
   },
   {
-    id: "cbtg", section: "nonengine", name: "Called by the Grave", short: "CALLED BY", role: "Quick-Play · Protection",
-    glyph: "墓", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
-    zones: [
-      ["HAND", "Banish 1 monster in either GY; if it's a handtrap, negate its effects for the turn."],
-      ["FIELD", "Your main protection for the fragile combo against Ash, Maxx \"C\", and more."],
-    ],
-    tips: [
-      "Point it at their handtrap so your once-per-Duel Habakiri reveal resolves safely.",
-      "Also neuters graveyard effects that would break your loops.",
-    ],
-  },
-  {
     id: "droll", section: "nonengine", name: "Droll & Lock Bird", short: "DROLL", role: "Handtrap · Search Lock",
     glyph: "封", glyphColor: "#7fd8c6", stat: "LV1 · Handtrap",
     badges: ["WIND", "Winged Beast"],
@@ -343,73 +418,25 @@ const cardData = [
   {
     id: "purulia", section: "nonengine", name: "Mulcharmy Purulia", short: "PURULIA", role: "Handtrap · Draw",
     glyph: "毬", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
-    badges: ["DARK", "Beast"],
+    badges: ["WATER", "Aqua"],
     zones: [
-      ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Special Summons a monster from the Graveyard this turn, draw 1 (End Phase hand-size limit applies)."],
+      ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Normal or Special Summons a monster from the Hand this turn, draw 1 (End Phase hand-size limit applies)."],
     ],
     tips: [
-      "The GY-Special-Summon counterpart to Fuwalos, aimed at revival-heavy decks.",
+      "The HAND-Special-Summon counterpart to Fuwalos.",
       "Like every Mulcharmy card, it needs an empty board on your side to fire.",
     ],
   },
   {
-    id: "extravagance", section: "nonengine", name: "Pot of Extravagance", short: "EXTRAVAGANCE", role: "Normal Spell · Draw",
-    glyph: "壺", glyphColor: "#7fd8c6", stat: "Normal Spell",
-    badges: ["Spell", "Draw"],
+    id: "dshifter", section: "nonengine", name: "Dimension Shifter", short: "DIM. SHIFTER", role: "Handtrap · GY Hate",
+    glyph: "次", glyphColor: "#7fd8c6", stat: "LV6 · Handtrap",
+    badges: ["DARK", "Spellcaster", "Effect", "Level 6"],
     zones: [
-      ["HAND", "Banish 3 or 6 random cards from your Extra Deck face-down; draw 1 or 2. You can't draw more cards by effects this turn."],
+      ["HAND", "If your GY is empty (Quick Effect): send this from hand to GY: until the end of the next turn, cards sent to the GY are banished instead."],
     ],
     tips: [
-      "Mitsurugi leans on the main deck, so its small Extra Deck is cheap to banish: close to a free draw 1 or 2.",
-      "It fights the Extra Deck toolbox (Gallant Granite, Fiendsmith), so run it only if you can spare those pieces.",
-    ],
-  },
-  {
-    id: "prosperity", section: "nonengine", name: "Pot of Prosperity", short: "PROSPERITY", role: "Normal Spell · Dig",
-    glyph: "繁", glyphColor: "#7fd8c6", stat: "Normal Spell",
-    badges: ["Spell", "Dig"],
-    zones: [
-      ["HAND", "Banish 3 or 6 cards from your Extra Deck face-down; excavate that many from the top of your Deck, add 1 to your hand, send the rest to the bottom. No other draws that turn."],
-    ],
-    tips: [
-      "Deck-fixing over raw cards: dig 6 to find your best starter or the missing combo piece.",
-      "Same Extra Deck tension as Extravagance, so pick one Pot based on how much you lean on the toolbox.",
-    ],
-  },
-  {
-    id: "crossout", section: "nonengine", name: "Crossout Designator", short: "CROSSOUT", role: "Quick-Play · Protection",
-    glyph: "抹", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
-    zones: [
-      ["HAND", "Declare 1 card name, then banish a copy of it from your Deck; every card with that name has its effects negated for the rest of the turn."],
-    ],
-    tips: [
-      "Your best protection for the once-per-Duel Habakiri reveal: name Ash Blossom, Droll, or Maxx \"C\" to force the combo through.",
-      "You must own a copy in the Deck to banish, so run a couple of maindeck handtraps as designator fodder.",
-    ],
-  },
-  {
-    id: "ttt", section: "nonengine", name: "Triple Tactics Talent", short: "TRIPLE TACTICS", role: "Normal Spell · Value",
-    glyph: "策", glyphColor: "#7fd8c6", stat: "Normal Spell",
-    badges: ["Spell", "Generic"],
-    zones: [
-      ["HAND", "After the opponent activates a monster effect on your turn, choose 1: draw 2 cards; take control of an opponent's monster until the End Phase; or look at their hand."],
-    ],
-    tips: [
-      "Turns an opposing handtrap into a plus: they Ash your Ritual, you draw 2 and keep pushing.",
-      "Only live once they've used a monster effect during your turn, so bait the handtrap first.",
-    ],
-  },
-  {
-    id: "mst", section: "nonengine", name: "Mystical Space Typhoon", short: "MST", role: "Quick-Play · S/T Removal",
-    glyph: "颶", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
-    badges: ["Spell", "Quick-Play"],
-    zones: [
-      ["FIELD", "Target 1 Spell/Trap on the field; destroy it."],
-    ],
-    tips: [
-      "Cheap, splashable backrow removal to clear a floodgate or trap before you commit to the combo.",
-      "A Quick-Play, so you can also pop the opponent's set cards on their turn.",
+      "Disruptive tech that turns off Graveyard strategies before they start: best opened turn one on an empty GY.",
+      "Double-edged: it also banishes YOUR GY plays (Kusanagi, Futsu, Prayers), so run it in pure builds since Mitsurugi monsters activate on Tribute, so it resolves no matter where they are.",
     ],
   },
   // ===== EXTRA DECK =====
@@ -417,8 +444,9 @@ const cardData = [
     id: "granite", section: "extra", name: "Gallant Granite", short: "GRANITE", role: "Rank 4 Xyz · Rock Searcher",
     glyph: "岩", glyphColor: "#cbb0ff", stat: "R4 · 2300 / 1800",
     badges: ["EARTH", "Rock", "Xyz", "Rank 4"],
+    cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "2 Level 4 monsters. Detach 1 material: add 1 Rock from Deck to hand, OR Special Summon 1 Rock from hand face-down. Once per turn."],
+      ["FIELD", "Detach 1 material: add 1 Rock from Deck to hand, OR Special Summon 1 Rock from hand face-down. Once per turn."],
     ],
     tips: [
       "Made off any two Level 4s, so the searchers (Aramasa/Saji/Kusanagi) line up for it perfectly.",
@@ -429,8 +457,9 @@ const cardData = [
     id: "ipmask", section: "extra", name: "I:P Masquerena", short: "I:P MASQUERENA", role: "Link 2 · Turn-Skip",
     glyph: "仮", glyphColor: "#cbb0ff", stat: "LINK-2 · 800",
     badges: ["DARK", "Cyberse", "Link"],
+    cost: "2 non-Link monsters",
     zones: [
-      ["FIELD", "2 non-Link monsters. Quick Effect, on the opponent's turn: Link Summon a Link Monster using materials you control including this card, usually S:P Little Knight."],
+      ["FIELD", "Quick Effect, on the opponent's turn: Link Summon a Link Monster using materials you control including this card, usually S:P Little Knight."],
     ],
     tips: [
       "Two of the Level 4 searchers make her, then she converts into disruption on the opponent's turn.",
@@ -441,8 +470,9 @@ const cardData = [
     id: "splittle", section: "extra", name: "S:P Little Knight", short: "S:P LITTLE KNIGHT", role: "Link 2 · Disruptor",
     glyph: "騎", glyphColor: "#cbb0ff", stat: "LINK-2 · 1600",
     badges: ["DARK", "Warrior", "Link"],
+    cost: "2 Effect Monsters",
     zones: [
-      ["FIELD", "2 Effect Monsters. Quick Effect: banish 1 other card on the field or in either Graveyard, face-down, until the End Phase."],
+      ["FIELD", "Quick Effect: banish 1 other card on the field or in either Graveyard, face-down, until the End Phase."],
     ],
     tips: [
       "A generic disruptor off two Level 4s: banish a key combo piece on their turn, or protect your own board.",
@@ -453,21 +483,24 @@ const cardData = [
     id: "dugares", section: "extra", name: "Number 60: Dugares the Timeless", short: "DUGARES", role: "Rank 4 Xyz · Value",
     glyph: "刻", glyphColor: "#cbb0ff", stat: "R4 · 1000 / 1000",
     badges: ["FIRE", "Fairy", "Xyz", "Rank 4"],
+    cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "3 Level 4 monsters. Once per turn, detach 1 material and pick one: draw 2 then discard 1; double a face-up monster's ATK; or Special Summon a monster from your GY."],
+      ["FIELD", "Once per turn, detach 1 material and pick one: draw 2 then discard 1; double a face-up monster's ATK and skip NEXT turn's battle phase; or Special Summon a monster from your GY in defense position and skip NEXT turn's  MP1."],
     ],
     tips: [
-      "Mitsurugi floods the board with Level 4 searchers, so a 3-material Rank 4 is realistic; use it for cards or a revived body.",
-      "The GY-summon mode can bring back a tributed Reptile to re-trigger its on-Tribute effect.",
+      "Use it for cards or a revived body.",
+      "The GY-summon mode can bring back a tributed Reptile to re-trigger its on-Tribute effect on next turn, as long as it was properly summoned in the first place.",
     ],
   },
   {
     id: "bagooska", section: "extra", name: "Number 41: Bagooska the Terribly Tired Tapir", short: "BAGOOSKA", role: "Rank 4 Xyz · Wall",
     glyph: "眠", glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
     badges: ["EARTH", "Beast", "Xyz", "Rank 4"],
+    cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "2 Level 4 monsters. While in Defense Position: flip your opponent's monsters to face-up Defense and stop them changing position, a defensive wall."],
+      ["FIELD", "While in Defense Position: flip your all monsters to face-up Defense and negate their effects."],
       ["FIELD", "Detach 1 material during each of your Standby Phases, or send this card to the GY."],
+      ["FIELD", "While in Attack Position: this card cannot be targeted by your opponent's card effects."],
     ],
     tips: [
       "A go-first stall body off two Level 4s that neuters non-piercing beatdown while you set up the grind.",
@@ -478,30 +511,34 @@ const cardData = [
     id: "tornado", section: "extra", name: "Tornado Dragon", short: "TORNADO DRAGON", role: "Rank 4 Xyz · S/T Removal",
     glyph: "旋", glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
     badges: ["WIND", "Dragon", "Xyz", "Rank 4"],
+    cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "2 Level 4 monsters. Once per turn, detach 1 material; target 1 Spell/Trap on the field and destroy it."],
+      ["FIELD", "Once per turn, detach 1 material; target 1 Spell/Trap on the field and destroy it."],
     ],
     tips: [
       "Backrow removal attached to a 2100 body, made from any two of the Level 4 searchers.",
-      "Clears a floodgate or trap that would otherwise stop Mitsurugi Ritual.",
+      "Clears a floodgate or trap that would otherwise stop your combos.",
+      "Great against decks that rely on Trap cards, like Blue-Eyes."
     ],
   },
   {
     id: "exciton", section: "extra", name: "Evilswarm Exciton Knight", short: "EXCITON KNIGHT", role: "Rank 4 Xyz · Reset",
     glyph: "掃", glyphColor: "#cbb0ff", stat: "R4 · 1800 / 1000",
     badges: ["DARK", "Fiend", "Xyz", "Rank 4"],
+    cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "2 Level 4 monsters. Once per turn, if the opponent has more cards (hand + field) than you, detach 1 material: destroy all other cards on the field. Nothing can respond."],
+      ["FIELD", "Once per chain, during your MP or your opponent's BP, if the opponent has more cards (hand + field) than you, detach 1 material: destroy all other cards on the field."],
     ],
     tips: [
-      "A one-sided reset when you're behind: wipe the board, then rebuild off Mitsurugi's recursion.",
+      "A one-sided reset when you're behind.",
       "Built from two Level 4s, so it's a live comeback button the deck reaches naturally.",
+      "It's a Light Fiend, so it can bridge into Fiendsmith for a grindy engine, or easy access into D/D/D Wave High King Caesar.",
     ],
   },
 ];
 
 const synergy = [
-  { name: "Ogdoadic", dot: "#7fd8c6", rating: "S-TIER", body: "The best Reptile partner. Ogdoadic tributes its own field monsters to revive from the GY, free-triggering your Mitsurugi on-Tribute effects. Shared Level 8s also open Rank 8 plays." },
+  { name: "Ogdoadic", dot: "#7fd8c6", rating: "F-TIER", body: "The best Reptile partner. Ogdoadic tributes its own field monsters to revive from the GY, free-triggering your Mitsurugi on-Tribute effects. Shared Level 8s also open Rank 8 plays." },
   { name: "Azamina", dot: "#e0c46a", rating: "TBA", body: "TBA." },
   { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile bosses on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
   { name: "Ryzeal", dot: "#b98cff", rating: "FLEX", body: "A Rank-4 engine adding consistent starters and generic Xyz access to Habakiri. A high-power hybrid for raw speed." },

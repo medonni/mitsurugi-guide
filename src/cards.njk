@@ -43,6 +43,7 @@ permalink: /cards/index.html
 
     <div class="card-list">
       {% for c in g.cards %}
+      {% if c.label %}<div class="sub-label"><span>{{ c.label }}</span></div>{% endif %}
       <div id="{{ c.id }}" class="card-row">
 
         {{ cardArt(c) }}
@@ -53,6 +54,13 @@ permalink: /cards/index.html
           <div class="badges">
             {% for b in c.badges %}<span class="badge">{{ b }}</span>{% endfor %}
           </div>
+          {% if c.cost %}
+          {%- if "Xyz" in c.badges %}{% set mt = "xyz" %}{% set ml = "XYZ MATERIAL" %}
+          {%- elif "Link" in c.badges %}{% set mt = "link" %}{% set ml = "LINK MATERIAL" %}
+          {%- elif "Synchro" in c.badges %}{% set mt = "synchro" %}{% set ml = "SYNCHRO MATERIAL" %}
+          {%- elif "Fusion" in c.badges %}{% set mt = "fusion" %}{% set ml = "FUSION MATERIAL" %}
+          {%- else %}{% set mt = "generic" %}{% set ml = "MATERIALS" %}{% endif %}
+          <div class="card-cost"><span class="cost-label cost-{{ mt }}">{{ ml }}</span>{{ c.cost }}</div>{% endif %}
 
           <div class="card-cols">
             <div>
