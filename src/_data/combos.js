@@ -34,7 +34,7 @@ export default {
         { n: "4.5", card: "Murakumo on-Tribute", do: "Murakumo activates in the GY, adding Mitsurugi Prayers and reviving itself." },
         { n: "5", card: "Prayers loop", do: "Activate Mitsurugi Prayers, tributing Futsu no Mitama to add Aramasa (pay 800 LP) and revive Saji from the GY.",
           why: "Prayers turns the spent Futsu into a fresh search plus a body." },
-        { n: "5.5", card: "Prayers + Mirror trigger in GY", do: "As Prayers hits the GY, revive Futsu no Mitama; then use Mirror's GY effect to shuffle it back and add Mitsurugi Great Purification.",
+        { n: "5.5", card: "Mirror + Futsu trigger in GY", do: "As Prayers hits the GY, revive Futsu no Mitama; then use Mirror's GY effect to shuffle it back and add Mitsurugi Great Purification.",
           why: "You get Futsu back and end on a live Trap." },
         { n: "6", card: "Flexible Extra Deck end", do: "Normal Summon the Aramasa you added, then overlay the two Level 4 Mikotos (Saji and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2. Keep the Level 8 ritual monsters on board.",
           why: "The Level 8 bodies (Habakiri, Murakumo, the 3400 Futsu wall) are already your board, so spend just the disposable Level 4s on the Extra Deck play." },
@@ -126,7 +126,7 @@ export default {
         { n: "4.5", card: "Murakumo on-Tribute", do: "Murakumo activates in the GY, adding Mitsurugi Great Purification and reviving itself." },
         { n: "5", card: "Prayers loop", do: "Activate Mitsurugi Prayers, tributing Futsu no Mitama to add Aramasa (pay 800 LP) and revive Kusanagi from the GY.",
           why: "Prayers turns the spent Futsu into a fresh search plus a Level 4 body." },
-        { n: "5.5", card: "Prayers + Futsu trigger in GY", do: "As Prayers hits the GY, revive Futsu no Mitama; Futsu's GY effect adds a second Mitsurugi Prayers.",
+        { n: "5.5", card: "Mirror + Futsu trigger in GY", do: "As Prayers hits the GY, revive Futsu no Mitama; Futsu's GY effect adds a second Mitsurugi Prayers.",
           why: "You get the Futsu wall back and bank a spare Prayers to set as backup interaction." },
         { n: "6", card: "Flexible Extra Deck end", do: "Normal Summon the Aramasa you added, then overlay the two Level 4 Mikotos (Kusanagi and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2. Keep the Level 8 ritual monsters on board.",
           why: "The Level 8 bodies (Habakiri, Murakumo, the 3400 Futsu wall) are already your board, so spend just the disposable Level 4s on the Extra Deck play." },
@@ -144,8 +144,8 @@ export default {
 
   // Verified interactions worth knowing mid-combo (pulled from card tips).
   interactions: [
-    { name: "Ash Blossom on the bosses", body:
-      "Negating a boss's on-Tribute search also cancels its self-revive: both resolve as one effect. Bait or play around Ash before committing." },
+    { name: "Ash Blossom on the Mitsurugi Ritual Monsters", body:
+      "Negating a Mitsurugi Ritual Monster's on-Tribute search also cancels its self-revive: both resolve as one effect. Bait or play around Ash before committing." },
     { name: "Mitsurugi Prayers, surprise wipe", body:
       "Set Prayers and activate on the opponent's turn to Special Summon Murakumo from hand or GY, dropping its board wipe like a Raigeki." },
     { name: "The negate is conditional", body:

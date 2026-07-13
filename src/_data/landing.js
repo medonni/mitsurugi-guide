@@ -3,7 +3,7 @@ export default {
   stats: [
     { value: "DARK", label: "ATTRIBUTE" },
     { value: "Reptile", label: "MONSTER TYPE" },
-    { value: "Level 8", label: "RITUAL BOSSES" },
+    { value: "Level 8", label: "RITUAL MONSTERS" },
     { value: "Level 4", label: "ENGINE MONSTERS" },
   ],
   loop: [
@@ -18,8 +18,8 @@ export default {
     { id: "habakiri", name: "Ame no Habakiri", short: "HABAKIRI", stat: "LV8 · ATK 2400 · DEF 1800", image: "/assets/cards/main/habakiri.webp", desc: "Reveal it in hand to Special Summon a Mitsurugi from Deck; the deck's best one-card starter, with a lingering -800 ATK." },
   ],
   synergy: [
-    { name: "Fiendsmith", dot: "#cbb0ff", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile bosses on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
-    { name: "Ryzeal", dot: "#b98cff", body: "A Rank-4 engine adding consistent starters and generic Xyz access to Habakiri. A high-power hybrid for raw speed." },
+    { name: "Fiendsmith", dot: "#cbb0ff", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
+    { name: "Ryzeal", dot: "#b98cff", body: "TBA." },
     { name: "Sky Striker", dot: "#7fd8c6", body: "TBA." },
     { name: "Clown Crew", dot: "#e0c46a", body: "TBA." },
     { name: "Chaos", dot: "#8f9bd0", body: "TBA." },
@@ -27,8 +27,8 @@ export default {
   turn: [
     { n: "1", card: "Pre-Prep of Rites", do: "Add Mitsurugi Mirror and Habakiri from the Deck." },
     { n: "2", card: "Reveal Habakiri", do: "Special Summon Saji from the Deck, then tribute it." },
-    { n: "3", card: "Saji trigger", do: "The tributed Saji searches Mitsurugi Ritual, turning the engine on." },
-    { n: "4", card: "Mitsurugi Ritual (hand)", do: "Ritual Summon Habakiri, using Aramasa and Kusanagi as material. CL1 Kusanagi returns Mitsurugi Ritual from the GY; CL2 Aramasa adds a Level 8 boss." },
+    { n: "3", card: "Saji trigger", do: "The tributed Saji searches Mitsurugi Ritual,." },
+    { n: "4", card: "Mitsurugi Ritual (hand)", do: "Ritual Summon Habakiri, using Aramasa and Kusanagi as material. CL1 Kusanagi returns Mitsurugi Ritual from the GY; CL2 Aramasa adds a Level 8 Mitsurugi Ritual Monster." },
     { n: "5", card: "Mitsurugi Ritual (Deck)", do: "Cast the recovered Ritual again, tributing Habakiri to Summon Ame no Murakumo from the Deck and wipe their board. From here you branch into the full combos." },
   ],
 };
