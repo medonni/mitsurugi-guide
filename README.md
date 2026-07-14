@@ -1,16 +1,16 @@
 # Mitsurugi Ritual Guide
 
-A fan-made guide to the Yu-Gi-Oh! **Mitsurugi** archetype — a DARK Reptile
+A fan-made guide to the Yu-Gi-Oh! **Mitsurugi** archetype: a DARK Reptile
 Ritual deck whose monsters gain value every time they're tributed.
 
 **Live site:** https://medonni.github.io/mitsurugi-guide/
 
 Built with [Eleventy](https://www.11ty.dev/). Two pages:
 
-- **Overview** — what the archetype is, the tribute engine, the three ritual
+- **Overview:** what the archetype is, the tribute engine, the three ritual
   bosses, synergy partners, and a sample turn.
-- **Card Compendium** — every card, its effects grouped by *where they activate*
-  (hand / deck / GY / field / trigger / on-tribute), plus tips & tricks.
+- **Card Compendium:** every card, its effects grouped by *where they activate*
+  (hand / deck / GY / field / trigger / on-tribute), plus per-card tips.
   Filterable by group: Main Archetype, Supporting, Non-Engine, Extra Deck.
 
 ## Local development
@@ -24,7 +24,7 @@ npm run build    # one-off build to _site/
 ## Adding a card
 
 Card content lives in `src/_data/cards.js`. Append one object to the `cardData`
-array — it flows to the compendium automatically (tab counts included):
+array, and it flows to the compendium automatically (tab counts included):
 
 ```js
 {
@@ -40,7 +40,7 @@ array — it flows to the compendium automatically (tab counts included):
 ### Card art
 
 Drop an image at `src/assets/cards/<section>/<id>.webp` and it's picked up
-automatically — no code change. WebP preferred, ~600px tall (e.g. 412×600), < 60 KB. See
+automatically, no code change. WebP preferred, ~600px tall (e.g. 412×600), < 60 KB. See
 [`src/assets/cards/README.md`](src/assets/cards/README.md) for details.
 
 ## Structure
