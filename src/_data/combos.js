@@ -14,11 +14,11 @@ export default {
       name: "Standard full combo",
       section: "1 Card Combos",
       tag: "Bread and butter",
-      starter: 'Any opener that reaches Habakiri: <a href="../cards/#preprep">Pre-Prep of Rites</a>, <a href="../cards/#prayers">Mitsurugi Prayers</a>, an <a href="../cards/#aramasa">Aramasa</a> Normal Summon, or <a href="../cards/#raggedrecords">Ragged Records of Rites</a>',
+      starter: "Any opener that reaches Habakiri: Pre-Prep of Rites, Mitsurugi Prayers, an Aramasa Normal Summon, or Ragged Records of Rites",
       result: "Habakiri, Murakumo, and Futsu no Mitama on board, plus a Rank 4 Xyz or Link 2 of your choice and a set Mitsurugi Great Purification",
       steps: [
         { n: "0", card: "Get to Habakiri", do: "Reach Habakiri through any opener: Pre-Prep of Rites, Mitsurugi Prayers, an Aramasa Normal Summon, or Ragged Records of Rites.",
-          warn: "The next steps can vary a little depending on the rest of your hand and how you got to Habakiri." },
+          info: "The next steps can vary a little depending on the rest of your hand and how you got to Habakiri." },
         { n: "1", card: "Habakiri effect in hand", do: "Reveal Habakiri, Special Summon Saji from the Deck, then tribute Saji.",
           warn: "Ash Blossom hits this trigger and stops the whole search. Bait it out first if you can. Though, most people would probably wait and hit Saji effect." },
         { n: "1.5", card: "Saji triggers in GY", do: "Add Mitsurugi Ritual to hand.",
@@ -46,7 +46,7 @@ export default {
       name: "Aramasa Normal Summon line",
       section: "1 Card Combos",
       tag: "Aramasa opener",
-      starter: 'An opener that starts with an <a href="../cards/#aramasa">Aramasa</a> Normal Summon.',
+      starter: "An opener that starts with an Aramasa Normal Summon.",
       result: "Habakiri, Murakumo, and Futsu no Mitama on board, plus a Rank 4 Xyz or Link 2 of your choice and a set Mitsurugi Great Purification",
       steps: [
         { n: "0", card: "Start on Aramasa", do: "Normal Summon Aramasa. Its effect adds Habakiri to hand.",
@@ -78,7 +78,7 @@ export default {
       name: "Prayers solo starter",
       section: "1 Card Combos",
       tag: "Prayers opener",
-      starter: 'A lone <a href="../cards/#prayers">Mitsurugi Prayers</a>',
+      starter: "A lone Mitsurugi Prayers",
       result: "Habakiri, Murakumo, and Futsu no Mitama on board (three Level 8 bodies), plus a set Mitsurugi Great Purification, with an optional Link 2",
       steps: [
         { n: "0", card: "Open on Prayers", do: "Activate Mitsurugi Prayers to add Habakiri to hand.",
@@ -106,7 +106,7 @@ export default {
       name: "Pre-Preparation extended line",
       section: "1 Card Combos",
       tag: "Pre-Prep opener",
-      starter: 'A lone <a href="../cards/#preprep">Pre-Preparation of Rites</a>. Make sure there is no Mitsurugi Mirror in your hand!',
+      starter: "A lone Pre-Preparation of Rites. Make sure there is no Mitsurugi Mirror in your hand!",
       result: "Habakiri, Murakumo, and Futsu no Mitama on board, plus a Rank 4 Xyz or Link 2 of your choice, a set Mitsurugi Great Purification and Mitsurugi Prayers.",
       steps: [
         { n: "0", card: "Open on Pre-Prep", do: "Activate Pre-Preparation of Rites, adding Habakiri and Mitsurugi Mirror to hand.",
@@ -138,7 +138,7 @@ export default {
       name: "Two-card combos",
       section: "2 Card Combos",
       placeholder: true,
-      note: "Two-card extensions (double-starter lines and handtrap-proof routes) are being documented. Check back soon.",
+      note: 'Two-card combos add double-starter lines that punch through a handtrap, plus openers that need a second card to reach Habakiri. They are still being written up. Until they land, the <a class="clink" href="#1-card-combos">one-card lines above</a> cover every core payoff, and the <a class="clink" href="../fiendsmith/">Fiendsmith variant</a> shows where the deck branches next.',
     },
   ],
 
@@ -147,11 +147,11 @@ export default {
     { name: "Ash Blossom on the Mitsurugi Ritual Monsters", body:
       "Negating a Mitsurugi Ritual Monster's on-Tribute search also cancels its self-revive: both resolve as one effect. Bait or play around Ash before committing." },
     { name: "Mitsurugi Prayers, surprise wipe", body:
-      "Set Prayers and activate on the opponent's turn to Special Summon Murakumo from hand or GY, dropping its board wipe like a Raigeki." },
+      "Set Prayers and activate on the opponent's turn tributing Murakumo from field. This will trigger Murakumo's revive effect, which counts as a Special Summon, meaning it will Raigeki the opponents board." },
     { name: "The negate is conditional", body:
-      "Murakumo's discard-or-negate helps decks that WANT to discard (Dark World, Mermail). Respect the matchup instead of leaning on it." },
+      "Murakumo's discard-or-negate helps decks that WANT to discard. Respect the matchup instead of leaning on it." },
   ],
 
   // Lines awaiting verified effects before they go on the page.
-  pending: ["Ogdoadic Rank 8 extension", "Fiendsmith omni-negate bridge"],
+  pending: ["Fiendsmith bridge"],
 };
