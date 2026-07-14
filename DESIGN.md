@@ -20,6 +20,7 @@ colors:
   gold-deep: "#c9a24b"
   zone-gy: "#8f9bd0"
   zone-field: "#7fd8c6"
+  frame-trap: "#d98cba"
   discord: "#5865f2"
   warning: "#e59a9a"
 typography:

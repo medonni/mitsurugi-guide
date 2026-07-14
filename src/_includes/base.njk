@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }} · Mitsurugi Ritual Guide</title>
-  <meta name="description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype — its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
+  <meta name="description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype: its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
   <link rel="canonical" href="{{ site.origin }}{{ page.url | url }}">
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | url }}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="og:title" content="{{ title }} · Mitsurugi Ritual Guide">
-  <meta property="og:description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype — its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
+  <meta property="og:description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype: its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
   <meta property="og:url" content="{{ site.origin }}{{ page.url | url }}">
   <meta property="og:image" content="{{ site.origin }}{{ site.ogImage | url }}">
   <meta name="twitter:card" content="summary_large_image">
@@ -47,6 +47,12 @@
           <a href="{{ '/combos/' | url }}#2-card-combos">2 Card Combos</a>
         </div>
       </div>
+      <div class="nav-group">
+        <a href="{{ '/fiendsmith/' | url }}"{% if nav == 'variants' %} class="active"{% endif %}>Variants</a>
+        <div class="nav-sub">
+          <a href="{{ '/fiendsmith/' | url }}">Fiendsmith <span class="nav-wip">WIP</span></a>
+        </div>
+      </div>
       <a href="https://discord.gg/wWpSsNafDT" class="nav-discord" target="_blank" rel="noopener" aria-label="Join our Discord">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.444.864-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
         <span>Discord</span>
@@ -57,10 +63,12 @@
   {{ content | safe }}
 
   <footer class="site-footer">
-    <div class="mono">MITSURUGI RITUAL GUIDE · fan-made resource<br>Card names &amp; effects © Konami, used for reference only.</div>
+    <div class="mono">MITSURUGI RITUAL GUIDE · fan-made resource<br>Card names &amp; effects © Konami, used for reference only.<br>Card data &amp; images courtesy of <a class="clink" href="https://ygoprodeck.com" target="_blank" rel="noopener">YGOPRODeck</a>. Thanks for the awesome API!</div>
   </footer>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Card image"><img alt=""></div>
+
+  <div class="cardhover" id="cardhover" aria-hidden="true"><a href="#" tabindex="-1"><img alt=""><span class="cardhover-cta">Open card page →</span></a></div>
 
   <script>
     // Tap/click any card image to view it full size. ponytail: one delegated
@@ -81,6 +89,61 @@
         const a = document.activeElement;
         if ((e.key === "Enter" || e.key === " ") && a && a.classList.contains("zoomable")) { e.preventDefault(); open(a); }
       });
+    })();
+  </script>
+  <script>
+    // Card-name preview. Mouse: hover/focus shows a pass-through preview, click
+    // follows the link. Touch: a tap ALWAYS opens the card art with an "Open card
+    // page" CTA (the name never redirects); tap the art to go to the card, tap
+    // elsewhere to dismiss. Touch is detected per-tap (touchstart recency +
+    // pointerType), and the popover fully resets on hide so a stale invisible
+    // popover can never intercept a later tap. ponytail: one shared popover.
+    (function () {
+      const box = document.getElementById("cardhover");
+      const links = document.querySelectorAll(".clink[data-img]");
+      if (!box || !links.length) return;
+      const img = box.querySelector("img");
+      const link = box.querySelector("a");
+      let touchedAt = 0;
+      const touchedRecently = () => Date.now() - touchedAt < 700;
+
+      const show = (el, interactive) => {
+        img.src = el.dataset.img;
+        link.href = el.getAttribute("href");
+        box.classList.toggle("tap", !!interactive);   // interactive + CTA on touch
+        const r = el.getBoundingClientRect();
+        box.classList.add("show");            // show first so we can measure height
+        const w = box.offsetWidth, h = box.offsetHeight, m = 8;
+        box.style.left = Math.min(Math.max(m, r.left), innerWidth - w - m) + "px";
+        const above = r.top - h - m;
+        box.style.top = (above < m ? r.bottom + m : above) + "px";
+      };
+      // Drop "tap" too: a hidden popover must not stay pointer-events:auto and
+      // hijack a later tap that lands where it used to be.
+      const hide = () => box.classList.remove("show", "tap");
+
+      document.addEventListener("touchstart", (e) => {
+        touchedAt = Date.now();
+        // A new touch outside the popover dismisses it first, so an open preview
+        // can never sit over (and steal the tap of) the link beneath it.
+        if (!e.target.closest("#cardhover")) hide();
+      }, { passive: true, capture: true });
+
+      links.forEach((el) => {
+        el.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") show(el, false); });
+        el.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") hide(); });
+        el.addEventListener("focus", () => { if (!touchedRecently()) show(el, false); });
+        el.addEventListener("blur", () => { if (!touchedRecently()) hide(); });
+        el.addEventListener("click", (e) => {
+          const touch = (e.pointerType && e.pointerType !== "mouse") || touchedRecently();
+          if (touch) { e.preventDefault(); show(el, true); }   // touch: preview only; navigate via the popover
+        });
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".clink") && !e.target.closest("#cardhover")) hide();
+      });
+      window.addEventListener("scroll", hide, { passive: true });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") hide(); });
     })();
   </script>
   <script>

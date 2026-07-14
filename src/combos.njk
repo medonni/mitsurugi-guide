@@ -2,7 +2,7 @@
 title: Combos
 nav: combos
 permalink: /combos/index.html
-description: Step-by-step Mitsurugi combo lines with the exact cards, activations, and end boards — from one-card Habakiri starters to two-card openers that build a fully locked, disruption-heavy field.
+description: Step-by-step Mitsurugi combo lines with the exact cards, activations, and end boards, from one-card Habakiri starters to two-card openers that build a fully locked, disruption-heavy field.
 ---
 
 <section class="container-narrow comp-head">
@@ -10,6 +10,17 @@ description: Step-by-step Mitsurugi combo lines with the exact cards, activation
   <h1>From one card to a full board</h1>
   <p class="intro">{{ combos.intro }}</p>
 </section>
+
+<nav class="container-narrow combo-jump" aria-label="Jump to a combo line">
+  <span class="combo-jump-label">JUMP TO</span>
+  {% for line in combos.lines %}
+  {% if line.placeholder %}
+  <a href="#{{ line.section | lower | replace(' ', '-') }}">2-Card <span class="combo-jump-wip">WIP</span></a>
+  {% else %}
+  <a href="#{{ line.id }}">{{ line.name }}</a>
+  {% endif %}
+  {% endfor %}
+</nav>
 
 <section class="container-narrow combos">
   {% for line in combos.lines %}
@@ -29,7 +40,7 @@ description: Step-by-step Mitsurugi combo lines with the exact cards, activation
   {% endif %}
 
   {% if line.placeholder %}
-    <p class="combo-placeholder">{{ line.note }}</p>
+    <p class="combo-placeholder">{{ line.note | safe }}</p>
   {% else %}
     <details id="{{ line.id }}" class="combo-line" open>
       <summary class="combo-head">
@@ -38,8 +49,8 @@ description: Step-by-step Mitsurugi combo lines with the exact cards, activation
           <h3>{{ line.name }} <span class="chev chev-sm" aria-hidden="true"></span></h3>
         </div>
         <div class="combo-meta">
-          <div class="combo-meta-row"><span class="combo-meta-k">START</span><span>{{ line.starter | safe }}</span></div>
-          <div class="combo-meta-row"><span class="combo-meta-k end">END</span><span>{{ line.result }}</span></div>
+          <div class="combo-meta-row"><span class="combo-meta-k">START</span><span>{{ line.starter | linkcards | safe }}</span></div>
+          <div class="combo-meta-row"><span class="combo-meta-k end">END</span><span>{{ line.result | linkcards | safe }}</span></div>
         </div>
       </summary>
       {% if line.note %}<p class="combo-note">{{ line.note }}</p>{% endif %}
@@ -50,9 +61,10 @@ description: Step-by-step Mitsurugi combo lines with the exact cards, activation
           <span class="combo-n">{{ s.n if s.n is defined else loop.index }}</span>
           <div class="combo-step-body">
             <div class="combo-card">{{ s.card }}</div>
-            <div class="combo-do">{{ s.do }}</div>
-            {% if s.why %}<div class="combo-why"><span class="combo-why-tag">WHY</span>{{ s.why }}</div>{% endif %}
-            {% if s.warn %}<div class="combo-warn"><span class="combo-warn-tag">WATCH OUT</span>{{ s.warn }}</div>{% endif %}
+            <div class="combo-do">{{ s.do | linkcards | safe }}</div>
+            {% if s.why %}<div class="combo-why"><span class="combo-why-tag">WHY</span>{{ s.why | linkcards | safe }}</div>{% endif %}
+            {% if s.info %}<div class="combo-info"><span class="combo-info-tag">INFO</span>{{ s.info | linkcards | safe }}</div>{% endif %}
+            {% if s.warn %}<div class="combo-warn"><span class="combo-warn-tag">WATCH OUT</span>{{ s.warn | linkcards | safe }}</div>{% endif %}
           </div>
         </li>
         {% endfor %}
