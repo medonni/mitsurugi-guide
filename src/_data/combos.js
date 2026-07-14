@@ -6,7 +6,7 @@
 // text only): unverified lines stay in `pending` until the effects are confirmed.
 export default {
   intro:
-    "Mitsurugi wins by looping tributes into searches and revivals. Below is the main line that turns a single starter into a board wipe plus a grind engine. Each step notes not just what to do, but why the resources come back.",
+    "Mitsurugi wins by looping tributes into searches and revivals. Below is the main line that turns a single starter into a board wipe plus a grind engine. Each step notes what to do and why the resources come back.",
 
   lines: [
     {
@@ -66,7 +66,7 @@ export default {
           why: "Futsu is a 3400 DEF wall, a very big defender." },
         { n: "4.5", card: "Murakumo on-Tribute", do: "Murakumo activates in the GY, adding Mitsurugi Mirror and reviving itself." },
         { n: "5", card: "Mirror activation", do: "Activate Mitsurugi Mirror, tributing Futsu no Mitama to Special Summon Habakiri from the GY." },
-        { n: "5.5", card: "Mirror + Futsu trigger in GY", do: "As Prayers resolves, Futsu no Mitama and Mirror's GY effect triggers. Shuffle Mirror back into the deck, add Mitsurugi Great Purification and revive Futsu no Mitama.",
+        { n: "5.5", card: "Futsu trigger in GY", do: "As Mirror resolves, Futsu no Mitama GY effect triggers. Add Mitsurugi Great Purification and revive Futsu no Mitama.",
           why: "You get the Futsu wall back and end on a live Trap." },
         { n: "6", card: "Flexible Extra Deck end", do: "Keep the Level 8 ritual monsters on board and overlay only the two Level 4s (Saji and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2.",
           why: "The Level 8 bodies (Habakiri, Murakumo, the 3400 Futsu wall) are already your board, so spend just the disposable Level 4s on the Extra Deck play." },
@@ -138,7 +138,7 @@ export default {
       name: "Two-card combos",
       section: "2 Card Combos",
       placeholder: true,
-      note: "Two-card extensions (double-starter lines and handtrap-proof routes) are being documented — check back soon.",
+      note: "Two-card extensions (double-starter lines and handtrap-proof routes) are being documented. Check back soon.",
     },
   ],
 

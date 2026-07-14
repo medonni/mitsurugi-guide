@@ -10,7 +10,7 @@ export default {
     { n: "01", title: "Tribute a monster", body: "For a Ritual Summon, a defensive save, or a card's own effect. The deck doesn't care why." },
     { n: "02", title: "Trigger fires", body: "The tributed monster searches, revives, or recurs a card from Deck, hand, or Graveyard." },
     { n: "03", title: "Rebuild the board", body: "Rituals re-summon themselves; searchers refill your hand. You rarely lose card advantage." },
-    { n: "04", title: "Grind them out", body: "Disruptive on-field effects plus endless recursion make the board painful to break." },
+    { n: "04", title: "Grind them out", body: "On-field disruption, plus everything you keep recurring, makes the board slow and costly to push through." },
   ],
   bosses: [
     { id: "murakumo", name: "Ame no Murakumo", short: "MURAKUMO", stat: "LV8 · ATK 3200 · DEF 800", image: "/assets/cards/main/murakumo.webp", desc: "Board-wipes the opponent's monsters on Special Summon, then offers a negate-or-discard Quick Effect. The primary payoff." },

@@ -56,7 +56,7 @@ const cardData = [
       ["ON TRIBUTE", "Add 1 Mitsurugi card from Deck (except itself), then Special Summon this card back. This is a hard once per turn effect."],
     ],
     tips: [
-      "It has 3400 DEF. Summoning it in Defense Position is often better, specially if you also have Habakiri on board which will further reduce the opponent's ATK by 800, making it effectively a 4200 DEF wall.",
+      "It has 3400 DEF. Summoning it in Defense Position is often better, especially if you also have Habakiri on board which will further reduce the opponent's ATK by 800, making it effectively a 4200 DEF wall.",
       "Don't forget that the special summon effect is once per chain, not once per turn.",
     ],
   },
@@ -154,7 +154,7 @@ const cardData = [
     ],
     tips: [
       "A Quick-Play, so it gives you interaction on the opponent's turn.",
-      "Can be used to evade oponnet's effect that targets, or to tribute Murakumo to trigger its destroy effect.",
+      "Can be used to evade opponent's effect that targets, or to tribute Murakumo to trigger its destroy effect.",
       "This card is usually not ran, but it ain't the worst."
     ],
   },
@@ -511,7 +511,7 @@ const cardData = [
     badges: ["EARTH", "Beast", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "While in Defense Position: flip your all monsters to face-up Defense and negate their effects."],
+      ["FIELD", "While in Defense Position: flip all your monsters to face-up Defense and negate their effects."],
       ["FIELD", "Detach 1 material during each of your Standby Phases, or send this card to the GY."],
       ["FIELD", "While in Attack Position: this card cannot be targeted by your opponent's card effects."],
     ],
