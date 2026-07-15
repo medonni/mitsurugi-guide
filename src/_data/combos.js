@@ -138,7 +138,7 @@ export default {
       name: "Two-card combos",
       section: "2 Card Combos",
       placeholder: true,
-      note: 'Two-card combos add double-starter lines that punch through a handtrap, plus openers that need a second card to reach Habakiri. They are still being written up. Until they land, the <a class="clink" href="#1-card-combos">one-card lines above</a> cover every core payoff, and the <a class="clink" href="../fiendsmith/">Fiendsmith variant</a> shows where the deck branches next.',
+      note: 'Two-card combos add double-starter lines that punch through a handtrap, plus openers that need a second card to reach Habakiri. They are still being written up. Until they land, the <a class="clink" href="#1-card-combos">one-card lines above</a> cover every core payoff.',
     },
   ],
 
