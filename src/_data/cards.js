@@ -462,6 +462,7 @@ const cardData = [
     zones: [
       ["FIELD", "Detach 1 material: add 1 Rock from Deck to hand, OR Special Summon 1 Rock from hand face-down. Once per turn."],
     ],
+    note: `You can only use each of the following effects of "Gallant Granite" once per turn.`,
     tips: [
       "Made off any two Level 4s, so it's easy to make.",
       "Its Rock search grabs <a href=\"#nibiru\">Nibiru</a> from the Deck.",
@@ -475,8 +476,10 @@ const cardData = [
     zones: [
       ["FIELD", "Quick Effect, on the opponent's turn: Link Summon a Link Monster using materials you control including this card, usually S:P Little Knight."],
     ],
+    note: `You can only use this effect of "I:P Masquerena" once per turn.`,
     tips: [
       "Leaving her up at end of turn threatens a Link play right through the opponent's setup.",
+      "A Link Monster that used this card as material cannot be destroyed by your opponent's card effects.",
     ],
   },
   {
@@ -485,11 +488,14 @@ const cardData = [
     badges: ["DARK", "Warrior", "Link"],
     cost: "2 Effect Monsters",
     zones: [
-      ["FIELD", "Quick Effect: banish 1 other card on the field or in either Graveyard, face-down, until the End Phase."],
+      ["FIELD", "If this card is Link Summoned using a Fusion, Synchro, Xyz, or Link Monster as material: You can target 1 card on the field or in either GY; banish it, also your monsters cannot attack directly this turn."],
+      ["FIELD", "Quick Effect: You can target 2 face-up monsters on the field, including a monster you control; banish both until the End Phase. "],
     ],
+    note: `You can only use each effect of "S:P Little Knight" once per turn.`,
     tips: [
-      "A generic disruptor off two Level 4s: banish a key combo piece on their turn, or protect your own board.",
+      "A generic disruptor off two monsters: banish a key combo piece on their turn, or protect your own board.",
       "Pairs with I:P Masquerena to interact during the opponent's turn.",
+      "Don't forget you can't attack directly if you banish with the first effect."
     ],
   },
   {
@@ -516,6 +522,7 @@ const cardData = [
       ["FIELD", "While in Attack Position: this card cannot be targeted by your opponent's card effects."],
     ],
     tips: [
+      "TBA"
     ],
   },
   {

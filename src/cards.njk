@@ -66,6 +66,7 @@ description: Every Mitsurugi card grouped by where it activates in hand, deck, g
                 </div>
                 {% endfor %}
               </div>
+              {% if c.note %}<p class="fs-note">{{ c.note }}</p>{% endif %}
             </div>
             <div class="tips-col">
               <div class="col-head tips-head">TIPS &amp; TRICKS</div>
@@ -99,7 +100,7 @@ description: Every Mitsurugi card grouped by where it activates in hand, deck, g
       {{ synergyCard(a) }}
       {% endfor %}
     </div>
-    <p class="pending-note mono">More partners in progress: {{ cards.synergyPending | join(" · ") }}</p>
+    <p class="pending-note mono">More deck variants in progress: {{ cards.synergyPending | join(" · ") }}</p>
   </details>
 </section>
 
