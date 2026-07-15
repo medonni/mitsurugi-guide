@@ -42,6 +42,45 @@
 <div class="card-cost"><span class="cost-label cost-{{ mt }}">{{ ml }}</span>{{ c.cost }}</div>{% endif %}
 {% endmacro %}
 
+{# Card-group header: dot, title, tag, count. Shared by cards.njk and
+   fiendsmith.njk. The parent <details>/id/data-section stays in the page since
+   only the compendium filter needs data-section. #}
+{% macro groupHead(g) %}
+<summary class="group-head">
+  <span class="group-dot" style="background:{{ g.dot }};"></span>
+  <h2>{{ g.title }}</h2>
+  <span class="group-tag">{{ g.tag }}</span>
+  <span class="group-count">{{ g.cards | length }}</span>
+</summary>
+{% endmacro %}
+
+{# The two-column "where it activates" + "tips & tricks" body of a card row.
+   Byte-for-byte identical between the two card pages, so it lives here. #}
+{% macro cardCols(c) %}
+<div class="card-cols">
+  <div>
+    <div class="col-head zones-head">WHERE IT ACTIVATES</div>
+    <div class="zones">
+      {% for z in c.zones %}
+      <div class="zone-row">
+        <span class="zone-pill {{ "zone-hybrid" if "/" in z[0] else "zone-" + (z[0] | lower | replace(' ', '')) }}">{{ z[0] }}</span>
+        <span class="zone-text">{{ z[1] }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% if c.note %}<p class="fs-note">{{ c.note }}</p>{% endif %}
+  </div>
+  <div class="tips-col">
+    <div class="col-head tips-head">TIPS &amp; TRICKS</div>
+    <div class="tips">
+      {% for tip in c.tips %}
+      <div class="tip"><span class="tip-bullet"></span><span>{{ tip | safe }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
 {# Desktop-only hover accordion of the three ritual bosses. Each occupies a
    third at rest; hovering a slice expands it to reveal the full card. Order is
    Murakumo · Habakiri · Futsu so Habakiri sits in the middle. #}

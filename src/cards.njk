@@ -4,7 +4,7 @@ nav: cards
 permalink: /cards/index.html
 description: Every Mitsurugi card grouped by where it activates in hand, deck, graveyard, or field, plus the archetype's on-tribute triggers, with tips for real games.
 ---
-{% from "components.njk" import synergyCard, cardArt, cardCost %}
+{% from "components.njk" import synergyCard, cardArt, cardCost, groupHead, cardCols %}
 
 <section class="container-narrow comp-head">
   <div class="kicker">// CARD COMPENDIUM</div>
@@ -32,12 +32,7 @@ description: Every Mitsurugi card grouped by where it activates in hand, deck, g
 <section class="container-narrow groups">
   {% for g in cards.groups %}
   <details id="{{ g.key }}" class="card-group" data-section="{{ g.key }}" open>
-    <summary class="group-head">
-      <span class="group-dot" style="background:{{ g.dot }};"></span>
-      <h2>{{ g.title }}</h2>
-      <span class="group-tag">{{ g.tag }}</span>
-      <span class="group-count">{{ g.cards | length }}</span>
-    </summary>
+    {{ groupHead(g) }}
     <p class="group-blurb">{{ g.blurb }}</p>
 
     <div class="card-list">
@@ -54,29 +49,7 @@ description: Every Mitsurugi card grouped by where it activates in hand, deck, g
             {% for b in c.badges %}<span class="badge">{{ b }}</span>{% endfor %}
           </div>
           {{ cardCost(c) }}
-
-          <div class="card-cols">
-            <div>
-              <div class="col-head zones-head">WHERE IT ACTIVATES</div>
-              <div class="zones">
-                {% for z in c.zones %}
-                <div class="zone-row">
-                  <span class="zone-pill {{ "zone-hybrid" if "/" in z[0] else "zone-" + (z[0] | lower | replace(' ', '')) }}">{{ z[0] }}</span>
-                  <span class="zone-text">{{ z[1] }}</span>
-                </div>
-                {% endfor %}
-              </div>
-              {% if c.note %}<p class="fs-note">{{ c.note }}</p>{% endif %}
-            </div>
-            <div class="tips-col">
-              <div class="col-head tips-head">TIPS &amp; TRICKS</div>
-              <div class="tips">
-                {% for tip in c.tips %}
-                <div class="tip"><span class="tip-bullet"></span><span>{{ tip | safe }}</span></div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
+          {{ cardCols(c) }}
         </div>
       </div>
       {% endfor %}
