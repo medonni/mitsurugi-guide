@@ -218,7 +218,9 @@ a.boss-card:focus-visible { outline: none; border-color: rgba(224, 196, 106, 0.5
 
 /* ---- synergy ---- */
 .synergy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
-.synergy-card { background: linear-gradient(160deg, rgba(37, 27, 58, 0.9), rgba(25, 18, 37, 0.9)); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+/* max-width keeps a lone partner card from stretching full-width (auto-fit 1fr),
+   holding body copy near the 65-75ch band; a no-op once several cards tile. */
+.synergy-card { background: linear-gradient(160deg, rgba(37, 27, 58, 0.9), rgba(25, 18, 37, 0.9)); border: 1px solid var(--border); border-radius: 14px; padding: 26px; max-width: 560px; }
 .synergy-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .synergy-dot { width: 9px; height: 9px; border-radius: 2px; transform: rotate(45deg); }
 .synergy-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 19px; }
