@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }} · Mitsurugi Ritual Guide</title>
-  <meta name="description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype — its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
+  <meta name="description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype: its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
   <link rel="canonical" href="{{ site.origin }}{{ page.url | url }}">
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | url }}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="og:title" content="{{ title }} · Mitsurugi Ritual Guide">
-  <meta property="og:description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype — its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
+  <meta property="og:description" content="{{ description or 'A fan-made guide to the Mitsurugi DARK Reptile Ritual archetype: its cards, combo lines, and grindy on-tribute loop that rebuilds your board from the graveyard every turn.' }}">
   <meta property="og:url" content="{{ site.origin }}{{ page.url | url }}">
   <meta property="og:image" content="{{ site.origin }}{{ site.ogImage | url }}">
   <meta name="twitter:card" content="summary_large_image">
@@ -57,10 +57,12 @@
   {{ content | safe }}
 
   <footer class="site-footer">
-    <div class="mono">MITSURUGI RITUAL GUIDE · fan-made resource<br>Card names &amp; effects © Konami, used for reference only.</div>
+    <div class="mono">MITSURUGI RITUAL GUIDE · fan-made resource<br>Card names &amp; effects © Konami, used for reference only.<br>Card data &amp; images courtesy of <a class="clink" href="https://ygoprodeck.com" target="_blank" rel="noopener">YGOPRODeck</a>. Thanks for the awesome API!</div>
   </footer>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Card image"><img alt=""></div>
+
+  <div class="cardhover" id="cardhover" aria-hidden="true"><a href="#" tabindex="-1"><img alt=""><span class="cardhover-cta">Open card page →</span></a></div>
 
   <script>
     // Tap/click any card image to view it full size. ponytail: one delegated
@@ -81,6 +83,61 @@
         const a = document.activeElement;
         if ((e.key === "Enter" || e.key === " ") && a && a.classList.contains("zoomable")) { e.preventDefault(); open(a); }
       });
+    })();
+  </script>
+  <script>
+    // Card-name preview. Mouse: hover/focus shows a pass-through preview, click
+    // follows the link. Touch: a tap ALWAYS opens the card art with an "Open card
+    // page" CTA (the name never redirects); tap the art to go to the card, tap
+    // elsewhere to dismiss. Touch is detected per-tap (touchstart recency +
+    // pointerType), and the popover fully resets on hide so a stale invisible
+    // popover can never intercept a later tap. ponytail: one shared popover.
+    (function () {
+      const box = document.getElementById("cardhover");
+      const links = document.querySelectorAll(".clink[data-img]");
+      if (!box || !links.length) return;
+      const img = box.querySelector("img");
+      const link = box.querySelector("a");
+      let touchedAt = 0;
+      const touchedRecently = () => Date.now() - touchedAt < 700;
+
+      const show = (el, interactive) => {
+        img.src = el.dataset.img;
+        link.href = el.getAttribute("href");
+        box.classList.toggle("tap", !!interactive);   // interactive + CTA on touch
+        const r = el.getBoundingClientRect();
+        box.classList.add("show");            // show first so we can measure height
+        const w = box.offsetWidth, h = box.offsetHeight, m = 8;
+        box.style.left = Math.min(Math.max(m, r.left), innerWidth - w - m) + "px";
+        const above = r.top - h - m;
+        box.style.top = (above < m ? r.bottom + m : above) + "px";
+      };
+      // Drop "tap" too: a hidden popover must not stay pointer-events:auto and
+      // hijack a later tap that lands where it used to be.
+      const hide = () => box.classList.remove("show", "tap");
+
+      document.addEventListener("touchstart", (e) => {
+        touchedAt = Date.now();
+        // A new touch outside the popover dismisses it first, so an open preview
+        // can never sit over (and steal the tap of) the link beneath it.
+        if (!e.target.closest("#cardhover")) hide();
+      }, { passive: true, capture: true });
+
+      links.forEach((el) => {
+        el.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") show(el, false); });
+        el.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") hide(); });
+        el.addEventListener("focus", () => { if (!touchedRecently()) show(el, false); });
+        el.addEventListener("blur", () => { if (!touchedRecently()) hide(); });
+        el.addEventListener("click", (e) => {
+          const touch = (e.pointerType && e.pointerType !== "mouse") || touchedRecently();
+          if (touch) { e.preventDefault(); show(el, true); }   // touch: preview only; navigate via the popover
+        });
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".clink") && !e.target.closest("#cardhover")) hide();
+      });
+      window.addEventListener("scroll", hide, { passive: true });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") hide(); });
     })();
   </script>
   <script>

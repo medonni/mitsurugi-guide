@@ -1,0 +1,75 @@
+---
+title: Fiendsmith
+nav: variants
+permalink: false
+eleventyExcludeFromCollections: true
+description: Every Fiendsmith card with its official effect text and stats, the splashable LIGHT Fiend engine that pairs with Mitsurugi. Card info pulled straight from YGOPRODeck, no house rulings.
+---
+{% from "components.njk" import cardCost %}
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// SYNERGY · FIENDSMITH <span class="wip-badge">WORK IN PROGRESS</span></div>
+  <h1>The Fiendsmith engine</h1>
+  <p class="intro">Fiendsmith is a splashable <em class="em-gold">LIGHT Fiend</em> package that Mitsurugi can branch into through Evilswarm Exciton Knight. Below is every Fiendsmith card, plus the non-archetype staples the engine leans on to actually function, with its <em class="em-gold">official</em> text and stats pulled from YGOPRODeck, and tips &amp; tricks for real games.</p>
+  <p class="wip-note mono">This page is a work in progress: card reference is complete, but synergy write-ups and combo lines are still being added.</p>
+</section>
+
+<section class="container-narrow groups">
+  {% for g in fiendsmith.groups %}
+  <details id="{{ g.key }}" class="card-group" open>
+    <summary class="group-head">
+      <span class="group-dot" style="background:{{ g.dot }};"></span>
+      <h2>{{ g.title }}</h2>
+      <span class="group-tag">{{ g.tag }}</span>
+      <span class="group-count">{{ g.cards | length }}</span>
+    </summary>
+    <p class="group-blurb">{{ g.blurb }}</p>
+
+    <div class="card-list">
+    {% for c in g.cards %}
+    <div id="{{ c.id }}" class="card-row">
+      <div class="card-art{% if c.image %} has-img{% endif %}">
+        {% if c.image %}
+        <img class="zoomable" src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" loading="lazy" tabindex="0" role="button" aria-label="View {{ c.name }} full size">
+        {% else %}
+        <div class="art-caption mono" style="color:{{ c.accent }};">[ CARD ART ]<br>{{ c.name }}</div>
+        {% endif %}
+      </div>
+      <div class="card-content">
+        <span class="card-role" style="color:{{ c.accent }};">{{ c.role }}</span>
+        <h3>{{ c.name }}</h3>
+        <div class="badges">
+          {% for b in c.badges %}<span class="badge">{{ b }}</span>{% endfor %}
+        </div>
+        {% if c.stat %}<div class="fs-stat mono">{{ c.stat }}</div>{% endif %}
+        {{ cardCost(c) }}
+        {% if c.pre %}<p class="fs-pre">{{ c.pre }}</p>{% endif %}
+        <div class="card-cols">
+          <div>
+            <div class="col-head zones-head">WHERE IT ACTIVATES</div>
+            <div class="zones">
+              {% for z in c.zones %}
+              <div class="zone-row">
+                <span class="zone-pill {{ "zone-hybrid" if "/" in z[0] else "zone-" + (z[0] | lower | replace(' ', '')) }}">{{ z[0] }}</span>
+                <span class="zone-text">{{ z[1] }}</span>
+              </div>
+              {% endfor %}
+            </div>
+            {% if c.note %}<p class="fs-note">{{ c.note }}</p>{% endif %}
+          </div>
+          <div class="tips-col">
+            <div class="col-head tips-head">TIPS &amp; TRICKS</div>
+            <div class="tips">
+              {% for tip in c.tips %}
+              <div class="tip"><span class="tip-bullet"></span><span>{{ tip | safe }}</span></div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+  </details>
+  {% endfor %}
+</section>

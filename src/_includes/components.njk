@@ -30,6 +30,18 @@
 </div>
 {% endmacro %}
 
+{# Material-cost line for Extra Deck monsters. Label reflects the summon type;
+   shared by cards.njk and fiendsmith.njk so the branching lives in one place. #}
+{% macro cardCost(c) %}
+{% if c.cost %}
+{%- if "Xyz" in c.badges %}{% set mt = "xyz" %}{% set ml = "XYZ MATERIAL" %}
+{%- elif "Link" in c.badges %}{% set mt = "link" %}{% set ml = "MATERIAL" %}
+{%- elif "Synchro" in c.badges %}{% set mt = "synchro" %}{% set ml = "MATERIAL" %}
+{%- elif "Fusion" in c.badges %}{% set mt = "fusion" %}{% set ml = "MATERIAL" %}
+{%- else %}{% set mt = "generic" %}{% set ml = "MATERIALS" %}{% endif %}
+<div class="card-cost"><span class="cost-label cost-{{ mt }}">{{ ml }}</span>{{ c.cost }}</div>{% endif %}
+{% endmacro %}
+
 {# Desktop-only hover accordion of the three ritual bosses. Each occupies a
    third at rest; hovering a slice expands it to reveal the full card. Order is
    Murakumo · Habakiri · Futsu so Habakiri sits in the middle. #}

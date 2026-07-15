@@ -18,7 +18,7 @@ export default {
     { id: "habakiri", name: "Ame no Habakiri", short: "HABAKIRI", stat: "LV8 · ATK 2400 · DEF 1800", image: "/assets/cards/main/habakiri.webp", desc: "Reveal it in hand to Special Summon a Mitsurugi from Deck; the deck's best one-card starter, with a lingering -800 ATK." },
   ],
   synergy: [
-    { name: "Fiendsmith", dot: "#cbb0ff", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
+    { name: "Fiendsmith", dot: "#cbb0ff", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Archfiend of Chaos bridges back into Mitsurugi." },
   ],
   synergyPending: ["Ryzeal", "Sky Striker", "Clown Crew", "Chaos"],
   turn: [

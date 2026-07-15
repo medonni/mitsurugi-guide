@@ -549,7 +549,7 @@ const cardData = [
 ];
 
 const synergy = [
-  { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Servant of Chaos bridges back into Mitsurugi." },
+  { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Archfiend of Chaos bridges back into Mitsurugi." },
 ];
 const synergyPending = ["Ryzeal", "Sky Striker", "Clown Crew", "Chaos"];
 
