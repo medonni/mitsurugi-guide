@@ -18,10 +18,16 @@ colors:
   violet-deep: "#8a5cf0"
   gold: "#e0c46a"
   gold-deep: "#c9a24b"
+  gold-lt: "#f0d98a"
   zone-gy: "#8f9bd0"
   zone-field: "#7fd8c6"
+  zone-hybrid: "#e6dfc9"
   frame-trap: "#d98cba"
+  frame-xyz: "#b9b4c9"
+  frame-link: "#6f97ff"
+  frame-fusion: "#c69bff"
   discord: "#5865f2"
+  discord-deep: "#4752c4"
   warning: "#e59a9a"
 typography:
   display:
@@ -62,8 +68,12 @@ typography:
     letterSpacing: "0.1em"
 rounded:
   xs: "5px"
+  chip: "6px"
   sm: "8px"
+  tab: "9px"
+  btn: "10px"
   md: "12px"
+  panel: "14px"
   lg: "16px"
   xl: "20px"
   pill: "999px"
@@ -143,7 +153,13 @@ A cool, low-glare palette: a violet-black ground, purple-leaning neutrals, and t
 ### Tertiary
 - **Reptile Teal** (`#7fd8c6`): The Field zone color and the Reptile-type attribute pill. Cool counterweight to the two warm/violet accents.
 - **Ash Blue-Violet** (`#8f9bd0`): The Graveyard (GY) zone color. A muted, cold neutral-accent for the "dead but working" zone.
-- **Discord Blurple** (`#5865f2`) and **Warning Rose** (`#e59a9a`): reserved semantics only, the external Discord CTA and combo "watch out" callouts respectively.
+- **Discord Blurple** (`#5865f2`, hover **Blurple Deep** `#4752c4`) and **Warning Rose** (`#e59a9a`): reserved semantics only, the external Discord CTA and combo "watch out" callouts respectively.
+
+### Card-Frame Accents
+Cost-label and pill colors keyed to a card's Yu-Gi-Oh! frame, so an Extra Deck type reads at a glance. Each is a desaturated take on the real frame color, tuned for legibility on the dark ground. Used only on the material-cost label and matching pills, never as surface or text color.
+- **Trap** (`#d98cba`), **Xyz** (`#b9b4c9`, silver), **Link** (`#6f97ff`, cobalt), **Fusion** (`#c69bff`, purple).
+- **Hybrid Zone** (`#e6dfc9`): text for a pill that spans two zones (e.g. HAND / GY), over a gold→ash gradient tint.
+- **Gold Light** (`#f0d98a`): the hover state for gold inline links only (payoff still owns the hue; see The Scarce Gold Rule).
 
 ### Neutral
 - **Void Purple-Black** (`#14101f`): The body ground on every page; landing and cards layer soft radial violet glows on top of it.
@@ -157,6 +173,12 @@ A cool, low-glare palette: a violet-black ground, purple-leaning neutrals, and t
 **The Purple-Gray Rule.** There is no neutral gray anywhere. Every "gray" is a purple-leaning value off the text ramp, and every border is alpha-violet. Grey text or grey hairlines read as a foreign body.
 
 **The Scarce Gold Rule.** Gold appears only where something is a genuine reward or the single most important number on screen. Spread it around and it stops meaning payoff.
+
+### What lives outside the token tables
+The frontmatter `colors` / `rounded` maps are the *palette and shape system*, not an inventory of every literal in the CSS. These stay as contextual values on purpose, and a design-drift scan flagging them is expected, not a defect:
+- **Shadow and overlay rgba** (`rgba(0,0,0,*)` drop shadows, `rgba(10,7,18,*)` translucent header/nav grounds, the `rgba(255,255,255,.75)` / `#fff` selection ring, the `rgba(61,42,90,*)` 45-degree art-placeholder stripe): these belong to Elevation (§4) and Neutral (§2), described there with exact values.
+- **Fluid heading sizes** (the `clamp()` display range, ~30–46px): scale steps of the Display/Headline roles, not new ramp entries.
+- **Glyph radii** (2–4px on the chevron and diamond bullets): sub-token shapes below `chip`/`xs`.
 
 ## 3. Typography
 
