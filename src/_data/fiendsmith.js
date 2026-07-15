@@ -4,7 +4,7 @@
 // verbatim; `pre` holds a leading static/limit line, `note` the once-per-turn
 // clause. No strategy commentary here on purpose, only factual card info.
 // First-pass segmentation, to be refined by hand.
-export default [
+const cards = [
   {
     id: "fiendsmith-engraver",
     name: "Fiendsmith Engraver",
@@ -436,3 +436,32 @@ export default [
     image: "/assets/cards/fiendsmith/chaos-angel.webp",
   },
 ];
+
+// Deck-section grouping. Card order within a group is set here by hand, so
+// Fusions read low→high Level and Links low→high Rating with no runtime sort.
+// Non-Fiendsmith cards live in their own "support" group, except Fabled Lurrie,
+// which is a main-deck LIGHT Fiend the engine runs as fodder.
+const byId = Object.fromEntries(cards.map((c) => [c.id, c]));
+const pick = (...ids) => ids.map((id) => byId[id]);
+
+export default {
+  groups: [
+    { key: "maindeck", title: "Main Deck Monsters", tag: "starters", dot: "#e0c46a",
+      blurb: "The Level monsters you open with: Engraver and Lacrima are the archetype's starters, Fabled Lurrie a free discard-fodder body.",
+      cards: pick("fiendsmith-engraver", "lacrima-the-crimson-tears", "fabled-lurrie") },
+    { key: "extra", title: "Extra Deck", tag: "payoffs", dot: "#cbb0ff",
+      blurb: "The Fiendsmith Fusions and Links. Fusions listed by Level, Links by Rating.",
+      cards: pick("fiendsmiths-lacrima", "fiendsmiths-desirae", "fiendsmiths-rextremende",
+                  "fiendsmiths-requiem", "fiendsmiths-sequence", "fiendsmiths-agnumday") },
+    { key: "spells", title: "Spells", tag: "enablers", dot: "#7fd8c6",
+      blurb: "The archetype's search and Fusion-enabling Spells.",
+      cards: pick("fiendsmiths-tract", "fiendsmiths-sanct") },
+    { key: "traps", title: "Traps", tag: "protection", dot: "#d98cba",
+      blurb: "Protection and follow-up Traps that also Fusion Summon from the GY.",
+      cards: pick("fiendsmith-kyrie", "fiendsmith-in-paradise") },
+    { key: "support", title: "Supporting Cards", tag: "generic glue", dot: "#b98cff",
+      blurb: "Non-Fiendsmith Extra Deck targets and enablers the engine leans on to actually function.",
+      cards: pick("skull-archfiend-of-chaos", "necroquip-princess", "aerial-eater",
+                  "dddd-wave-high-king-caesar", "chaos-angel") },
+  ],
+};

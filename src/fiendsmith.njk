@@ -14,8 +14,18 @@ description: Every Fiendsmith card with its official effect text and stats, the 
 </section>
 
 <section class="container-narrow groups">
-  <div class="card-list">
-    {% for c in fiendsmith %}
+  {% for g in fiendsmith.groups %}
+  <details id="{{ g.key }}" class="card-group" open>
+    <summary class="group-head">
+      <span class="group-dot" style="background:{{ g.dot }};"></span>
+      <h2>{{ g.title }}</h2>
+      <span class="group-tag">{{ g.tag }}</span>
+      <span class="group-count">{{ g.cards | length }}</span>
+    </summary>
+    <p class="group-blurb">{{ g.blurb }}</p>
+
+    <div class="card-list">
+    {% for c in g.cards %}
     <div id="{{ c.id }}" class="card-row">
       <div class="card-art{% if c.image %} has-img{% endif %}">
         {% if c.image %}
@@ -58,5 +68,7 @@ description: Every Fiendsmith card with its official effect text and stats, the 
       </div>
     </div>
     {% endfor %}
-  </div>
+    </div>
+  </details>
+  {% endfor %}
 </section>
