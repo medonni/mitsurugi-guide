@@ -1,0 +1,121 @@
+---
+title: Matchups
+nav: matchups
+permalink: /matchups/index.html
+description: An interaction map for Mitsurugi, organized by matchup, showing for each opponent archetype which of your handtraps hits which of their cards, and when to fire it.
+---
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// INTERACTION MAP</div>
+  <h1>Where your interaction lands</h1>
+  <p class="intro">A handtrap is only as good as the card it stops. This page is organized <em class="em-gold">by matchup</em>: pick your opponent's archetype, then see which of your handtraps hits which of their cards, and when to hold it. Card effects are simplified; a name in a note links back to its full entry.</p>
+
+  {% if matchups.documented %}
+  <p class="matchup-seed mono">{{ matchups.documented }} interaction{{ "s" if matchups.documented != 1 }} mapped so far, more added as they're verified.</p>
+  {% else %}
+  <p class="matchup-seed mono">Matchups are still being written up, your handtrap toolkit is below.</p>
+  {% endif %}
+</section>
+
+{% if matchups.matchups.length %}
+{% if matchups.traps.length %}
+<section class="container-narrow tabs" aria-label="Filter by handtrap">
+  <div class="trap-filter-head">
+    <span class="trap-filter-label">SHOW HANDTRAP</span>
+    <button class="trap-clear" id="trap-clear" hidden>Clear ✕</button>
+  </div>
+  <div class="tabs-row" id="trap-filter">
+    {% for t in matchups.traps %}
+    <button class="tab" data-trap="{{ t.id }}" aria-pressed="false" title="{{ t.name }}">{{ t.short }}</button>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<nav class="container-narrow combo-jump" aria-label="Jump to a matchup">
+  <span class="combo-jump-label">JUMP TO</span>
+  {% for d in matchups.matchups %}
+  <a href="#{{ d.slug }}">{{ d.name }}</a>
+  {% endfor %}
+</nav>
+
+<section class="container-narrow hit-list">
+  {% for d in matchups.matchups %}
+  <details class="hit-deck-block" id="{{ d.slug }}" open>
+    <summary class="group-head">
+      <span class="group-dot" style="background:var(--gold);"></span>
+      <h2>{{ d.name }}</h2>
+      <span class="group-count">{% if d.entries.length %}{{ d.entries | length }} handtrap{{ "s" if d.entries | length != 1 }}{% else %}not mapped yet{% endif %}</span>
+    </summary>
+    {% if d.note %}<p class="group-blurb">{{ d.note }}</p>{% endif %}
+
+    {% if d.entries.length %}
+    <div class="hit-rows">
+      {% for e in d.entries %}
+      <div class="hit-row" data-trap="{{ e.id }}">
+        <a class="hit-trap" href="{{ '/cards/' | url }}#{{ e.id }}">
+          <span class="hit-trap-thumb"><img src="{{ e.image | url }}" alt="{{ e.name }}" width="412" height="600" loading="lazy"></span>
+          <span class="hit-trap-name">{{ e.name }}</span>
+        </a>
+        <div class="hit-row-body">
+          <div class="hit-targets">{{ e.hits | linkcards | safe }}</div>
+          {% if e.note %}<p class="hit-note"><span class="hit-note-tag">TIMING</span>{{ e.note | linkcards | safe }}</p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="hit-section-empty">Handtrap targets for this matchup aren't mapped yet.</p>
+    {% endif %}
+  </details>
+  {% endfor %}
+
+  <p class="filter-empty" id="filter-empty" style="display:none;">
+    None of the selected handtraps have documented targets in these matchups.
+  </p>
+</section>
+
+<script>
+  // ponytail: multi-select handtrap filter. Empty selection = show everything.
+  // Hides rows whose handtrap isn't selected, then any archetype left with no
+  // visible row, then explains a fully empty result.
+  (function () {
+    const bar = document.getElementById("trap-filter");
+    if (!bar) return;
+    const chips = bar.querySelectorAll(".tab[data-trap]");
+    const clear = document.getElementById("trap-clear");
+    const rows = document.querySelectorAll(".hit-row");
+    const blocks = document.querySelectorAll(".hit-deck-block");
+    const empty = document.getElementById("filter-empty");
+    const sel = new Set();
+
+    function apply() {
+      rows.forEach((r) => { r.style.display = sel.size === 0 || sel.has(r.dataset.trap) ? "" : "none"; });
+      let any = false;
+      blocks.forEach((b) => {
+        const shown = b.querySelector('.hit-row:not([style*="none"])');
+        b.style.display = shown ? "" : "none";
+        if (shown) any = true;
+      });
+      empty.style.display = any ? "none" : "";
+      clear.hidden = sel.size === 0;
+    }
+    chips.forEach((c) => c.addEventListener("click", () => {
+      const id = c.dataset.trap;
+      sel.has(id) ? sel.delete(id) : sel.add(id);
+      c.classList.toggle("active", sel.has(id));
+      c.setAttribute("aria-pressed", sel.has(id));
+      apply();
+    }));
+    clear.addEventListener("click", () => {
+      sel.clear();
+      chips.forEach((c) => { c.classList.remove("active"); c.setAttribute("aria-pressed", "false"); });
+      apply();
+    });
+  })();
+</script>
+{% else %}
+<section class="container-narrow hit-list">
+  <p class="hit-empty">No matchups mapped yet. As they're written up, each opponent archetype will list your handtraps and exactly which of their cards to hit.</p>
+</section>
+{% endif %}

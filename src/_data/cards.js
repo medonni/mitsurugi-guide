@@ -592,4 +592,8 @@ const ZONE_ORDER = ["HAND", "DECK", "GY", "FIELD", "TRIGGER", "ON TRIBUTE"];
 const usedZones = new Set(cardData.flatMap((c) => c.zones.map((z) => z[0])));
 const zones = ZONE_ORDER.filter((z) => usedZones.has(z));
 
-export default { groups, synergy, synergyPending, total: cardData.length, zones };
+// id -> card lookup, so other pages (e.g. matchups) can reuse a card's art,
+// name, and badges without redeclaring them.
+const byId = Object.fromEntries(cardData.map((c) => [c.id, c]));
+
+export default { groups, synergy, synergyPending, total: cardData.length, zones, byId };

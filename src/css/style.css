@@ -36,7 +36,7 @@ body.page-landing {
     radial-gradient(900px 600px at 8% 4%, rgba(185, 140, 255, 0.08), transparent 55%),
     var(--bg);
 }
-body.page-cards, body.page-combos {
+body.page-cards, body.page-combos, body.page-matchups {
   background: radial-gradient(1100px 600px at 82% -10%, rgba(61, 42, 90, 0.5), transparent 60%), var(--bg);
 }
 a { color: var(--violet); text-decoration: none; }
@@ -507,4 +507,41 @@ details[open] > summary .chev { transform: rotate(-135deg); }
   .boss-card { grid-template-columns: 92px 1fr; }
   .card-art img { max-height: 200px; }
   .card-content { padding: 20px 18px; }
+}
+
+/* ---- matchups / interaction map ---- */
+.matchup-seed { margin: 4px 0 0; font-size: 12px; letter-spacing: 0.03em; color: var(--text-faint); }
+
+/* Handtrap filter: multi-select chips. Empty selection shows everything. */
+.trap-filter-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.trap-filter-label { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em; color: var(--text-faint); }
+.trap-clear { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(185, 140, 255, 0.12); border: 1px solid rgba(185, 140, 255, 0.28); border-radius: 8px; padding: 4px 11px; cursor: pointer; transition: background .15s; }
+.trap-clear:hover { background: rgba(185, 140, 255, 0.2); }
+.trap-clear:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+#trap-filter .tab[aria-pressed="true"], #trap-filter .tab.active { background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--bg); font-weight: 600; border: 1px solid transparent; }
+#trap-filter .tab:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+
+/* Matchup sections: archetype header, then handtrap -> their cards rows. */
+.hit-list { padding: 12px 40px 80px; }
+.hit-deck-block { margin-bottom: 44px; scroll-margin-top: 150px; }
+.hit-rows { display: flex; flex-direction: column; margin-top: 6px; }
+.hit-row { display: grid; grid-template-columns: 232px 1fr; gap: 22px; padding: 18px 0; border-bottom: 1px solid var(--border-soft); }
+.hit-row:last-child { border-bottom: 0; }
+.hit-trap { display: flex; align-items: center; gap: 12px; align-self: start; color: var(--text); min-width: 0; }
+.hit-trap:hover { color: var(--violet-lt); }
+.hit-trap:hover .hit-trap-thumb { border-color: rgba(185, 140, 255, 0.55); }
+.hit-trap-thumb { flex: 0 0 auto; width: 44px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-soft); background: #120d1f; transition: border-color .15s; }
+.hit-trap-thumb img { display: block; width: 100%; height: auto; aspect-ratio: 412 / 600; object-fit: cover; }
+.hit-trap-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 15.5px; line-height: 1.25; letter-spacing: -0.01em; }
+.hit-row-body { min-width: 0; }
+.hit-targets { font-size: 14.5px; line-height: 1.6; color: var(--text); }
+.hit-note { font-size: 12.5px; line-height: 1.55; color: var(--text-caption); margin-top: 8px; }
+.hit-note-tag { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: 0.08em; color: var(--gold-deep); border: 1px solid #c9a24b40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+
+.hit-empty { font-size: 14px; line-height: 1.6; color: var(--text-faint); background: rgba(185, 140, 255, 0.04); border: 1px dashed var(--border-soft); border-radius: 12px; padding: 18px 20px; }
+.hit-section-empty { font-size: 13.5px; font-style: italic; color: var(--text-faint); padding: 8px 0 2px; }
+
+@media (max-width: 900px) {
+  .hit-list { padding-left: 20px; padding-right: 20px; }
+  .hit-row { grid-template-columns: 1fr; gap: 12px; }
 }
