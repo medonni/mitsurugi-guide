@@ -58,7 +58,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/css": "css" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   // Google Search Console verification file — served verbatim at the site root.
+  // Ignore it as a template so it isn't rendered into a page or the sitemap;
+  // passthrough copy still emits the raw file Google fetches.
   eleventyConfig.addPassthroughCopy("src/google*.html");
+  eleventyConfig.ignores.add("src/google*.html");
   eleventyConfig.ignores.add("src/assets/**/*.md");
   eleventyConfig.addFilter("linkcards", linkCards);
   return {
