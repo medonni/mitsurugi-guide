@@ -443,6 +443,20 @@ details[open] > summary .chev { transform: rotate(-135deg); }
 .combo-jump a:hover { color: var(--violet-lt); border-bottom-color: rgba(185, 140, 255, 0.4); }
 .combo-jump-wip { font-family: "IBM Plex Mono", monospace; font-size: 8.5px; letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 3px; padding: 0 4px; margin-left: 3px; }
 
+/* ---- combo video (lite YouTube facade: a thumbnail loads the real player only
+       on click, so the page never ships ~10 heavy iframes up front) ---- */
+.combo-video { margin: 4px 0 28px; max-width: 640px; }
+.combo-video-label { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 8px; }
+.combo-video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: #000; cursor: pointer; }
+.combo-video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.82; transition: opacity .15s; }
+.combo-video-frame:hover img, .combo-video-frame:focus-visible img { opacity: 1; }
+.combo-video-frame:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+.combo-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.combo-video-play::before { content: ""; width: 68px; height: 48px; border-radius: 12px; background: rgba(20, 16, 31, 0.82); border: 1px solid var(--border); transition: background .15s; }
+.combo-video-play::after { content: ""; position: absolute; width: 0; height: 0; margin-left: 4px; border-left: 18px solid var(--violet-lt); border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+.combo-video-frame:hover .combo-video-play::before { background: rgba(20, 16, 31, 0.92); }
+.combo-video iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; display: block; }
+
 /* ---- responsive: collapse multi-column grids under ~900px ---- */
 @media (max-width: 900px) {
   .container, .container-narrow, .hero, .spec-strip, .section, .section-pad-lg,

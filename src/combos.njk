@@ -55,6 +55,17 @@ description: Step-by-step Mitsurugi combo lines with the exact cards, activation
       </summary>
       {% if line.note %}<p class="combo-note">{{ line.note }}</p>{% endif %}
 
+      {% if line.video %}
+      <div class="combo-video">
+        <div class="combo-video-label">VIDEO WALKTHROUGH</div>
+        <div class="combo-video-frame" role="button" tabindex="0" aria-label="Play video walkthrough"
+             data-ytid="{{ line.video }}"{% if line.t %} data-ytstart="{{ line.t }}"{% endif %}>
+          <img src="https://i.ytimg.com/vi/{{ line.video }}/hqdefault.jpg" alt="" loading="lazy">
+          <span class="combo-video-play" aria-hidden="true"></span>
+        </div>
+      </div>
+      {% endif %}
+
       <ol class="combo-steps">
         {% for s in line.steps %}
         <li class="combo-step">
@@ -97,3 +108,32 @@ description: Step-by-step Mitsurugi combo lines with the exact cards, activation
   <p class="combo-pending mono">More lines to document: {{ combos.pending | join(" · ") }}</p>
   {% endif %}
 </section>
+
+<script>
+  // Lite YouTube facade: click the thumbnail to swap in the real player.
+  // ponytail: one delegated listener, iframes load on demand (not on page load),
+  // youtube-nocookie so no tracking cookies land unless a viewer actually plays.
+  (function () {
+    const load = (f) => {
+      if (f.dataset.loaded) return;
+      const start = f.dataset.ytstart ? "&start=" + f.dataset.ytstart : "";
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + f.dataset.ytid + "?autoplay=1&rel=0" + start;
+      iframe.title = "Video walkthrough";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      f.dataset.loaded = "1";
+      f.replaceWith(iframe);
+    };
+    document.addEventListener("click", (e) => {
+      const f = e.target.closest(".combo-video-frame");
+      if (f) load(f);
+    });
+    document.addEventListener("keydown", (e) => {
+      const a = document.activeElement;
+      if ((e.key === "Enter" || e.key === " ") && a && a.classList.contains("combo-video-frame")) {
+        e.preventDefault(); load(a);
+      }
+    });
+  })();
+</script>
