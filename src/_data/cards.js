@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { deriveZones } from "../_lib/zones.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 // Lightest formats win when multiple exist for one card.
@@ -25,7 +26,7 @@ const sections = [
   { key: "support", title: "Supporting Cards", tag: "generic glue", dot: "#b98cff",
     blurb: "Non-Mitsurugi cards that specifically enable the engine: Ritual enablers and Reptile fodder that make the deck consistent." },
   { key: "nonengine", title: "Non-Engine Staples", tag: "interaction", dot: "#7fd8c6",
-    blurb: "Format staples and handtraps you run to protect the combo and disrupt the opponent." },
+    blurb: "Format staples you run to protect the combo and disrupt the opponent. Handtraps moved to their own shared page, since they're not Mitsurugi-specific. <a class=\"gold\" href=\"../../handtraps/\">See every handtrap →</a>" },
   { key: "extra", title: "Extra Deck", tag: "toolbox", dot: "#cbb0ff",
     blurb: "Generic Extra Deck monsters you make off the deck's Level 4s to search or extend the engine." },
 ];
@@ -342,45 +343,6 @@ const cardData = [
       "You must own a copy in the Deck to banish, so run a couple of maindeck handtraps as designator fodder.",
     ],
   },
-  {
-    id: "ash", section: "nonengine", name: "Ash Blossom & Joyous Spring", short: "ASH", role: "Handtrap",
-    label: "HANDTRAPS",
-    glyph: "灰", glyphColor: "#7fd8c6", stat: "LV3 · Handtrap",
-    badges: ["FIRE", "Zombie", "Tuner"],
-    zones: [
-      ["HAND", "Discard: negate a card that adds from Deck, Special Summons from Deck, or sends Deck-to-GY."],
-    ],
-    tips: [
-      "Nothing much to say about it.",
-    ],
-  },
-  {
-    id: "nibiru", section: "nonengine", name: "Nibiru, the Primal Being", short: "NIBIRU", role: "Handtrap",
-    glyph: "星", glyphColor: "#7fd8c6", stat: "LV11 · Handtrap",
-    badges: ["LIGHT", "Rock"],
-    zones: [
-      ["HAND", "After the opponent's 5th+ summon this turn: tribute ALL monsters both players control, gain a token."],
-    ],
-    tips: [
-      "Your Mitsurugi monsters will trigger off Nibiru effects.",
-      "Careful: they can discard Nibiru to Murakumo's negate and dodge it. Timing matters.",
-      "Easily searchable: it's a Rock, so <a href=\"#granite\">Gallant Granite</a> tutors it straight from the Deck, making the handtrap far more consistent.",
-      "Running it is a meta call. It kinda sucks now."
-    ],
-  },
-  {
-    id: "imperm", section: "nonengine", name: "Infinite Impermanence", short: "IMPERM", role: "Handtrap / Trap",
-    glyph: "無", glyphColor: "#7fd8c6", stat: "Trap Card",
-    badges: ["Trap", "Normal"],
-    zones: [
-      ["HAND", "From hand (if you control no cards): negate a face-up monster's effects."],
-      ["FIELD", "If Set, also nullifies other Spell/Trap effects in that column this turn."],
-    ],
-    tips: [
-      "Flexible interaction that works from hand on an empty board: great on the draw.",
-      "Set it to threaten column lockdown against backrow-reliant decks, if they forget to play around it.",
-    ],
-  },
   // {
   //   id: "dominusimpulse", section: "nonengine", name: "Dominus Impulse", short: "IMPULSE", role: "Handtrap · Negate",
   //   glyph: "衝", glyphColor: "#7fd8c6", stat: "Trap Card",
@@ -405,54 +367,6 @@ const cardData = [
   //     "Pure only: the hand lock cuts off EARTH, WATER, FIRE, and WIND monster effects for the rest of the Duel, leaving just LIGHT and DARK. Pure Mitsurugi is all DARK so the engine is untouched, but it kills your off-attribute handtraps (Ash, the Mulcharmies). Same reasoning as Impulse.",
   //   ],
   // },
-  {
-    id: "droll", section: "nonengine", name: "Droll & Lock Bird", short: "DROLL", role: "Handtrap · Search Lock",
-    glyph: "封", glyphColor: "#7fd8c6", stat: "LV1 · Handtrap",
-    badges: ["WIND", "Winged Beast"],
-    zones: [
-      ["HAND", "If a card is added from the Deck to a hand (except during the Draw Phase): discard this. For the rest of this turn, neither player can add cards from the Deck to the hand."],
-    ],
-    tips: [
-      "A hard stop against search-heavy decks: they add one card, then everything else in the Deck is locked off.",
-    ],
-  },
-  {
-    id: "fuwalos", section: "nonengine", name: "Mulcharmy Fuwalos", short: "FUWALOS", role: "Handtrap · Draw",
-    glyph: "綿", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
-    badges: ["WIND", "Winged Beast"],
-    zones: [
-      ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Special Summons a monster from the Deck or Extra Deck this turn, draw 1 (keeping a set hand size at the End Phase)."],
-    ],
-    tips: [
-      "A go-second draw engine that punishes big combo turns, refueling your hand while the opponent builds.",
-      "Only live on an empty board, so it's a handtrap you open with, not something you set up.",
-    ],
-  },
-  {
-    id: "purulia", section: "nonengine", name: "Mulcharmy Purulia", short: "PURULIA", role: "Handtrap · Draw",
-    glyph: "毬", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
-    badges: ["WATER", "Aqua"],
-    zones: [
-      ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Normal or Special Summons a monster from the Hand this turn, draw 1 (End Phase hand-size limit applies)."],
-    ],
-    tips: [
-      "The HAND-Special-Summon counterpart to Fuwalos.",
-      "Like every Mulcharmy card, it needs an empty board on your side to fire.",
-    ],
-  },
-  {
-    id: "dshifter", section: "nonengine", name: "Dimension Shifter", short: "DIM. SHIFTER", role: "Handtrap · GY Hate",
-    glyph: "次", glyphColor: "#7fd8c6", stat: "LV6 · Handtrap",
-    badges: ["DARK", "Spellcaster", "Effect", "Level 6"],
-    zones: [
-      ["HAND", "If your GY is empty (Quick Effect): send this from hand to GY: until the end of the next turn, cards sent to the GY are banished instead."],
-    ],
-    tips: [
-      "Disruptive tech that turns off Graveyard strategies.",
-      "Most effects from Mitsurugi Monsters are activated by tributing, so the banishment is not too punishing on us. Kusanagi also grabs from Banishment, so if Ritual goes there it does not matter.",
-      "It also stops some popular cards that discard to GY as cost, most notably Fallen & the Virtuous."
-    ],
-  },
   // ===== EXTRA DECK =====
   {
     id: "granite", section: "extra", name: "Gallant Granite", short: "GRANITE", role: "Rank 4 Xyz · Rock Searcher",
@@ -465,7 +379,7 @@ const cardData = [
     note: `You can only use each of the following effects of "Gallant Granite" once per turn.`,
     tips: [
       "Made off any two Level 4s, so it's easy to make.",
-      "Its Rock search grabs <a href=\"#nibiru\">Nibiru</a> from the Deck.",
+      "Its Rock search grabs <a class=\"clink\" href=\"../../handtraps/#nibiru\" data-img=\"../../assets/cards/handtraps/nibiru.webp\">Nibiru</a> from the Deck.",
     ],
   },
   {
@@ -556,7 +470,7 @@ const cardData = [
 ];
 
 const synergy = [
-  { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Archfiend of Chaos bridges back into Mitsurugi." },
+  { name: "Fiendsmith", dot: "#cbb0ff", rating: "STRONG", href: "/fiendsmith/", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Archfiend of Chaos bridges back into Mitsurugi." },
 ];
 const synergyPending = ["Ryzeal", "Sky Striker", "Clown Crew", "Chaos"];
 
@@ -586,10 +500,4 @@ const groups = [
     .map((s) => ({ ...s, cards: cardData.filter((c) => c.section === s.key) })),
 ];
 
-// Zone-filter chips: canonical order, but only zones some card actually uses
-// (so an unused label like DECK never renders a dead filter).
-const ZONE_ORDER = ["HAND", "DECK", "GY", "FIELD", "TRIGGER", "ON TRIBUTE"];
-const usedZones = new Set(cardData.flatMap((c) => c.zones.map((z) => z[0])));
-const zones = ZONE_ORDER.filter((z) => usedZones.has(z));
-
-export default { groups, synergy, synergyPending, total: cardData.length, zones };
+export default { groups, synergy, synergyPending, total: cardData.length, zones: deriveZones(cardData) };

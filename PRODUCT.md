@@ -1,24 +1,20 @@
 # Product
 
-## Register
-
-product
-
 ## Platform
 
 web
 
 ## Users
 
-Yu-Gi-Oh! players who want to learn or pilot the Mitsurugi archetype, a DARK Reptile Ritual deck whose monsters gain value each time they are tributed. The audience spans from a curious newcomer meeting the deck for the first time to a competitive grinder refining lines. They arrive mid-research, often on mobile, looking up one card or one combo, and they need the answer to be legible fast. The primary job is comprehension: understand what the deck does, where each card activates, and how a real turn plays out.
+Yu-Gi-Oh! players who want to learn or pilot a specific combo deck: Mitsurugi (a DARK Reptile Ritual deck whose monsters gain value each time they are tributed) live today, with Sacred Beasts and others joining as they're written up. The audience spans from a curious newcomer meeting a deck for the first time to a competitive grinder refining lines. They arrive mid-research, often on mobile, looking up one card or one combo, and they need the answer to be legible fast. The primary job is comprehension: understand what a deck does, where each card activates, and how a real turn plays out. A smaller slice of the audience runs a hybrid build splashing a shared engine (Fiendsmith) into their main deck, and needs that cross-deck relationship to be legible too.
 
 ## Product Purpose
 
-A fan-made reference guide for playing the Mitsurugi deck. It takes a complex, trigger-heavy combo archetype and makes it legible by organizing every card around where it activates (hand, deck, graveyard, field, on-tribute) and by walking through how turns actually resolve. Success is a reader who can look up a card, understand its role, and know how to sequence it, without wading through verbatim rules text or an ad-heavy wiki.
+A fan-made reference guide, one deck per section, each taking a complex, trigger-heavy combo archetype and making it legible by organizing every card around where it activates (hand, deck, graveyard, field, on-tribute) and by walking through how turns actually resolve. A deck-select hub at the root sends a reader to the deck they came for; shared engines that cross deck lines (handtraps, Fiendsmith) get one reference page instead of being duplicated per deck. Success is a reader who can pick their deck, look up a card, understand its role, and know how to sequence it, without wading through verbatim rules text or an ad-heavy wiki.
 
 ## Positioning
 
-The Mitsurugi deck explained by where each card activates and how a turn actually plays out, not just what the cards say.
+A deck-by-deck combo guide: pick your deck, see where each card activates and how a turn actually plays out, not just what the cards say. Mitsurugi is the flagship and the only complete deck today.
 
 ## Brand Personality
 

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "start:prod": "eleventy --serve --pathprefix=/mitsurugi-guide/",
+    "build": "eleventy",
+    "check": "eleventy --quiet --pathprefix=/mitsurugi-guide/ --output=_check && node check-links.js _check"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2"

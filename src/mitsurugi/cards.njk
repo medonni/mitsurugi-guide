@@ -1,0 +1,42 @@
+---
+title: Mitsurugi Cards
+nav: mitsurugi-cards
+bg: cards
+description: Every Mitsurugi card grouped by where it activates in hand, graveyard, or field, plus the archetype's on-tribute triggers, with tips for real games.
+---
+{% from "components.njk" import synergyCard, cardGroup, zoneFilter, sectionTabs, filterEmpty, cardSearch %}
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// CARD COMPENDIUM</div>
+  <h1>Every card, by where it activates</h1>
+  <p class="intro">Card effects here are simplified and grouped by <em class="em-gold">where they activate</em> (hand, graveyard, or field), plus the archetype's signature on-Tribute triggers. Each entry adds tips &amp; tricks for real games.</p>
+
+  {{ cardSearch(cards.total) }}
+  {{ zoneFilter(cards.zones) }}
+</section>
+
+{{ sectionTabs(cards.groups, cards.total) }}
+
+<section class="container-narrow groups">
+  {% for g in cards.groups %}
+  {{ cardGroup(g) }}
+  {% endfor %}
+
+  {{ filterEmpty() }}
+
+  <details id="synergy" class="card-group" open>
+    <summary class="group-head">
+      <span class="group-dot" style="background:var(--zone-field);"></span>
+      <h2>Expanding into other archetypes</h2>
+    </summary>
+    <p class="group-blurb">Mitsurugi runs no in-archetype locks, so it welcomes partners. These pair especially well.</p>
+    <div class="synergy-grid">
+      {% for a in cards.synergy %}
+      {{ synergyCard(a) }}
+      {% endfor %}
+    </div>
+    <p class="pending-note mono">More deck variants in progress: {{ cards.synergyPending | join(" · ") }}</p>
+  </details>
+</section>
+
+<script src="{{ '/assets/js/card-filter.js' | url }}"></script>

@@ -4,36 +4,186 @@
   --surface: #191225;
   --surface-alt1: #1e1633;
   --surface-alt2: #241b3d;
-  --border: rgba(185, 140, 255, 0.16);
-  --border-soft: rgba(185, 140, 255, 0.14);
   --text: #ece8f5;
   --text-muted: #b7add0;
   --text-dim: #a79bc0;
   --text-faint: #8a7ea3;
   --text-caption: #8f84af;
+  /* Mitsurugi's accent, and the default/neutral accent for the hub and shared
+     pages (handtraps, Fiendsmith). Deck-scoped pages override these four on a
+     body.deck-* class below; see that block for how the cascade works. */
   --violet: #b98cff;
   --violet-lt: #cbb0ff;
   --violet-deep: #8a5cf0;
+  --violet-rgb: 185, 140, 255;
+  --border: rgba(var(--violet-rgb), 0.16);
+  --border-soft: rgba(var(--violet-rgb), 0.14);
   --gold: #e0c46a;
   --gold-deep: #c9a24b;
   --zone-gy: #8f9bd0;
   --zone-field: #7fd8c6;
+  /* Zone-pill colors (HAND/DECK/GY/FIELD/TRIGGER) are pinned, not deck-themed:
+     the same zone should read the same color on every deck's compendium. */
+  --zone-deck: #b98cff;
+  --zone-trigger: #b98cff;
 
   --stripe: repeating-linear-gradient(135deg, #1e1633, #1e1633 9px, #241b3d 9px, #241b3d 18px);
+
+  /* Spacing scale (DESIGN.md `spacing`). The page-rhythm rules below (.section,
+     .section-pad-lg, .cta, .groups, .combo-jump) all key off these so section
+     separation stays bigger than the separation inside a section. Component
+     internals keep their own contextual values. */
+  --space-xs: 6px;
+  --space-sm: 14px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 56px;
+  --space-2xl: 72px;
+  --space-3xl: 96px;
+
+  /* Type scale. `rem`, not `px`: a px scale silently ignores the reader's own
+     browser font-size setting, and this is a reference site people read on a
+     phone. 1rem = whatever they've set (16px by default), so the whole ramp
+     scales with them.
+
+     Twelve steps, named by role, replacing the 28 px literals this file used to
+     carry. Those 28 weren't a scale, they were an inventory: 18 distinct sizes
+     between 8.5px and 18px, stepping by half a pixel (13 / 13.5 / 14 / 14.5 all
+     for card-level prose). Half-pixel steps aren't hierarchy, they're drift.
+
+     Ratios widen as the ramp climbs (1.08-1.10 across the label band, 1.12-1.15
+     through body, 1.2-1.4 at the headings). The label band is deliberately
+     tighter than the 1.125 a product type scale usually wants: those four steps
+     are one mono texture at four densities, not four levels of a reading
+     hierarchy, so they read as a family rather than as steps. */
+  --text-label-xs: 0.625rem;   /* 10px  micro badges, cost labels, combo tags */
+  --text-label-sm: 0.6875rem;  /* 11px  zone pills, stat captions, column heads */
+  --text-label: 0.75rem;       /* 12px  nav, eyebrows, tabs, quiet notes */
+  --text-meta: 0.8125rem;      /* 13px  dense secondary prose, inline meta */
+  --text-body-sm: 0.9375rem;   /* 15px  card-level running text, UI text */
+  --text-body: 1.0625rem;      /* 17px  prose, page intros, primary buttons */
+  --text-title-sm: 1.1875rem;  /* 19px  wordmark, panel and boss-card titles */
+  --text-title: 1.4375rem;     /* 23px  compendium card names */
+  --text-headline: 1.75rem;    /* 28px  group headings, combo line names */
+  --text-section: 2.375rem;    /* 38px  section headings */
+  --text-page: 2.875rem;       /* 46px  page h1 */
+  --text-display: 4rem;        /* 64px  hero h1, one per page */
+
+  /* The keyboard focus indicator, one value for the whole site. White rather
+     than the deck accent on purpose: the accent reskins per deck and some of
+     them (Sacred Beasts emerald, gold-adjacent) would collide with the chip and
+     pill colors the ring has to read against. See the shared :focus-visible
+     rule below. */
+  --focus-ring: rgba(255, 255, 255, 0.75);
+
+  /* Stacking order, named by job. Every layer that isn't purely local to a
+     component comes from here, so "what paints over what" is one list to read
+     instead of a hunt for magic numbers. It was 40/50/60/70/100/100 before,
+     with the skip link and the lightbox tied at 100 and nothing saying which
+     should win.
+     Note the header sits ABOVE the sticky tab bar and BELOW its own dropdown:
+     the nav flyout hangs off the header and has to clear it. That is the one
+     place this ladder departs from the usual dropdown-under-sticky order. */
+  --z-sticky: 40;    /* the compendium's sticky tab bar */
+  --z-header: 50;    /* the site header, over page content and the tab bar */
+  --z-dropdown: 60;  /* nav flyout menus, over the header they hang from */
+  --z-popover: 70;   /* card-art preview on combo links */
+  --z-modal: 90;     /* the card-image lightbox */
+  --z-skip: 100;     /* the skip link, reachable over everything by definition */
+
+  /* Motion. Natural deceleration, no bounce or elastic: this system's one
+     signature motion (the boss stack) should feel like a panel settling, not
+     like a toy. */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- per-deck accent themes ----
+   Each deck overrides just violet/violet-lt/violet-deep/violet-rgb on its
+   body.deck-* class (set from the deck's directory data, see
+   src/mitsurugi/mitsurugi.11tydata.js). Everything built from those tokens,
+   buttons, links, nav, tabs, glows, borders, follows automatically. Add a
+   new deck's theme here when it gets its own directory. */
+body.deck-sacred-beasts {
+  --violet: #52d68f;
+  --violet-lt: #82e6ac;
+  --violet-deep: #2fa868;
+  --violet-rgb: 82, 214, 143;
+}
+body.deck-fiendsmith {
+  --violet: #4fc9e8;
+  --violet-lt: #85dcf2;
+  --violet-deep: #2fa0c2;
+  --violet-rgb: 79, 201, 232;
 }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+
+/* Let the text-bearing grid and flex tracks actually shrink.
+   A grid/flex child defaults to `min-width: auto`, which means "never narrower
+   than my longest unbreakable word". Every layout here was fine at 100%, then
+   broke the moment the type got bigger than the author assumed: at a 32px
+   browser default font-size (a 200% reader setting, which the rem type scale
+   now correctly honours) a 390px phone got a horizontally-scrolling page on
+   five routes, because a card name in .card-content, the search input, and the
+   .two-col prose column each held their track open past the viewport.
+   min-width: 0 lets them collapse; overflow-wrap catches the one token that is
+   genuinely longer than the column it lives in, so it breaks instead of
+   pushing. Test any new grid at 200% before assuming it holds. */
+.hero > *, .two-col > *, .card-row > *, .card-cols > *, .threat > *, .answer > *,
+.combo-step > *, .combo-head > *, .grid-3 > *, .grid-4 > *, .turn-grid > *,
+.synergy-grid > *, .deck-grid > *, .card-search-wrap > * { min-width: 0; }
+body { overflow-wrap: break-word; }
+/* The filters toggle [hidden]; every element they touch sets its own display,
+   which would otherwise beat the UA's [hidden] rule. Say it once, here. */
+.card-row[hidden], .card-group[hidden], .sub-label[hidden],
+.filter-empty[hidden], .threat[hidden], .hit-deck-block[hidden],
+.answer[hidden], .dead-list[hidden] { display: none; }
+
+/* One focus ring, every keyboard-reachable control.
+   This used to be written out per component, eleven times, and it still missed
+   seven: the skip link, the brand mark, the hamburger, every nav link, the
+   compendium's section tabs, and inline .gold / .clink links in prose. The tabs
+   were the tell, `#trap-filter .tab:focus-visible` gave the matchups page the
+   system ring while the identical button on every compendium fell back to the
+   browser default. Same component, two focus treatments, decided by page.
+   Element selectors, not `*`: `:focus-visible` on everything would also hit
+   scroll containers and any div that takes focus programmatically, and would
+   overwrite box-shadows being used for elevation.
+   Components that need MORE than the ring (a border-color change, an opacity
+   bump, the boss slice's inset variant) still say so in their own rule and win
+   on specificity; they just no longer restate the ring itself. */
+a:focus-visible, button:focus-visible, input:focus-visible,
+summary:focus-visible, [tabindex]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+/* Skip link: off-screen until focused, then a real target at the top left. */
+.skip-link {
+  position: absolute; top: 8px; left: -9999px; z-index: var(--z-skip);
+  padding: 10px 16px; border-radius: 8px;
+  background: var(--violet); color: var(--bg);
+  font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.06em;
+}
+.skip-link:focus { left: 8px; color: var(--bg); }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* Light-on-dark compensation. Type set in light ink on a dark ground reads
+     optically lighter and tighter than the same type set dark-on-light, so the
+     counters close up. A hair of tracking opens them back out. It is deliberately
+     tiny (0.17px at the body step): enough to loosen prose, not enough to read
+     as letter-spacing. Every mono label sets its own tracking, so this only
+     compounds by 0.01em there, which is below the threshold of visibility. */
+  letter-spacing: 0.01em;
 }
 body.page-landing {
   background:
     radial-gradient(1200px 700px at 78% -8%, rgba(61, 42, 90, 0.55), transparent 60%),
-    radial-gradient(900px 600px at 8% 4%, rgba(185, 140, 255, 0.08), transparent 55%),
+    radial-gradient(900px 600px at 8% 4%, rgba(var(--violet-rgb), 0.08), transparent 55%),
     var(--bg);
 }
 body.page-cards, body.page-combos {
@@ -41,12 +191,25 @@ body.page-cards, body.page-combos {
 }
 a { color: var(--violet); text-decoration: none; }
 a:hover { color: var(--violet-lt); }
-::selection { background: rgba(185, 140, 255, 0.3); color: #fff; }
-h1, h2, h3 { font-family: "Space Grotesk", sans-serif; margin: 0; }
+::selection { background: rgba(var(--violet-rgb), 0.3); color: #fff; }
+/* letter-spacing: normal undoes body's light-on-dark tracking. That correction
+   is for small light text on a dark ground; display sizes need the opposite
+   (the tightening the .hero h1 / .comp-head h1 rules apply), and inheriting a
+   positive value into a 64px headline is exactly wrong. Headings that set their
+   own negative tracking are more specific and still win. */
+h1, h2, h3 { font-family: "Space Grotesk", sans-serif; margin: 0; text-wrap: balance; letter-spacing: normal; }
 p { margin: 0; }
 
+/* text-wrap: pretty on anything that wraps to a paragraph. The measure caps
+   below hold these to 60-68ch, which is where a last-line orphan is most
+   likely; pretty spends a few extra lines of layout work to avoid one. */
+.prose, .hero p, .comp-head .intro, .section-head-center p, .cta p, .group-blurb,
+.zone-text, .tip span, .combo-do, .combo-note, .combo-why, .combo-info,
+.combo-warn, .answer-line, .threat-does, .combo-placeholder, .boss-desc,
+.synergy-body, .panel-card .body { text-wrap: pretty; }
+
 .mono { font-family: "IBM Plex Mono", monospace; }
-.kicker { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 0.12em; color: var(--violet); margin-bottom: 14px; }
+.kicker { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.12em; color: var(--violet); margin-bottom: 14px; }
 .em-gold { color: var(--gold); font-style: normal; }
 .container { max-width: 1280px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
 .container-narrow { max-width: 1180px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
@@ -57,7 +220,7 @@ p { margin: 0; }
 
 /* ---- nav ---- */
 .site-header {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: 0; z-index: var(--z-header);
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 40px;
   background: rgba(20, 16, 31, 0.72);
@@ -68,46 +231,70 @@ p { margin: 0; }
 .brand-mark {
   width: 34px; height: 34px;
   border: 1px solid rgba(224, 196, 106, 0.55);
-  background: linear-gradient(135deg, rgba(224, 196, 106, 0.16), rgba(185, 140, 255, 0.16));
+  background: linear-gradient(135deg, rgba(224, 196, 106, 0.16), rgba(var(--violet-rgb), 0.16));
 }
-.brand-mark > span { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--gold); font-size: 15px; }
-.wordmark { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.04em; }
-.nav { display: flex; align-items: center; gap: 6px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.03em; }
+.brand-mark > span { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--gold); font-size: 15px; } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
+.wordmark { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: var(--text-title-sm); letter-spacing: 0.04em; }
+.nav { display: flex; align-items: center; gap: 6px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.03em; }
 .nav a, .nav .soon { padding: 8px 14px; border-radius: 8px; color: var(--text-dim); }
 .nav a:hover { color: var(--violet-lt); }
-.nav a.active { background: rgba(185, 140, 255, 0.12); color: var(--violet-lt); }
 .nav .soon { color: var(--text-faint); }
-.nav-discord { display: inline-flex; align-items: center; gap: 7px; margin-left: 8px; background: #5865f2; color: #fff !important; font-weight: 500; }
-.nav-discord:hover { background: #4752c4; color: #fff !important; }
-.nav-discord svg { width: 17px; height: 17px; flex: 0 0 auto; }
 .nav-toggle { display: none; align-items: center; justify-content: center; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; }
 .nav-toggle svg { width: 22px; height: 22px; display: block; }
-.nav-group { position: relative; display: flex; align-items: center; }
-.nav-sub { position: absolute; top: 100%; left: 0; z-index: 60; display: none; flex-direction: column; min-width: 180px; padding: 8px; gap: 2px; background: rgba(20, 16, 31, 0.98); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
-.nav-group:hover > .nav-sub, .nav-group:focus-within > .nav-sub { display: flex; }
+.nav-group { position: relative; display: flex; align-items: center; border-radius: 8px; }
+/* Highlight lives on the group, not just the link, so it wraps the caret
+   too instead of stopping mid-way through the dropdown arrow. */
+.nav-group.active { background: rgba(var(--violet-rgb), 0.12); }
+.nav-group.active > a, .nav-group.active > .nav-caret { color: var(--violet-lt); }
+/* Caret: a separate tap target from the deck link itself, so a touch device
+   with no :hover (tablets ≥900px) can still reach Cards/Combos/Discord
+   instead of the link immediately navigating away. */
+.nav-caret { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; padding: 0; margin-left: -4px; border: 0; background: transparent; color: var(--text-dim); cursor: pointer; border-radius: 6px; }
+.nav-caret:hover, .nav-caret:focus-visible { color: var(--violet-lt); }
+.nav-caret .chev { border-color: currentColor; transform: rotate(45deg); }
+.nav-group.open .nav-caret .chev { transform: rotate(-135deg); }
+@media (pointer: coarse) { .nav-caret { width: 40px; height: 40px; } }
+.nav-sub { position: absolute; top: 100%; left: 0; z-index: var(--z-dropdown); display: none; flex-direction: column; min-width: 180px; padding: 8px; gap: 2px; background: rgba(20, 16, 31, 0.98); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+.nav-group:hover > .nav-sub, .nav-group:focus-within > .nav-sub, .nav-group.open > .nav-sub { display: flex; }
+/* The nav sits against the header's right edge, so the last group's dropdown is
+   the one that can be wider than its own trigger and overflow the viewport,
+   which scrolls the page sideways on hover. Anchor that one to the right. */
+.nav-group:last-child > .nav-sub { left: auto; right: 0; }
 .nav-sub a { padding: 8px 12px; white-space: nowrap; color: var(--text-dim); border-radius: 8px; }
-.nav-sub a:hover { color: var(--violet-lt); background: rgba(185, 140, 255, 0.1); }
+.nav-sub a:hover { color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.1); }
+@media (pointer: coarse) { .nav-sub a { min-height: 40px; display: flex; align-items: center; } }
 
 /* ---- buttons ---- */
-.btn { display: inline-flex; align-items: center; gap: 9px; border-radius: 10px; font-size: 15px; font-weight: 600; }
+.btn { display: inline-flex; align-items: center; gap: 9px; border-radius: 10px; font-size: var(--text-body-sm); font-weight: 600; }
 .btn-violet { padding: 14px 24px; background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--bg); }
 .btn-violet:hover { color: var(--bg); }
-.btn-outline { padding: 14px 22px; border: 1px solid rgba(185, 140, 255, 0.28); color: var(--violet-lt); font-weight: 500; }
-.btn-gold { padding: 16px 30px; border-radius: 12px; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--bg); font-weight: 700; font-size: 16px; }
+.btn-outline { padding: 14px 22px; border: 1px solid rgba(var(--violet-rgb), 0.28); color: var(--violet-lt); font-weight: 500; }
+.btn-gold { padding: 16px 30px; border-radius: 12px; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--bg); font-weight: 700; font-size: var(--text-body); }
 .btn-gold:hover { color: var(--bg); }
 
 /* ---- hero ---- */
-.hero { padding: 80px 40px 40px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
-.attr-pills { display: flex; gap: 8px; margin-bottom: 24px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: 0.08em; }
+/* The art column is sized to the art (the boss stack caps at 340px), not to a
+   fraction: 0.85fr left ~160px of dead gutter around it and starved the
+   headline. The slack goes to the text column; .hero p keeps its own measure. */
+.hero { padding: 80px var(--space-lg) var(--space-lg); display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--space-xl); align-items: center; }
+/* wrap: three pills on one line is a coincidence of these three words, not a
+   guarantee. A longer attribute set, or a reader at a larger font size, pushes
+   the third one off a phone. */
+.attr-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.08em; }
 .attr-pill { padding: 5px 11px; border-radius: 999px; border: 1px solid; }
 .attr-dark { border-color: rgba(185, 140, 255, 0.4); color: var(--violet-lt); }
 .attr-reptile { border-color: rgba(111, 191, 174, 0.4); color: var(--zone-field); }
 .attr-ritual { border-color: rgba(224, 196, 106, 0.45); color: var(--gold); }
-.hero h1 { font-weight: 700; font-size: 64px; line-height: 1.02; margin-bottom: 22px; letter-spacing: -0.02em; }
-.hero p { font-size: 17.5px; line-height: 1.6; color: var(--text-muted); max-width: 560px; margin-bottom: 32px; }
+/* Same three-color palette as above, named by color instead of by Mitsurugi's
+   own attribute/type/mechanic so other decks' hero pills can reuse it. */
+.attr-violet { border-color: rgba(185, 140, 255, 0.4); color: var(--violet-lt); }
+.attr-teal { border-color: rgba(111, 191, 174, 0.4); color: var(--zone-field); }
+.attr-gold { border-color: rgba(224, 196, 106, 0.45); color: var(--gold); }
+.hero h1 { font-weight: 700; font-size: var(--text-display); line-height: 1.02; margin-bottom: 22px; letter-spacing: -0.02em; }
+.hero p { font-size: var(--text-body); line-height: 1.6; color: var(--text-muted); max-width: 58ch; margin-bottom: 32px; }
 .hero-cta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
 .hero-art-wrap { position: relative; }
-.hero-art-glow { position: absolute; inset: -24px; background: radial-gradient(closest-side, rgba(185, 140, 255, 0.22), transparent); filter: blur(6px); }
+.hero-art-glow { position: absolute; inset: -24px; background: radial-gradient(closest-side, rgba(var(--violet-rgb), 0.22), transparent); filter: blur(6px); }
 .hero-art { position: relative; }
 .hero-card {
   aspect-ratio: 59/86; border-radius: 14px; overflow: hidden;
@@ -117,9 +304,13 @@ p { margin: 0; }
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 28px; text-align: center;
 }
 .hero-card .diamond { width: 60px; height: 60px; border: 1px solid rgba(224, 196, 106, 0.5); }
-.hero-card .diamond > span { font-size: 26px; color: var(--gold); }
-.art-caption { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.06em; line-height: 1.7; }
-.hero-card .art-stat { font-family: "Space Grotesk", sans-serif; font-size: 13px; color: var(--violet-lt); letter-spacing: 0.04em; }
+.hero-card .diamond > span { font-size: 26px; color: var(--gold); } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
+/* --text-caption, not --text-faint: every .art-caption sits on the 45-degree
+   --stripe placeholder, whose darker band (--surface-alt2) puts faint at 4.31:1,
+   under the 4.5 this 11px text needs. Caption clears it on both bands (5.00 /
+   4.69). Same call as .card-search::placeholder and .hit-empty. */
+.art-caption { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--text-caption); letter-spacing: 0.06em; line-height: 1.7; }
+.hero-card .art-stat { font-family: "Space Grotesk", sans-serif; font-size: var(--text-meta); color: var(--violet-lt); letter-spacing: 0.04em; }
 .hero-card.has-img { padding: 0; gap: 0; }
 .hero-card.has-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -134,30 +325,117 @@ p { margin: 0; }
     border-radius: 16px; overflow: hidden;
     border: 1px solid rgba(224, 196, 106, 0.35);
     box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8);
+    /* Shows through the gaps cut into the slices below: the seams are the page
+       ground, which is what makes three panels read as three separate cards. */
+    background: var(--bg);
   }
   .boss-slice {
     position: absolute; inset: 0; cursor: pointer;
-    background-size: cover; background-position: center;
-    filter: saturate(0.95) brightness(0.8);
-    transition: clip-path .5s cubic-bezier(.22, .7, .2, 1), filter .35s;
+    /* Zoomed into the card's ARTWORK window, so at rest the card chrome (title
+       bar, effect box, ATK/DEF line) is off-frame or inside the vignette. That
+       is what makes the composite honest. 190% is about as far as the 412x600
+       source art scales before it goes mushy on a 2x display (~1.6x up); the
+       last of the chrome is handled by .boss-stack::after, not by more zoom.
+       Three sharp slices of three whole cards used to compose into one legible
+       card (a spliced title over another card's stats) which, on a guide
+       selling accurate card information, is the worst thing the hero could say.
+       Blurring it was the previous answer and read as an out-of-focus render
+       while STILL leaving the title bar and stat line legible. Cropping past
+       them removes the problem instead of hiding it, and it buys the hover a
+       better beat: art detail pulls back to reveal the actual card.
+       drop-shadow (not box-shadow) follows the clip-path, so each panel casts
+       onto the one behind it and the stack reads as depth. */
+    /* 190% is the default, not a constant: art whose subject sits low and small
+       in the window (Habakiri, Murakumo) crops to background at 190% and can't
+       be panned onto the subject without dragging the effect box into frame.
+       Those cards set `zoom` in the deck data instead. */
+    background-size: auto var(--zoom, 190%); background-position: center;
+    filter: saturate(1.02) brightness(0.82) drop-shadow(-7px 2px 7px rgba(0, 0, 0, 0.7));
+    transition:
+      clip-path .45s var(--ease-out-quint),
+      background-position .45s var(--ease-out-quint),
+      background-size .45s var(--ease-out-quint),
+      filter .3s ease-out;
   }
-  .boss-slice:nth-child(1) { clip-path: polygon(0 0, 46% 0, 21% 100%, 0 100%); }
-  .boss-slice:nth-child(2) { clip-path: polygon(46% 0, 79% 0, 54% 100%, 21% 100%); }
-  .boss-slice:nth-child(3) { clip-path: polygon(79% 0, 100% 0, 100% 100%, 54% 100%); }
-  .boss-slice:hover {
+  /* The background paints across the whole frame and is then clipped, so each
+     slice needs panning to put its own card's art in its own wedge: 74% / 50% /
+     26% horizontally centres the art in the left, middle and right wedge. The
+     vertical values all sit inside the art window and differ slightly so the
+     three panels don't read as one continuous image. Hover resets both. */
+  /* Vertically, 35/40/37 puts the top of each crop at ~17-19% of its card,
+     just past the level-star row (measured at 12-16%), so the frame's top edge
+     opens straight onto artwork. Each card's art runs out around 82-86% down
+     the frame, which is where the vignette below takes over. */
+  /* Those defaults only hold when a card's subject fills its art window edge to
+     edge (Sacred Beasts). Art with the subject parked off-centre, or low in the
+     window, crops to background and half-figures instead: at 190% each wedge
+     only shows ~26% of its card, so where that window lands has to be tuned per
+     card. `--pan` (set from the boss's `focus` in the deck data) overrides. */
+  .boss-slice:nth-child(1) { background-position: var(--pan, 85% 35%); }
+  .boss-slice:nth-child(2) { background-position: var(--pan, 50% 40%); }
+  .boss-slice:nth-child(3) { background-position: var(--pan, 15% 37%); }
+  /* Vignette over the panels: sinks whatever card chrome the 175% crop still
+     catches at either end, and keeps the hero art from out-shouting the
+     headline beside it. z-index 2 puts it over the resting slices; a hovered
+     slice goes to z-index 3, so the wipe uncovers a clean, unveiled card
+     instead of needing its own fade. */
+  .boss-stack::after {
+    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(20, 16, 31, 0.5) 0%,
+      rgba(20, 16, 31, 0) 14%,
+      rgba(20, 16, 31, 0) 66%,
+      rgba(20, 16, 31, 0.62) 81%,
+      rgba(20, 16, 31, 0.96) 92%,
+      rgb(20, 16, 31) 100%
+    );
+  }
+  /* The two cut lines are ~0.8% wide on both sides rather than shared edges, so
+     the parent's ground shows through as a real gap. Both cuts keep the same
+     -25% slope, so the seams stay parallel. */
+  .boss-slice:nth-child(1) { clip-path: polygon(0 0, 45.6% 0, 20.6% 100%, 0 100%); }
+  .boss-slice:nth-child(2) { clip-path: polygon(46.4% 0, 78.6% 0, 53.6% 100%, 21.4% 100%); }
+  .boss-slice:nth-child(3) { clip-path: polygon(79.4% 0, 100% 0, 100% 100%, 54.4% 100%); }
+  /* Two-card variant (e.g. Fiendsmith's Engraver/Lacrima): same diagonal skew,
+     one seam. Two wedges sit at ~25% and ~75% across, so they need their own
+     horizontal pan; the three-slice values would push both crops off-centre. */
+  .boss-stack-2 .boss-slice:nth-child(1) { clip-path: polygon(0 0, 61.6% 0, 37.6% 100%, 0 100%); background-position: var(--pan, 78% 35%); }
+  .boss-stack-2 .boss-slice:nth-child(2) { clip-path: polygon(62.4% 0, 100% 0, 100% 100%, 38.4% 100%); background-position: var(--pan, 22% 39%); }
+  /* Keyboard gets the same reveal as the mouse. Without this, three stacked
+     full-frame links were indistinguishable on focus: the OS outline is drawn
+     at the frame edge and clipped away by the parent's overflow:hidden, and
+     the name/stats never appeared because only :hover revealed them. */
+  /* auto 100%, not `cover`: identical result (frame and card share an aspect
+     ratio) but it interpolates from the rest state's `auto 118%`, so the card
+     zooms out with the wipe instead of snapping the instant hover lands. */
+  .boss-slice:hover, .boss-slice:focus-visible {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    filter: none; z-index: 3;
+    filter: none; z-index: 3; background-position: center; background-size: auto 100%;
   }
+  /* inset: .boss-stack is overflow:hidden, so the shared outset ring is clipped
+     away entirely. Same ring, drawn on the inside edge. */
+  .boss-slice:focus-visible { box-shadow: inset 0 0 0 2px var(--focus-ring); }
+  .boss-slice:hover .boss-slice-info, .boss-slice:focus-visible .boss-slice-info { opacity: 1; transform: none; }
+  /* The nth-child rules above are two classes deep, so they out-specificity the
+     bare :hover rule and would otherwise never let a slice expand. Match it. */
+  .boss-stack-2 .boss-slice:hover,
+  .boss-stack-2 .boss-slice:focus-visible { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  /* Same specificity trap as the clip-path note above: the :nth-child offsets
+     would otherwise keep the slice off-center while it is expanded. */
+  .boss-slice:nth-child(1):hover, .boss-slice:nth-child(1):focus-visible,
+  .boss-slice:nth-child(2):hover, .boss-slice:nth-child(2):focus-visible,
+  .boss-slice:nth-child(3):hover, .boss-slice:nth-child(3):focus-visible { background-position: center; }
   .boss-slice-info {
     position: absolute; left: 0; right: 0; bottom: 0;
     display: flex; flex-direction: column; gap: 3px; padding: 18px 18px 16px;
     background: linear-gradient(to top, rgba(10, 7, 18, 0.94), rgba(10, 7, 18, 0.5) 55%, transparent);
     white-space: nowrap; opacity: 0; transform: translateY(8px);
-    transition: opacity .3s .12s, transform .3s .12s;
+    /* Delayed so the name lands as the wipe finishes rather than racing it. */
+    transition: opacity .28s .16s ease-out, transform .28s .16s var(--ease-out-quint);
   }
-  .boss-slice:hover .boss-slice-info { opacity: 1; transform: none; }
-  .boss-slice-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 15px; color: var(--text); }
-  .boss-slice-stat { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.03em; }
+  .boss-slice-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body-sm); color: var(--text); }
+  .boss-slice-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--gold); letter-spacing: 0.03em; }
 }
 
 /* ---- stat strip ---- */
@@ -165,24 +443,32 @@ p { margin: 0; }
 .spec-strip { padding: 8px 40px 60px; }
 .spec-row { display: flex; flex-wrap: wrap; gap: 14px 36px; align-items: baseline; margin: 0; padding-top: 22px; border-top: 1px solid var(--border-soft); }
 .spec-item { display: flex; align-items: baseline; gap: 10px; }
-.spec-item dt { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--text-caption); }
-.spec-item dd { margin: 0; font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 16px; color: var(--gold); }
+.spec-item dt { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-caption); }
+/* tabular-nums: these are a row of stat readouts on one baseline, and Space
+   Grotesk's proportional figures put a "1"-heavy value visibly out of step with
+   its neighbours. */
+.spec-item dd { margin: 0; font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body); color: var(--gold); font-variant-numeric: tabular-nums; }
 /* quiet roadmap line, mirrors the combos page's pending convention */
-.pending-note { margin-top: 20px; font-size: 12px; letter-spacing: 0.03em; color: var(--text-faint); }
+.pending-note { margin-top: 20px; font-size: var(--text-label); letter-spacing: 0.03em; color: var(--text-faint); }
 
 /* ---- generic section heading ---- */
-.section { padding: 24px 40px; }
-.section-pad-lg { padding: 72px 40px; }
+/* Section separation has to beat the separation inside a section (.section-head
+   is 32px, group heads ~44px). At the old 24px these were 48px apart, i.e. two
+   top-level sections read as one block. */
+.section { padding: var(--space-xl) var(--space-lg); }
+.section-pad-lg { padding: var(--space-2xl) var(--space-lg); }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-.two-col h2 { font-weight: 700; font-size: 38px; line-height: 1.1; }
+.two-col h2 { font-weight: 700; font-size: var(--text-section); line-height: 1.1; }
 /* left-aligned section header (kicker + heading + optional prose), matches -row/-center siblings */
 .section-head { margin-bottom: 32px; }
-.section-head h2 { font-weight: 700; font-size: 38px; line-height: 1.1; margin-bottom: 12px; }
-.section-head .prose { max-width: 640px; }
+.section-head h2 { font-weight: 700; font-size: var(--text-section); line-height: 1.1; margin-bottom: 12px; }
+.section-head .prose { max-width: 66ch; }
 /* compact "more" link, shared by section headers and inline CTAs */
-.link-more { font-size: 13px; letter-spacing: 0.03em; color: var(--violet-lt); }
+.link-more { font-size: var(--text-meta); letter-spacing: 0.03em; color: var(--violet-lt); }
 .link-more:hover { color: var(--violet-lt); }
-.prose { font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+/* A no-op inside .two-col's ~560px column; it earns its keep once that grid
+   collapses at 900px and the prose would otherwise inherit the full container. */
+.prose { font-size: var(--text-body); line-height: 1.7; color: var(--text-muted); max-width: 68ch; }
 .prose p + p { margin-top: 16px; }
 .prose strong { color: var(--text); font-weight: 600; }
 .prose strong.gold { color: var(--gold); }
@@ -190,108 +476,182 @@ a.gold { color: var(--gold); }
 a.gold:hover { color: #f0d98a; }
 .center { text-align: center; }
 .section-head-center { text-align: center; margin-bottom: 44px; }
-.section-head-center h2 { font-weight: 700; font-size: 38px; margin-bottom: 14px; }
-.section-head-center p { font-size: 16.5px; color: var(--text-muted); max-width: 620px; margin: 0 auto; line-height: 1.6; }
+.section-head-center h1, .section-head-center h2 { font-weight: 700; font-size: var(--text-section); margin-bottom: 14px; }
+.section-head-center p { font-size: var(--text-body); color: var(--text-muted); max-width: 62ch; margin: 0 auto; line-height: 1.6; }
 
 /* ---- loop / engine cards ---- */
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+/* auto-fit, not a fixed column count: these reflow 4 -> 3 -> 2 -> 1 on their own
+   instead of holding 4 cramped columns down to 900px and then dropping straight
+   to one. Replaces the per-breakpoint overrides these used to need. */
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
 .panel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px 22px; }
-.panel-card .step-n { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--gold); margin-bottom: 16px; }
-.panel-card h3 { font-weight: 600; font-size: 18px; margin-bottom: 10px; color: var(--text); }
-.panel-card .body { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+.panel-card .step-n { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--gold); margin-bottom: 16px; }
+.panel-card h3 { font-weight: 600; font-size: var(--text-title-sm); margin-bottom: 10px; color: var(--text); }
+.panel-card .body { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); }
 
 /* ---- bosses ---- */
-.section-head-row { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
-.section-head-row h2 { font-weight: 700; font-size: 38px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
 .boss-card { display: block; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color .15s; }
-a.boss-card:hover { color: inherit; border-color: rgba(224, 196, 106, 0.5); }
-a.boss-card:focus-visible { outline: none; border-color: rgba(224, 196, 106, 0.5); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+a.boss-card:hover { color: inherit; border-color: var(--card-accent, rgba(224, 196, 106, 0.5)); }
+a.boss-card:focus-visible { border-color: var(--card-accent, rgba(224, 196, 106, 0.5)); }
 .boss-art { aspect-ratio: 16/10; background: var(--stripe); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-soft); }
 .boss-art.has-img { aspect-ratio: 59/86; background: #120d1f; }
 .boss-art img { width: 100%; height: 100%; object-fit: cover; }
-.boss-art .art-caption { font-size: 11px; letter-spacing: 0.05em; }
+.boss-art .art-caption { font-size: var(--text-label-sm); letter-spacing: 0.05em; }
 .boss-body { padding: 22px; }
-.boss-body h3 { font-weight: 600; font-size: 18px; margin-bottom: 6px; }
-.boss-stat { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.04em; margin-bottom: 14px; }
-.boss-desc { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+/* h2 on the hub (outline order), h3 elsewhere: same visual step either way. */
+.boss-body :is(h2, h3) { font-weight: 600; font-size: var(--text-title-sm); margin-bottom: 6px; }
+.boss-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--gold); letter-spacing: 0.04em; margin-bottom: 14px; }
+.boss-desc { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); }
+
+/* ---- deck hub ---- */
+.deck-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+/* A 59/86 portrait in a ~390px column is 560px of card art above three lines of
+   text, so the thing the reader is actually choosing between (the deck blurbs)
+   got pushed off a laptop screen. Cap the art window and `contain` the card
+   inside it: identification, not a poster. Below 900px .boss-card is already a
+   112px art rail beside the text, so this only touches the stacked form. */
+@media (min-width: 901px) {
+  .deck-grid .boss-art.has-img { aspect-ratio: 16 / 10; }
+  /* 20%, not center: a YGO card's identity is its name bar and the top of its
+     artwork, which is what a 16/10 crop should land on. */
+  .deck-grid .boss-art.has-img img { object-position: center 20%; }
+}
 
 /* ---- synergy ---- */
 .synergy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+/* A grid of one is a list of one. The card already caps at 560px, so a
+   full-bleed section heading sat over a card hugging the left third. Pull the
+   heading down to the card's own measure; the rule stops applying by itself the
+   moment a second card is added. */
+.section:has(.synergy-grid > .synergy-card:only-child) :is(.section-head, .synergy-grid) { max-width: 560px; }
 /* max-width keeps a lone partner card from stretching full-width (auto-fit 1fr),
    holding body copy near the 65-75ch band; a no-op once several cards tile. */
-.synergy-card { background: linear-gradient(160deg, rgba(37, 27, 58, 0.9), rgba(25, 18, 37, 0.9)); border: 1px solid var(--border); border-radius: 14px; padding: 26px; max-width: 560px; }
+.synergy-card { display: block; color: inherit; background: linear-gradient(160deg, rgba(37, 27, 58, 0.9), rgba(25, 18, 37, 0.9)); border: 1px solid var(--border); border-radius: 14px; padding: 26px; max-width: 560px; transition: border-color .15s; }
+a.synergy-card:hover { color: inherit; border-color: rgba(224, 196, 106, 0.5); }
+a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
 .synergy-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .synergy-dot { width: 9px; height: 9px; border-radius: 2px; transform: rotate(45deg); }
-.synergy-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 19px; }
-.synergy-rating { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--text-faint); margin-left: auto; }
-.synergy-body { font-size: 14px; line-height: 1.65; color: var(--text-dim); }
+.synergy-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-title-sm); color: var(--text); }
+.synergy-rating { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); color: var(--text-faint); margin-left: auto; }
+.synergy-body { font-size: var(--text-body-sm); line-height: 1.65; color: var(--text-dim); }
 
 /* ---- turn panel ---- */
-.turn-panel { background: radial-gradient(700px 300px at 20% 0%, rgba(185, 140, 255, 0.12), transparent), var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 48px; }
-.turn-panel h2 { font-weight: 700; font-size: 38px; margin-bottom: 30px; }
-.turn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
-.turn-step { padding-right: 20px; }
-.turn-step .step-n { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--gold); margin-bottom: 10px; }
-.turn-step .card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 7px; }
-.turn-step .do { font-size: 13px; line-height: 1.55; color: var(--text-dim); }
+.turn-panel { background: radial-gradient(700px 300px at 20% 0%, rgba(var(--violet-rgb), 0.12), transparent), var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 48px; }
+.turn-panel h2 { font-weight: 700; font-size: var(--text-section); margin-bottom: 30px; }
+/* Real gutters, not gap:0 + padding-right on every step: the padding also left
+   the last column short of the panel edge, so the .turn-more rule below ran
+   wider than the steps above it. auto-fit keeps 5 steps legible at 900-1100px,
+   where five fixed columns were ~150px (about 20 characters) each. */
+.turn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; }
+.turn-step .step-n { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--gold); margin-bottom: 10px; }
+.turn-step .card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body-sm); color: var(--text); margin-bottom: 7px; }
+.turn-step .do { font-size: var(--text-meta); line-height: 1.55; color: var(--text-dim); }
 .turn-more { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-soft); }
-.turn-more a { font-size: 13px; color: var(--violet-lt); letter-spacing: 0.03em; }
+.turn-more a { font-size: var(--text-meta); color: var(--violet-lt); letter-spacing: 0.03em; }
 .turn-more a:hover span { transform: translateX(3px); }
 .turn-more a span { display: inline-block; transition: transform .15s; }
 
 /* ---- CTA + footer ---- */
-.cta { padding: 24px 40px 96px; text-align: center; }
-.cta h2 { font-weight: 700; font-size: 40px; margin-bottom: 16px; }
-.cta p { font-size: 16.5px; color: var(--text-muted); margin-bottom: 28px; }
+/* Was 24px above and 96px below: the closing CTA was crowded into the section
+   it closes and then floated away from the footer. */
+.cta { padding: var(--space-2xl) var(--space-lg) var(--space-3xl); text-align: center; }
+.cta h2 { font-weight: 700; font-size: var(--text-section); margin-bottom: 16px; }
+.cta p { font-size: var(--text-body); color: var(--text-muted); margin-bottom: 28px; }
 .site-footer { border-top: 1px solid var(--border-soft); padding: 32px 40px; text-align: center; }
-.site-footer .mono { font-size: 12px; color: var(--text-faint); line-height: 1.7; }
+.site-footer .mono { font-size: var(--text-label); color: var(--text-faint); line-height: 1.7; }
 
 /* ---- compendium header + legend ---- */
 .comp-head { padding: 56px 40px 8px; }
-.comp-head h1 { font-weight: 700; font-size: 46px; line-height: 1.05; margin-bottom: 18px; letter-spacing: -0.02em; }
-.comp-head .intro { font-size: 17px; line-height: 1.6; color: var(--text-muted); max-width: 680px; margin-bottom: 26px; }
-.legend { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; }
-.legend-label { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--text-caption); letter-spacing: 0.06em; margin-right: 4px; }
-.legend .note { font-size: 12px; color: var(--text-faint); margin-left: 2px; }
+.comp-head h1 { font-weight: 700; font-size: var(--text-page); line-height: 1.05; margin-bottom: 18px; letter-spacing: -0.02em; }
+.comp-head .intro { font-size: var(--text-body); line-height: 1.6; color: var(--text-muted); max-width: 68ch; margin-bottom: 26px; }
+/* fit-content: the chips and their hint total ~570px, so a full-width bordered
+   bar was mostly an empty box. Hugging the chips also lines the filter block up
+   with the search field above it instead of out-running it by 600px. */
+.legend { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; width: fit-content; max-width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; }
+.legend-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--text-caption); letter-spacing: 0.06em; margin-right: 4px; }
+.legend .note { font-size: var(--text-label); color: var(--text-faint); margin-left: 2px; }
+
+/* ---- card search ---- */
+.card-search-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.card-search-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; color: var(--text-caption); flex: 0 0 auto; }
+.card-search {
+  flex: 1 1 auto; max-width: 420px;
+  padding: 10px 14px; border-radius: 8px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid rgba(var(--violet-rgb), 0.28);
+  font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: var(--text-body-sm);
+}
+/* --text-caption, not --text-faint: placeholder text needs the same 4.5:1 as
+   body copy, and the label tone doesn't clear it on --surface. */
+.card-search::placeholder { color: var(--text-caption); }
+.card-search:focus-visible { border-color: var(--violet); }
+@media (max-width: 560px) {
+  .card-search-wrap { flex-wrap: wrap; gap: 8px; }
+  .card-search { max-width: none; }
+}
 
 /* zone pills — shared */
-.zone-pill { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; }
+.zone-pill { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; }
+/* The filter chips are real <button>s now; strip the UA button chrome so the
+   per-zone rules below still supply all the color and border. */
+#zone-filter .zone-pill { appearance: none; background: none; border: 0; color: inherit; }
 #zone-filter .zone-pill { cursor: pointer; user-select: none; opacity: 0.72; transition: opacity .15s, box-shadow .15s; }
 #zone-filter .zone-pill:hover { opacity: 1; }
-#zone-filter .zone-pill.active { opacity: 1; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
-#zone-filter .zone-pill:focus-visible { outline: none; opacity: 1; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+#zone-filter .zone-pill.active { opacity: 1; box-shadow: 0 0 0 2px var(--focus-ring); }
+#zone-filter .zone-pill:focus-visible { opacity: 1; }
 /* touch devices: the primary filter controls need a ~44px tap target */
 @media (pointer: coarse) {
   #zone-filter .zone-pill { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; min-width: 40px; padding: 8px 14px; }
 }
 .zone-hand { color: var(--gold); border: 1px solid #e0c46a55; }
-.zone-deck { color: var(--violet); border: 1px solid #b98cff55; }
+.zone-deck { color: var(--zone-deck); border: 1px solid #b98cff55; }
 .zone-gy { color: var(--zone-gy); border: 1px solid #8f9bd055; }
 .zone-field { color: var(--zone-field); border: 1px solid #7fd8c655; }
 .zone-ontribute { background: var(--gold); color: var(--bg); }
+/* The white ring is the system's state indicator, but it is nearly invisible
+   on the two filled chips (gold, violet). Ring those in the page ground
+   instead, so "selected" reads at the same strength on all five. */
+#zone-filter .zone-ontribute.active, #zone-filter .zone-trigger.active,
+#zone-filter .zone-ontribute:focus-visible, #zone-filter .zone-trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-ring);
+}
 /* Hybrid pill for effects that live in two zones (e.g. HAND / GY). Gradient
    hints the two zone colours; generic enough for any pair. */
 .zone-hybrid { color: #e6dfc9; border: 1px solid rgba(185, 140, 255, 0.28); background: linear-gradient(100deg, rgba(224, 196, 106, 0.16), rgba(143, 155, 208, 0.16)); }
-.zone-trigger { background: var(--violet); color: var(--bg); }
+.zone-trigger { background: var(--zone-trigger); color: var(--bg); }
 
 /* ---- filter tabs ---- */
-.tabs { padding: 28px 40px 8px; position: sticky; top: 66px; z-index: 40; background: linear-gradient(var(--bg) 70%, transparent); }
+/* top: 67px is the header's measured height; at 66px a 1px sliver of scrolled
+   content showed between the two sticky bars. */
+/* Opaque, with the fade moved to a pseudo-element below the bar. As a
+   `linear-gradient(--bg 70%, transparent)` background the bottom third of the
+   bar was see-through, and once the tab row wraps to two lines (around 1000px)
+   scrolled card names read straight through the tabs. */
+.tabs { padding: 28px 40px 8px; position: sticky; top: 67px; z-index: var(--z-sticky); background: var(--bg); }
+.tabs::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 20px;
+  background: linear-gradient(var(--bg), transparent); pointer-events: none;
+}
 .tabs-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.tab { cursor: pointer; padding: 9px 16px; border-radius: 9px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.02em; transition: all .15s; background: var(--surface); color: var(--text-dim); border: 1px solid rgba(185, 140, 255, 0.18); }
-.tab .count { opacity: 0.55; font-size: 11px; }
+.tab { cursor: pointer; padding: 9px 16px; border-radius: 9px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.02em; transition: background-color .15s, color .15s, border-color .15s; background: var(--surface); color: var(--text-dim); border: 1px solid rgba(var(--violet-rgb), 0.18); }
+.tab .count { opacity: 0.55; font-size: var(--text-label-sm); }
 .tab.active { background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--bg); font-weight: 600; border: 1px solid transparent; }
 
 /* ---- card groups + rows ---- */
-.groups { padding: 20px 40px 80px; }
-.card-group { margin-bottom: 52px; scroll-margin-top: 150px; }
-.group-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+.groups { padding: var(--space-lg) var(--space-lg) 80px; }
+/* 190px clears the 67px header plus the sticky tab row at its tallest (it wraps
+   to two lines around 1000px); at 150/160 an anchored card landed under it. */
+.card-group { margin-bottom: 52px; scroll-margin-top: 190px; }
+.group-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
 /* Accordion: native <details>/<summary>, no JS. Drop the default marker, add a caret. */
 summary.group-head { cursor: pointer; list-style: none; padding: 4px 0; }
 summary.group-head::-webkit-details-marker { display: none; }
-.group-count { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--text-faint); }
+/* No margin-left:auto: the count belongs beside the title it counts, not
+   flung 700px away at the far right of the row. The caret keeps that slot. */
+.group-count { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--text-faint); }
 summary.group-head::after {
-  content: ""; align-self: center; width: 8px; height: 8px;
+  content: ""; margin-left: auto; align-self: center; width: 8px; height: 8px;
   border-right: 2px solid var(--text-dim); border-bottom: 2px solid var(--text-dim);
   transform: rotate(45deg); transition: transform .15s, border-color .15s;
 }
@@ -300,58 +660,62 @@ details[open] > summary.group-head::after { transform: rotate(-135deg); }
 summary.group-head:hover h2 { color: var(--violet-lt); }
 summary.group-head:hover::after { border-color: var(--violet); }
 /* shown when a filter combination leaves no card group visible */
-.filter-empty { font-size: 14.5px; color: var(--text-muted); padding: 20px 0 8px; }
-.filter-reset { margin-left: 8px; padding: 6px 14px; border-radius: 8px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(185, 140, 255, 0.12); border: 1px solid rgba(185, 140, 255, 0.28); cursor: pointer; transition: background .15s; }
-.filter-reset:hover { background: rgba(185, 140, 255, 0.2); }
-.filter-reset:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75); }
+.filter-empty { font-size: var(--text-body-sm); color: var(--text-muted); padding: 20px 0 8px; }
+.filter-reset { margin-left: 8px; padding: 6px 14px; border-radius: 8px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.12); border: 1px solid rgba(var(--violet-rgb), 0.28); cursor: pointer; transition: background .15s; }
+.filter-reset:hover { background: rgba(var(--violet-rgb), 0.2); }
 .group-dot { width: 10px; height: 10px; transform: rotate(45deg); }
-.group-head h2 { font-weight: 700; font-size: 27px; }
-.group-tag { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--text-faint); }
-.group-blurb { font-size: 14.5px; color: #9a90b8; margin: 0 0 22px; padding-left: 24px; max-width: 720px; line-height: 1.55; white-space: pre-line; }
+.group-head h2 { font-weight: 700; font-size: var(--text-headline); }
+.group-tag { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--text-faint); }
+.group-blurb { font-size: var(--text-body-sm); color: var(--text-dim); margin: 0 0 22px; padding-left: 24px; max-width: 68ch; line-height: 1.55; white-space: pre-line; }
 .card-list { display: flex; flex-direction: column; gap: 16px; }
-.sub-label { display: flex; align-items: center; gap: 12px; margin: 12px 0 2px; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--text-faint); }
+.sub-label { display: flex; align-items: center; gap: 12px; margin: 12px 0 2px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.12em; color: var(--text-faint); }
 .sub-label:first-child { margin-top: 0; }
 .sub-label::after { content: ""; flex: 1; height: 1px; background: var(--border-soft); }
-.card-row { scroll-margin-top: 160px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 210px 1fr; }
+.card-row { scroll-margin-top: 190px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 210px 1fr; }
 .card-art { background: var(--stripe); border-right: 1px solid var(--border-soft); padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
 .card-art.has-img { padding: 16px; background: #120d1f; }
 .card-art img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
 .card-art .diamond { width: 48px; height: 48px; border: 1px solid; }
-.card-art .diamond > span { font-size: 20px; }
-.card-art .art-caption { font-size: 10px; color: var(--text-faint); }
-.card-art .art-stat { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--violet-lt); letter-spacing: 0.03em; }
+.card-art .diamond > span { font-size: 20px; } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
+.card-art .art-caption { font-size: var(--text-label-xs); color: var(--text-faint); }
+.card-art .art-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--violet-lt); letter-spacing: 0.03em; }
 .card-content { padding: 24px 28px; }
-.card-role { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-bottom: 8px; }
-.card-content h3 { font-weight: 600; font-size: 23px; margin-bottom: 12px; letter-spacing: -0.01em; }
+.card-role { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+.card-content h3 { font-weight: 600; font-size: var(--text-title); margin-bottom: 12px; letter-spacing: -0.01em; }
 .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-.card-cost { display: flex; align-items: center; gap: 10px; margin: -8px 0 20px; font-size: 13px; color: var(--text-dim); }
-.cost-label { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.07em; border-radius: 5px; padding: 3px 8px; border: 1px solid currentColor; min-width: 96px; text-align: center; }
+.card-cost { display: flex; align-items: center; gap: 10px; margin: -8px 0 20px; font-size: var(--text-meta); color: var(--text-dim); }
+.cost-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.07em; border-radius: 5px; padding: 3px 8px; border: 1px solid currentColor; min-width: 96px; text-align: center; }
 /* card-frame accent per Extra Deck type, readable on the dark surface */
 .cost-xyz { color: #b9b4c9; }      /* Xyz: black frame → silver */
 .cost-link { color: #6f97ff; }     /* Link: cobalt blue */
 .cost-synchro { color: #eef0f8; }  /* Synchro: white frame */
 .cost-fusion { color: #c69bff; }   /* Fusion: purple */
 .cost-generic { color: var(--gold); }
-.badge { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: var(--text-dim); border: 1px solid rgba(167, 155, 192, 0.28); }
-.nav-wip { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
-.wip-badge { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.45); border-radius: 5px; padding: 2px 7px; margin-left: 8px; vertical-align: middle; }
-.wip-note { font-size: 12px; color: var(--text-faint); margin-top: 10px; }
-.fs-stat { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--violet-lt); letter-spacing: 0.03em; margin-bottom: 14px; }
-.fs-pre { font-size: 12.5px; line-height: 1.5; color: var(--text-faint); font-style: italic; margin-bottom: 14px; }
-.fs-note { font-size: 11.5px; line-height: 1.5; color: var(--text-faint); margin-top: 14px; }
+.badge { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: var(--text-dim); border: 1px solid rgba(167, 155, 192, 0.28); }
+.nav-wip { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+.wip-badge { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.1em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.45); border-radius: 5px; padding: 2px 7px; margin-left: 8px; vertical-align: middle; }
+.wip-note { font-size: var(--text-label); color: var(--text-faint); margin-top: 10px; max-width: 68ch; }
+.fs-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--violet-lt); letter-spacing: 0.03em; margin-bottom: 14px; }
+/* Both span the card row's full content column, which is ~810px on a wide
+   screen: the longer summoning conditions were wrapping at ~120 characters. */
+.fs-pre { font-size: var(--text-label); line-height: 1.5; color: var(--text-faint); font-style: italic; margin-bottom: 14px; max-width: 68ch; }
+.fs-note { font-size: var(--text-label); line-height: 1.5; color: var(--text-faint); margin-top: 14px; max-width: 68ch; }
 .card-cols { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; }
-.col-head { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em; margin-bottom: 14px; }
+.col-head { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; margin-bottom: 14px; }
 .col-head.zones-head { color: var(--text-faint); }
 .col-head.tips-head { color: var(--gold); }
 .zones { display: flex; flex-direction: column; gap: 13px; }
 .zone-row { display: flex; gap: 12px; align-items: flex-start; }
 .zone-row .zone-pill { flex: 0 0 auto; min-width: 98px; text-align: center; white-space: nowrap; }
-.zone-text { font-size: 13.5px; line-height: 1.5; color: #c4bbdd; white-space: pre-line; }
+/* Measure caps for the stacked form: side by side these columns are ~50ch on
+   their own, but once .card-cols collapses they inherit the full content width
+   (~93ch). No-ops in the two-column layout. */
+.zone-text { font-size: var(--text-body-sm); line-height: 1.5; color: var(--text-muted); white-space: pre-line; max-width: 60ch; }
 .tips-col { border-left: 1px solid var(--border-soft); padding-left: 26px; }
 .tips { display: flex; flex-direction: column; gap: 11px; }
 .tip { display: flex; gap: 10px; align-items: flex-start; }
 .tip-bullet { flex: 0 0 auto; width: 6px; height: 6px; transform: rotate(45deg); background: var(--gold); margin-top: 6px; }
-.tip span { font-size: 13.5px; line-height: 1.55; color: var(--text-dim); }
+.tip span { font-size: var(--text-body-sm); line-height: 1.55; color: var(--text-dim); max-width: 62ch; }
 
 /* ---- card image zoom ---- */
 .zoomable { cursor: zoom-in; }
@@ -359,18 +723,26 @@ summary.group-head:hover::after { border-color: var(--violet); }
 .card-art.has-img::after {
   content: "\2922\00a0 Zoom"; /* ⤢ */
   position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
-  font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.05em;
+  font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.05em;
   line-height: 1; color: var(--text); background: rgba(10, 7, 18, 0.78);
   border: 1px solid var(--border-soft); border-radius: 999px;
   padding: 5px 11px; pointer-events: none; white-space: nowrap;
 }
 @media (hover: none) { .card-art.has-img::after { content: "\2922\00a0 Tap to zoom"; } }
 .lightbox {
-  position: fixed; inset: 0; z-index: 100; display: none;
+  position: fixed; inset: 0; z-index: var(--z-modal); display: none;
   align-items: center; justify-content: center; padding: 24px;
   background: rgba(10, 7, 18, 0.86); backdrop-filter: blur(6px); cursor: zoom-out;
 }
 .lightbox.open { display: flex; }
+.lightbox-close {
+  position: absolute; top: 18px; right: 18px;
+  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+  border-radius: 999px; cursor: pointer;
+  background: rgba(20, 16, 31, 0.82); border: 1px solid var(--border);
+  color: var(--text); font-family: "IBM Plex Mono", monospace; font-size: var(--text-body-sm);
+}
+.lightbox-close:hover { color: var(--violet-lt); }
 .lightbox img {
   max-width: min(92vw, 460px); max-height: 90vh; border-radius: 12px;
   border: 1px solid rgba(224, 196, 106, 0.35); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
@@ -383,65 +755,90 @@ summary.group-head:hover::after { border-color: var(--violet); }
 
 /* ---- combos page ---- */
 .combos { padding-bottom: 80px; }
-.combo-line { background: radial-gradient(700px 300px at 15% 0%, rgba(185, 140, 255, 0.1), transparent), var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-bottom: 34px; }
-.combo-head { display: flex; justify-content: space-between; gap: 28px; align-items: start; flex-wrap: wrap; margin-bottom: 8px; }
-.combo-head h3 { font-weight: 700; font-size: 30px; margin-top: 10px; }
+.combo-line { background: radial-gradient(700px 300px at 15% 0%, rgba(var(--violet-rgb), 0.1), transparent), var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-bottom: 34px; }
+/* 20px, not 8: the START/END meta wraps under the title at desktop widths and
+   at 8px it ran straight into step 1, reading as part of the step list. */
+.combo-head { display: flex; justify-content: space-between; gap: 28px; align-items: start; flex-wrap: wrap; margin-bottom: 20px; }
+.combo-head h3 { font-weight: 700; font-size: var(--text-headline); margin-top: 10px; }
 .combo-head-main { min-width: 0; }
-.combo-meta { display: grid; gap: 8px; min-width: 260px; }
-.combo-meta-row { display: grid; grid-template-columns: 52px 1fr; gap: 12px; font-size: 13.5px; line-height: 1.5; color: var(--text-muted); }
-.combo-meta-k { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em; color: var(--violet-lt); padding-top: 2px; }
+/* max-width, not just min-width: .combo-head wraps at desktop widths, and once
+   the meta block dropped onto its own line it stretched full-width and ran the
+   START/END values to ~118 characters. */
+.combo-meta { display: grid; gap: 8px; min-width: 260px; max-width: 560px; }
+.combo-meta-row { display: grid; grid-template-columns: 52px 1fr; gap: 12px; font-size: var(--text-meta); line-height: 1.5; color: var(--text-muted); }
+.combo-meta-k { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--violet-lt); padding-top: 2px; }
 .combo-meta-k.end { color: var(--gold); }
-.combo-note { font-size: 14.5px; line-height: 1.6; color: var(--text-dim); margin: 6px 0 28px; max-width: 640px; }
+.combo-note { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); margin: 6px 0 28px; max-width: 68ch; }
 .combo-steps { list-style: none; margin: 0; padding: 0; }
 .combo-step { display: grid; grid-template-columns: 40px 1fr; gap: 18px; position: relative; padding-bottom: 26px; }
 .combo-step:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 38px; bottom: -4px; width: 2px; background: linear-gradient(var(--violet-deep), transparent); opacity: 0.5; }
-.combo-n { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 16px; color: var(--gold); background: var(--surface-alt1); border: 1px solid var(--border); }
-.combo-card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 16.5px; color: var(--text); margin-bottom: 5px; }
-.combo-do { font-size: 14.5px; line-height: 1.6; color: var(--text-dim); }
-.combo-why { font-size: 13px; line-height: 1.55; color: var(--text-caption); margin-top: 8px; }
-.combo-why-tag { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: 0.08em; color: var(--gold-deep); border: 1px solid #c9a24b40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
-.combo-info { font-size: 13px; line-height: 1.55; color: var(--text-caption); margin-top: 8px; }
-.combo-info-tag { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: 0.08em; color: var(--zone-gy); border: 1px solid #8f9bd040; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
-.combo-warn { font-size: 13px; line-height: 1.55; color: var(--text-caption); margin-top: 8px; }
-.combo-warn-tag { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: 0.08em; color: #e59a9a; border: 1px solid #e59a9a40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+.combo-n { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: var(--text-body); color: var(--gold); background: var(--surface-alt1); border: 1px solid var(--border); }
+.combo-card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body); color: var(--text); margin-bottom: 5px; }
+/* 68ch cap: these ran 97-147ch, because prose with no max-width just inherits
+   the container. They are the primary reading text on their pages. WHY, INFO
+   and WATCH OUT are the same kind of note and get the same cap: the last two
+   were missed the first time and were still running ~147ch. */
+.combo-do { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); max-width: 68ch; }
+.combo-why, .combo-info, .combo-warn { font-size: var(--text-meta); line-height: 1.55; color: var(--text-caption); margin-top: 8px; max-width: 68ch; }
+.combo-why-tag { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold-deep); border: 1px solid #c9a24b40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+.combo-info-tag { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--zone-gy); border: 1px solid #8f9bd040; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+/* The matchup map's BLANK verdict is the same kind of note as a combo WATCH OUT
+   (both say "this will not work"), so it shares the declaration rather than
+   growing a near-identical twin that drifts. */
+.combo-warn-tag, .answer-blank { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: #e59a9a; border: 1px solid #e59a9a40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
 .combo-interactions { margin-top: 52px; }
 .combo-interactions .group-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
-.combo-interactions .group-head h2 { font-weight: 700; font-size: 26px; }
-.combo-pending { margin-top: 40px; font-size: 12px; color: var(--text-faint); letter-spacing: 0.03em; }
+.combo-pending { margin-top: 40px; font-size: var(--text-label); color: var(--text-faint); letter-spacing: 0.03em; }
 
 /* Accordions: native <details>/<summary>, no JS. */
 .combo-section { margin-bottom: 40px; scroll-margin-top: 90px; }
-.combo-section-head { display: flex; align-items: center; gap: 14px; cursor: pointer; list-style: none; padding: 6px 0; margin-bottom: 14px; border-bottom: 1px solid var(--border-soft); }
+/* wrap: the "collapse all" hint is pushed right by margin-left:auto, so on a
+   narrow column it runs off the end rather than dropping under the heading. */
+.combo-section-head { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; cursor: pointer; list-style: none; padding: 6px 0; margin-bottom: 14px; border-bottom: 1px solid var(--border-soft); }
 .combo-section-head::-webkit-details-marker { display: none; }
-.combo-section-head h2 { font-weight: 700; font-size: 27px; }
-.combo-section-head .combo-section-hint { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.04em; }
+.combo-section-head h2 { font-weight: 700; font-size: var(--text-headline); }
+.combo-section-head .combo-section-hint { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--text-faint); letter-spacing: 0.04em; }
 .combo-section-body { display: block; }
 summary.combo-head { cursor: pointer; list-style: none; }
 summary.combo-head::-webkit-details-marker { display: none; }
 .combo-line { scroll-margin-top: 90px; }
-.chev { display: inline-block; width: 8px; height: 8px; border-right: 2px solid var(--text-faint); border-bottom: 2px solid var(--text-faint); transform: rotate(45deg); transition: transform 0.2s; flex: 0 0 auto; }
+.chev { display: inline-block; width: 8px; height: 8px; border-right: 2px solid var(--text-faint); border-bottom: 2px solid var(--text-faint); transform: rotate(45deg); transition: transform 0.2s; flex: 0 0 auto; } /* impeccable-disable-line side-tab -- chevron arrow icon (two borders + rotate), not a card accent stripe */
 details[open] > summary .chev { transform: rotate(-135deg); }
 .chev-sm { width: 7px; height: 7px; margin-left: 10px; vertical-align: 3px; }
-.combo-placeholder { font-size: 14.5px; line-height: 1.6; color: var(--text-dim); background: var(--surface); border: 1px dashed var(--border); border-radius: 16px; padding: 24px 26px; }
+/* 68ch: it was wrapping at ~130 characters. Same cap as .combo-do, the real
+   step text this box stands in for, so the two read at the same measure. */
+.combo-placeholder { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); background: var(--surface); border: 1px dashed var(--border); border-radius: 16px; padding: 24px 26px; max-width: 68ch; }
 /* Inline card links inside combo steps: legible, not loud. */
-.clink { color: var(--violet-lt); text-decoration: underline; text-decoration-color: rgba(185, 140, 255, 0.32); text-underline-offset: 2px; }
+.clink { color: var(--violet-lt); text-decoration: underline; text-decoration-color: rgba(var(--violet-rgb), 0.32); text-underline-offset: 2px; }
 .clink:hover { text-decoration-color: var(--violet-lt); }
 /* Card-art preview popover for combo card links (hover on desktop, tap on touch). */
-.cardhover { position: fixed; z-index: 70; width: 168px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: #120d1f; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55); opacity: 0; transform: translateY(4px); transition: opacity .12s ease, transform .12s ease; pointer-events: none; }
+.cardhover { position: fixed; z-index: var(--z-popover); width: 168px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: #120d1f; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55); opacity: 0; transform: translateY(4px); transition: opacity .12s ease, transform .12s ease; pointer-events: none; }
 .cardhover.show { opacity: 1; transform: translateY(0); }
 .cardhover.tap { pointer-events: auto; }
 .cardhover a { display: block; color: inherit; text-decoration: none; }
 .cardhover img { display: block; width: 100%; height: auto; aspect-ratio: 412 / 600; }
-.cardhover-cta { display: none; font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.05em; color: var(--violet-lt); text-align: center; padding: 7px 6px; background: rgba(20, 16, 31, 0.92); border-top: 1px solid var(--border-soft); }
+.cardhover-cta { display: none; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.05em; color: var(--violet-lt); text-align: center; padding: 7px 6px; background: rgba(20, 16, 31, 0.92); border-top: 1px solid var(--border-soft); }
 .cardhover.tap .cardhover-cta { display: block; }
 @media (max-width: 560px) { .cardhover { width: 210px; } }
 @media (prefers-reduced-motion: reduce) { .cardhover { transform: none; transition: opacity .12s ease; } }
 /* In-page jump index for combo lines. */
-.combo-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: 4px; padding-bottom: 20px; }
-.combo-jump-label { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-faint); }
-.combo-jump a { font-size: 13px; color: var(--text-dim); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color .15s, border-color .15s; }
-.combo-jump a:hover { color: var(--violet-lt); border-bottom-color: rgba(185, 140, 255, 0.4); }
-.combo-jump-wip { font-family: "IBM Plex Mono", monospace; font-size: 8.5px; letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 3px; padding: 0 4px; margin-left: 3px; }
+/* The jump index belongs to the page header, so it sits close under the intro
+   (--space-md) and clearly above the content (--space-lg). At 4px/20px the
+   heading, intro, index and first section all ran together as one block. */
+.combo-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: var(--space-md); padding-bottom: var(--space-lg); }
+.combo-jump-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.1em; color: var(--text-faint); }
+.combo-jump a { font-size: var(--text-meta); color: var(--text-dim); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color .15s, border-color .15s; }
+.combo-jump a:hover { color: var(--violet-lt); border-bottom-color: rgba(var(--violet-rgb), 0.4); }
+.combo-jump-wip { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 3px; padding: 0 4px; margin-left: 3px; }
+
+/* A card row's two columns are squeezed by the 210px art rail long before the
+   page itself is narrow: at 1000px the "where it activates" text is only ~30
+   characters wide and the tips column ~230px. 1080px is where the text column
+   drops below ~45 characters, so collapse there rather than at 900. */
+@media (max-width: 1080px) {
+  .card-cols { grid-template-columns: 1fr; gap: 22px; }
+  .tips-col { border-left: 0; border-top: 1px solid var(--border-soft); padding-left: 0; padding-top: 18px; }
+}
 
 /* ---- responsive: collapse multi-column grids under ~900px ---- */
 @media (max-width: 900px) {
@@ -450,22 +847,53 @@ details[open] > summary .chev { transform: rotate(-135deg); }
   .combo-line { padding: 26px 20px; }
   .site-header { padding: 14px 20px; }
   .nav-toggle { display: inline-flex; }
-  .nav { display: none; position: absolute; top: 100%; right: 12px; left: 12px; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px; margin-top: 8px; background: rgba(20, 16, 31, 0.98); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 14px; font-size: 14px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+  .nav { display: none; position: absolute; top: 100%; right: 12px; left: 12px; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px; margin-top: 8px; background: rgb(20, 16, 31); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 14px; font-size: var(--text-body-sm); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
   .nav.open { display: flex; }
   .nav a, .nav .soon { padding: 12px 14px; }
   .nav .soon { display: none; }
   .nav-group { display: block; }
+  .nav-caret { display: none; } /* nav-sub is already always-visible below, in the accordion sheet */
+  /* No caret to wrap here, so keep the highlight tight around the link text
+     instead of the full-width bar .nav-group.active would stretch to. */
+  .nav-group.active { background: none; }
+  .nav-group.active > a { background: rgba(var(--violet-rgb), 0.12); color: var(--violet-lt); border-radius: 8px; }
   .nav-sub { position: static; display: flex; min-width: 0; margin: 0; padding: 2px 0 8px 16px; gap: 2px; background: none; border: none; box-shadow: none; backdrop-filter: none; }
-  .nav-sub a { padding: 9px 14px; font-size: 13px; }
-  .nav-discord { margin-left: 0; justify-content: center; margin-top: 4px; }
+  .nav-sub a { padding: 9px 14px; font-size: var(--text-meta); }
   .hero { grid-template-columns: 1fr; padding-top: 48px; }
-  .hero h1 { font-size: 44px; }
+  .hero h1 { font-size: var(--text-page); }
   .hero-art-wrap { max-width: 260px; margin: 0 auto; }
-  .two-col, .grid-4, .grid-3, .synergy-grid, .turn-grid { grid-template-columns: 1fr; }
-  .turn-grid { gap: 22px; }
-  .card-cols { grid-template-columns: 1fr; gap: 22px; }
-  .tips-col { border-left: 0; border-top: 1px solid var(--border-soft); padding-left: 0; padding-top: 18px; }
+  /* .grid-4 / .grid-3 / .synergy-grid / .turn-grid are auto-fit and reflow on
+     their own; only the fixed two-column layout needs collapsing here. */
+  .two-col { grid-template-columns: 1fr; }
+  /* Same reason .combo-line drops to 26px/20px: 48px of panel padding leaves a
+     360px phone about 220px of content. */
+  .turn-panel { padding: 28px 20px; }
+  /* The tab row isn't sticky here, so an anchored card only has to clear the
+     header instead of header + tabs. */
   .tabs { position: static; }
+  .tabs::after { content: none; }
+  /* EXCEPT on the matchup map, which is ~12,800px on a phone: losing both
+     controls after the first screen means scrolling fifteen screens back to
+     change a filter, on the device PRODUCT.md names as the primary one. It
+     stays sticky, compacted: labels off, chips on one horizontally scrollable
+     row so the bar costs ~2 rows instead of 4. Scoped to this page rather than
+     unpinning `.tabs` globally, which the three compendiums also use. */
+  .tabs.matchup-filter { position: sticky; top: 60px; padding-top: 12px; padding-bottom: 6px; }
+  .tabs.matchup-filter::after { content: ""; }
+  .matchup-filter .card-search-label, .matchup-filter .trap-filter-label { display: none; }
+  .matchup-filter .card-search-wrap { margin-bottom: 8px; }
+  /* With its label hidden the head row holds only Clear, which reserves its box
+     even when idle (deliberate on desktop, so the chips don't jolt). In a
+     sticky mobile bar that's 34px of nothing, so drop the row until Clear is
+     actually live. Browsers without :has() just keep the old reserved box. */
+  .matchup-filter .trap-filter-head { margin-bottom: 8px; }
+  .matchup-filter .trap-filter-head:has(.trap-clear[hidden]) { display: none; }
+  .matchup-filter .tabs-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .matchup-filter .tabs-row::-webkit-scrollbar { display: none; }
+  .matchup-filter .tab { flex: 0 0 auto; }
+  .card-group, .card-row, .hit-deck-block { scroll-margin-top: 80px; }
+  /* Sticky bar above it, so an anchored row has to clear header + filter. */
+  .threat { scroll-margin-top: 190px; }
 
   /* Card images become compact thumbnails beside text, not full-width banners.
      Portrait art at full container width is what eats the screen, and it gets
@@ -483,14 +911,136 @@ details[open] > summary .chev { transform: rotate(-135deg); }
 
 /* Tablet: the single-column collapse wastes horizontal space, so reclaim it. */
 @media (min-width: 561px) and (max-width: 900px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .boss-card { grid-template-columns: 140px 1fr; }
 }
 
 /* Small phones: tighten the boss thumbnail, hero, and card image further. */
+@media (max-width: 560px) {
+  /* Title, tag and count fought for ~110px on one baseline. Give the tag its
+     own line under the heading instead. */
+  .group-head .group-tag { flex-basis: 100%; margin-top: 2px; }
+}
+
 @media (max-width: 460px) {
   .hero-art-wrap { max-width: 208px; }
   .boss-card { grid-template-columns: 92px 1fr; }
   .card-art img { max-height: 200px; }
   .card-content { padding: 20px 18px; }
 }
+
+/* ---- matchups / interaction map (/handtraps/matchups/) ---- */
+.matchup-seed { margin: 4px 0 0; font-size: var(--text-label); letter-spacing: 0.03em; color: var(--text-faint); }
+
+/* Handtrap filter: multi-select chips. Empty selection shows everything. */
+.trap-filter-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.trap-filter-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; color: var(--text-faint); }
+/* Padding matches .tab so the clear control is the same height as the chips it
+   clears, and stays a reasonable touch target. */
+.trap-clear { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.12); border: 1px solid rgba(var(--violet-rgb), 0.28); border-radius: 8px; padding: 9px 14px; cursor: pointer; transition: background .15s; }
+.trap-clear:hover { background: rgba(var(--violet-rgb), 0.2); }
+/* Keep its box when idle: display:none would collapse the row and jolt the
+   chips down the moment the first chip is picked. */
+.trap-clear[hidden] { display: inline-block; visibility: hidden; }
+/* Selected state comes from .tab.active above; the script sets that class.
+   The focus ring is the shared one now, and reaches the compendium tabs too. */
+
+/* Matchup sections: archetype header, then one row per card of THEIRS that
+   decides the game, each carrying every handtrap verdict against it. The card
+   art is the lookup key (a reader recognises what was just played across the
+   table faster than they read its name), so it leads the row at a size you can
+   actually identify, not a 44px thumbnail. */
+.hit-list { padding: 12px 40px 80px; }
+/* Same reason as .card-group: this page's sticky filter bar carries a label row
+   above its chips, so it is taller than the compendium's. */
+.hit-deck-block { margin-bottom: 44px; scroll-margin-top: 190px; }
+.threats { display: flex; flex-direction: column; margin-top: 10px; }
+/* Art in column 1 spanning both rows; the name and the verdicts stack in
+   column 2, so a 58-character card name gets the full width instead of being
+   squeezed into the art's gutter. */
+/* Explicit rows, not auto: the art spans both, so on a card with one verdict
+   the leftover height of a 174px card would otherwise be handed to row 1 and
+   open a 60px hole between the card's name and its first answer. */
+.threat { display: grid; grid-template-columns: 120px minmax(0, 1fr); grid-template-rows: max-content 1fr; column-gap: 22px; padding: 20px 0; border-bottom: 1px solid var(--border-soft); }
+.threat:last-child { border-bottom: 0; }
+/* The filter script toggles [hidden]; every one of these sets its own display,
+   which would otherwise beat the UA's [hidden] rule. */
+.threat[hidden], .hit-deck-block[hidden], .answer[hidden], .dead-list[hidden] { display: none; }
+.threat-art { grid-column: 1; grid-row: 1 / span 2; display: block; align-self: start; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-soft); background: var(--stripe); aspect-ratio: 412 / 600; transition: border-color .15s; }
+.threat-art.has-img { background: #120d1f; }
+.threat-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+a.threat-art:hover { border-color: rgba(var(--violet-rgb), 0.55); }
+.threat-id { grid-column: 2; min-width: 0; margin-bottom: 12px; }
+.threat-id h3 { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-title-sm); line-height: 1.25; letter-spacing: -0.01em; margin: 0; }
+.threat-id h3 a { color: var(--text); }
+.threat-id h3 a:hover { color: var(--violet-lt); }
+/* What the card does FOR THEM: a subtitle, not a label, so it stays in the body
+   face rather than picking up the mono-eyebrow texture. */
+.threat-does { font-size: var(--text-meta); line-height: 1.5; color: var(--text-caption); margin: 3px 0 0; max-width: 60ch; }
+/* Chips get their own column so two or three verdicts on one card scan
+   vertically instead of hiding inside paragraph text. The column is sized to
+   the widest chip PRESENT (`.answer` is display:contents, so every chip and
+   sentence joins this one grid rather than each row measuring itself): a fixed
+   gutter has to fit "DIM. SHIFTER" and then strands a 42px "ASH" chip 76px away
+   from the sentence it introduces. */
+.threat-answers, .dead-list-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 14px; row-gap: 12px; align-items: start; }
+.threat-answers { grid-column: 2; align-self: start; }
+.answer { display: contents; }
+.answer-verdict { justify-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+/* Padding, not a fixed height: the chip has to clear WCAG 2.2 AA's 24px
+   minimum target on its own, before the coarse-pointer bump below. */
+.answer-trap { display: inline-flex; align-items: center; min-height: 26px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.06em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.1); border: 1px solid rgba(var(--violet-rgb), 0.28); border-radius: 6px; padding: 4px 9px; transition: background .15s, border-color .15s; }
+.answer-trap:hover { background: rgba(var(--violet-rgb), 0.2); color: var(--violet-lt); }
+/* Same 40px floor the nav uses for touch, rather than a second convention. */
+@media (pointer: coarse) { .answer-trap { min-height: 40px; } }
+.answer-line { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text); margin: 0; max-width: 68ch; }
+/* A handtrap that does nothing here is a finding, not an omission: it is what
+   stops a reader holding a dead card all game. So the CHIP carries the verdict,
+   in Warning Rose (DESIGN.md's reserved "watch out" semantic), not just the
+   sentence: the chip is the leftmost, highest-contrast object in the row and
+   the only part a reader under time pressure reliably reads. The BLANK label
+   stays as literal text underneath, so the distinction is never colour alone. */
+.answer.is-blank .answer-trap { color: #e59a9a; background: rgba(229, 154, 154, 0.08); border-color: rgba(229, 154, 154, 0.32); }
+.answer.is-blank .answer-trap:hover { background: rgba(229, 154, 154, 0.16); color: #e59a9a; }
+.answer.is-blank .answer-line { color: var(--text-caption); }
+.answer-blank { margin-right: 0; }
+
+/* Handtraps blank across the whole matchup: no single card owns them. */
+.dead-list { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-soft); }
+.dead-head { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 10px; }
+
+/* Archetypes with no verified targets yet: one caption line, not six full
+   headings. See matchups.js's `unmapped`. */
+.unmapped-note { font-size: var(--text-meta); line-height: 1.6; color: var(--text-caption); max-width: 68ch; margin: 8px 0 0; }
+
+/* Empty states are sentences to read, not labels: --text-caption clears 4.5:1
+   on the page ground, --text-faint (a label tone) does not. */
+.hit-empty { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-caption); background: rgba(var(--violet-rgb), 0.04); border: 1px dashed var(--border-soft); border-radius: 12px; padding: 18px 20px; }
+.hit-section-empty { font-size: var(--text-meta); font-style: italic; color: var(--text-caption); padding: 8px 0 2px; }
+
+@media (max-width: 900px) {
+  .hit-list { padding-left: 20px; padding-right: 20px; }
+  /* Art shrinks but stays beside the name: stacking it would put a card above
+     every heading and push the answers off the first screen. The answers then
+     drop to full width underneath, because sharing the row with an 84px rail
+     left them running at ~30 characters. */
+  .threat { grid-template-columns: 84px minmax(0, 1fr); grid-template-rows: max-content max-content; column-gap: 16px; padding: 18px 0; }
+  .threat-art { grid-row: 1; }
+  .threat-answers { grid-column: 1 / -1; }
+  /* A chip column would eat a third of a phone screen, so the grid collapses
+     and each chip sits above its own sentence. */
+  .threat-answers, .dead-list-rows { grid-template-columns: minmax(0, 1fr); row-gap: 5px; }
+  .answer-line { margin-bottom: 9px; }
+}
+
+/* ---- combo video (lite YouTube facade: a thumbnail loads the real player only
+       on click, so the page never ships heavy iframes up front) ---- */
+.combo-video { margin: 4px 0 28px; max-width: 640px; }
+.combo-video-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 8px; }
+.combo-video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: #000; cursor: pointer; }
+.combo-video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.82; transition: opacity .15s; }
+.combo-video-frame:hover img, .combo-video-frame:focus-visible img { opacity: 1; }
+.combo-video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.combo-video-play::before { content: ""; width: 68px; height: 48px; border-radius: 12px; background: rgba(20, 16, 31, 0.82); border: 1px solid var(--border); transition: background .15s; }
+.combo-video-play::after { content: ""; position: absolute; width: 0; height: 0; margin-left: 4px; border-left: 18px solid var(--violet-lt); border-top: 11px solid transparent; border-bottom: 11px solid transparent; } /* impeccable-disable-line side-tab,border-accent-on-rounded -- CSS triangle play glyph (zero-size box + borders), not a card accent stripe */
+.combo-video-frame:hover .combo-video-play::before { background: rgba(20, 16, 31, 0.92); }
+.combo-video iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; display: block; }

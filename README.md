@@ -1,32 +1,77 @@
-# Mitsurugi Ritual Guide
+# Medonni's Guides
 
-A fan-made guide to the Yu-Gi-Oh! **Mitsurugi** archetype: a DARK Reptile
-Ritual deck whose monsters gain value every time they're tributed.
+A fan-made, deck-by-deck combo guide for Yu-Gi-Oh!. What started as a single
+**Mitsurugi** guide is now a small hub of decks and engines, each gets its
+own Overview/Cards/Combos, its own accent color, and its own Discord link.
+
+*The repo, live URL, and Eleventy path prefix are still `mitsurugi-guide` for
+historical/URL-stability reasons; that's a leftover name, not the project's
+actual scope anymore.*
 
 **Live site:** https://medonni.github.io/mitsurugi-guide/
 
-Built with [Eleventy](https://www.11ty.dev/). Two pages:
+Built with [Eleventy](https://www.11ty.dev/).
 
-- **Overview:** what the archetype is, the tribute engine, the three ritual
-  bosses, synergy partners, and a sample turn.
-- **Card Compendium:** every card, its effects grouped by *where they activate*
-  (hand / deck / GY / field / trigger / on-tribute), plus per-card tips.
-  Filterable by group: Main Archetype, Supporting, Non-Engine, Extra Deck.
+- **`/`:** the deck hub. Pick a deck or engine below.
+- **`/mitsurugi/`** and **`/fiendsmith/`:** complete and live. Mitsurugi is a
+  DARK Reptile Ritual deck whose monsters gain value every time they're
+  tributed; Fiendsmith is a splashable LIGHT Fiend engine, not a standalone
+  archetype, piloted inside a host deck, but documented with the same
+  three-page shape since it's used the same way once it's in your deck.
+- **`/sacred-beasts/`:** the *Chaos Origins* (CORI) card package is
+  documented; older Sacred Beast staples and combo lines for any deck aren't
+  yet, so it still carries a WIP badge.
+- Each deck/engine page is an Overview, a Card Compendium (every card
+  grouped by *where it activates*: hand / deck / GY / field / trigger /
+  on-tribute, with per-card tips), and Combos (step-by-step lines from
+  starter to end board), themed with its own accent color (see DESIGN.md,
+  "Per-Deck Accents").
+- **`/handtraps/`:** the shared reference, genuinely deck-independent (hand
+  disruption run regardless of what deck you're piloting), so those cards
+  live in one place instead of being copy-pasted onto every compendium. Two
+  pages: the card reference itself, and **`/handtraps/matchups/`**, an
+  interaction map organized by opponent archetype (which handtrap hits which
+  of their cards, and when to hold it).
 
 ## Local development
 
 ```sh
 npm install
-npm start        # dev server with live reload at http://localhost:8080
+npm start        # dev server, no path prefix, at http://localhost:8080/
+npm run start:prod   # same, but with GitHub Pages' /mitsurugi-guide/ path prefix,
+                      # for testing URLs exactly as they'll work in production
 npm run build    # one-off build to _site/
+npm run check    # prod-prefix build + link check (see check-links.js)
 ```
+
+`npm run check` builds into its own `_check/` directory, so it's safe to run
+while `npm start` is up: a prefixed build written over `_site/` would make the
+dev server serve pages whose CSS and links all 404.
+
+`npm run check` is the one thing worth running before pushing a structural
+change. Card links are emitted by the `linkcards` filter relative to the page
+being rendered, so moving a page to a different URL depth breaks them silently
+— the build still succeeds. The check fails loudly instead.
+
+`npm start`'s URLs (`/mitsurugi/`, `/fiendsmith/`, …) have no prefix; the deployed
+site's URLs (`/mitsurugi-guide/mitsurugi/`, …) do. Mixing the two 404s. Use
+`npm run start:prod` when you want to click around with the real, prefixed URLs.
 
 ## Adding a card
 
-Card content lives in `src/_data/cards.js`. Append one object to the `cardData`
-array, and it flows to the compendium automatically (tab counts included):
+Each deck/engine has its own card data file: Mitsurugi in `src/_data/cards.js`,
+Fiendsmith in `src/_data/fiendsmith.js`, Sacred Beasts in
+`src/_data/sacredBeasts.js`, shared handtraps in `src/_data/handtraps.js`.
+Every page renders its cards through the shared `cardGroup`/`cardRow` macros
+in `src/_includes/components.njk`, so a new card just needs an object
+appended to the right file's `groups`, no template changes.
+
+Two card-object shapes are in use, pick whichever the file you're editing
+already uses:
 
 ```js
+// Mitsurugi / Handtraps style: glyph + glyphColor, used as the placeholder
+// art (a diamond icon) when no real card image exists yet.
 {
   id: "newcard", section: "main",              // main | support | nonengine | extra
   name: "Full Card Name", short: "SHORTNAME",
@@ -35,28 +80,216 @@ array, and it flows to the compendium automatically (tab counts included):
   zones: [ ["HAND", "What it does."], ["ON TRIBUTE", "The trigger."] ],
   tips: [ "A tip.", "Another." ],
 }
+
+// Fiendsmith / Sacred Beasts style: accent instead of glyph/glyphColor,
+// used when every card already has real art (the placeholder path is
+// effectively dead but still there for a card added without art yet).
+{
+  id: "newcard", name: "Full Card Name", role: "Effect Monster",
+  accent: "#e0c46a", badges: ["DARK", "Fiend", "Effect", "Level 4"],
+  stat: "ATK 1800 / DEF 1200",
+  zones: [ ["HAND", "What it does, ideally verbatim official text." ] ],
+}
 ```
+
+A card only becomes a hover-preview link in prose (combo steps, matchup notes)
+if its name is registered in `CARD_LINKS` in `eleventy.config.js`, longest
+alias first so `Fiendsmith's Tract` wins over a bare `Tract`. Its target goes in
+`CARD_TARGETS` alongside — but Fiendsmith and Sacred Beasts entries are
+generated by the `fromDeck()` helper, so for those decks just add the card's
+`id` to the right list. Adding a card to a deck data file does *not* register it
+here; unregistered names simply render as plain text.
 
 ### Card art
 
-Drop an image at `src/assets/cards/<section>/<id>.webp` and it's picked up
-automatically, no code change. WebP preferred, ~600px tall (e.g. 412×600), < 60 KB. See
+Drop an image at `src/assets/cards/<section>/<id>.<ext>` (`webp`/`png`/`jpg`,
+tried in that order) and it's picked up automatically, no code change. WebP
+preferred, ~600px tall (e.g. 412×600), < 60 KB when available; a plain JPG
+from [YGOPRODeck](https://db.ygoprodeck.com/api/v7/cardinfo.php) resized with
+`sips -Z 600` is the fallback used for Sacred Beasts' art (this machine's
+`sips` can't encode WebP). See
 [`src/assets/cards/README.md`](src/assets/cards/README.md) for details.
+
+### Card compendium filtering
+
+**Every** `cards.njk` needs this, not just Mitsurugi's, it's part of the page,
+not a Mitsurugi-only extra. (Fiendsmith and Sacred Beasts shipped without it
+once already, caught late, don't repeat that.) `src/mitsurugi/cards.njk` is
+the reference implementation, copy its shape.
+
+A card compendium page is two independent filters (zone chips, section tabs)
+over the same card rows, plus a "no results" fallback:
+
+1. The deck's data file (`cards.js`, `fiendsmith.js`, `sacredBeasts.js`, ...)
+   must export `zones` and `total`, alongside `groups`:
+   ```js
+   import { deriveZones } from "../_lib/zones.js";
+   // ...
+   export default {
+     groups: [ /* ... */ ],
+     zones: deriveZones(cards),   // only the zone labels this deck's cards actually use
+     total: cards.length,
+   };
+   ```
+2. In `cards.njk`, import and call the three filter macros from
+   `components.njk`, `zoneFilter`, `sectionTabs`, `filterEmpty`, alongside
+   `cardGroup`:
+   ```njk
+   {% from "components.njk" import cardGroup, zoneFilter, sectionTabs, filterEmpty %}
+
+   <section class="container-narrow comp-head">
+     <h1>...</h1>
+     <p class="intro">...</p>
+     {{ zoneFilter(myDeck.zones) }}
+   </section>
+
+   {{ sectionTabs(myDeck.groups, myDeck.total) }}
+
+   <section class="container-narrow groups">
+     {% for g in myDeck.groups %}
+     {{ cardGroup(g) }}
+     {% endfor %}
+     {{ filterEmpty() }}
+   </section>
+
+   <script src="{{ '/assets/js/card-filter.js' | url }}"></script>
+   ```
+3. Nothing else, `cardGroup`/`cardRow` already emit the `data-section`/
+   `data-zones` attributes the script reads, and `src/assets/js/card-filter.js`
+   is one shared, page-agnostic script, don't inline a per-page copy.
+
+## Adding a new deck
+
+1. `src/<deck-id>/` with `index.njk` (Overview), `cards.njk`, `combos.njk`,
+   mirroring an existing deck's frontmatter (`nav`, `bg`), using the
+   `cardGroup` macro for the card list, and wired for filtering per "Card
+   compendium filtering" above.
+2. `src/<deck-id>/<deck-id>.11tydata.js` exporting `{ brand: { id, glyph,
+   wordmark, href } }`, cascades the header brand mark to every page in the
+   folder.
+3. A `body.deck-<deck-id>` block in `src/css/style.css` overriding
+   `--violet`/`--violet-lt`/`--violet-deep`/`--violet-rgb`, pick a hue that
+   doesn't collide with an existing deck's accent or the pinned semantic
+   colors (zone pills, warning rose); see DESIGN.md's "Per-Deck Accents" for
+   the reasoning behind the existing choices.
+4. An entry in `src/_data/hub.js`'s `decks` array (`href`, `accent` matching
+   step 3, `discord`, cover `image`, etc.), this is the single source the
+   hub page *and* the site-wide nav both read from.
+5. Lay the Overview page out with `.container` (not `.container-narrow`) on
+   *every* section including the hero, matching Mitsurugi. Mixing the two on
+   one page puts a 50px jog in the left edge between the hero and everything
+   under it, which is exactly what Fiendsmith and Sacred Beasts shipped with.
+6. Frame the hero boss stack, see below. The defaults are not a finished job.
+
+## Framing the hero boss stack
+
+`bossStack` splits one card-sized frame into three diagonal wedges, each
+showing a ~26% crop of one card's art at 190% zoom. The per-wedge defaults in
+`.boss-slice:nth-child(n)` only look right when a card's subject fills its art
+window edge to edge (Sacred Beasts). Anything else, a subject parked
+off-centre or sitting low under a big ornamental background, crops to
+background and half-figures.
+
+Two optional per-boss fields override it, both boss-stack-only:
+
+- `focus: "58% 35%"` sets `--pan` (a `background-position`). Horizontal is the
+  main lever: a higher percentage slides the card's subject **left** in the
+  frame, so the left wedge wants a high value and the right wedge a low one.
+- `zoom: "250%"` sets `--zoom` (the `background-size` height). Reach for it
+  only when panning alone can't get to the subject, a tighter crop is what
+  keeps the effect box out of frame when the subject sits low.
+
+Vertical pan has less room than it looks: a card's art window runs from ~17%
+to ~72% of the card, and at 190% a wedge shows ~53% of the card's height, so
+the window is already nearly the full art. Push it far in either direction and
+you pull in the level-star row or the effect box.
+
+Set these on the deck's own `bosses`/`heroBosses` array, not on the shared card
+objects, the compendium needs the whole card. Where `heroBosses` is built with
+`pick()`/`byId` (Fiendsmith, Sacred Beasts), spread a copy:
+`.map((c, i) => ({ ...c, focus: [...][i] }))`.
+
+There is no mechanical check for this. Load each Overview page above 900px and
+look at the stack: every wedge should read as a creature, not as background.
+
+## Type
+
+Every font size is a `--text-*` token from `:root` in `src/css/style.css`, in
+`rem`. Twelve steps, from `--text-label-xs` (10px) to `--text-display` (64px);
+DESIGN.md §3 has the full table with what each one is for.
+
+Two rules, both of which have already been broken here:
+
+- **Never write a literal `font-size` in a rule.** If a size seems missing, it
+  is almost always one of the twelve under a different name. If it genuinely
+  isn't, add a token, and add it to DESIGN.md's `typography` frontmatter in the
+  same change. The CSS used to carry 28 px literals, 18 of them between 8.5px
+  and 18px in half-pixel steps, and each one was individually defensible at the
+  time. The only three literals left are the glyph sizes inside the diamond
+  icons, which are icon geometry, not type.
+- **`rem`, never `px`.** A px ramp ignores the reader's browser font-size
+  setting. The corollary: any new grid or flex row holding text needs
+  `min-width: 0` on its children, or a reader at 200% gets a horizontally
+  scrolling page. There's a shared rule near the top of the file covering the
+  current layouts, add new ones to it.
+
+Prose caps go in `ch` for the same reason, a `px` cap only equals its intended
+measure at a 16px root. Panel widths stay in `px`.
+
+The check that catches both, at 390px:
+
+```js
+// in devtools, on each page
+document.documentElement.style.fontSize = '32px';   // a 200% reader setting
+document.documentElement.scrollWidth > document.documentElement.clientWidth
+```
+
+## Page rhythm and measure
+
+Section spacing comes from the `--space-*` tokens, not from ad-hoc pixel
+values. Use `.section` (56px) for an ordinary top-level section and
+`.section-pad-lg` (72px) for a feature section or a page's first section, and
+keep a heading inside the same `<section>` as the content it introduces. Full
+rules, and the failures that produced them, are in DESIGN.md §5.
+
+Two things are easy to miss and worth checking on any new page:
+
+- **Wrapping prose needs its own `max-width`** (68ch, or 60–62ch inside a card
+  row). A two-column layout hides the problem until it collapses and the text
+  inherits the full container.
+- **A grid whose item count varies wants `repeat(auto-fit, minmax(…, 1fr))`,
+  not a fixed column count.** Fixed counts need a breakpoint override per
+  layout and still break when the data grows a row.
+
+`node check-links.js` won't catch either. The cheap check is to load the page
+at ~768px and ~1400px and look for a paragraph running past ~75 characters or
+a grid holding cramped columns.
 
 ## Structure
 
 ```
 src/
-├── index.njk              # landing / overview page
-├── cards.njk              # card compendium (+ client-side group filter)
+├── index.njk               # deck-select hub (site root)
+├── mitsurugi/               # Mitsurugi: index.njk, cards.njk, combos.njk, mitsurugi.11tydata.js (brand)
+├── fiendsmith/               # Fiendsmith: same 3-page shape, own .11tydata.js brand
+├── sacred-beasts/            # Sacred Beasts: Chaos Origins (CORI) package documented, combos still WIP, own .11tydata.js brand
+├── handtraps/              # shared reference: index.njk (cards) + matchups.njk (interaction map)
 ├── _includes/
-│   ├── base.njk           # shared layout, nav, footer
-│   └── components.njk      # reusable Nunjucks macros (card art, synergy, boss stack)
+│   ├── base.njk            # shared layout, nav, footer, deck-brand-aware header
+│   └── components.njk       # reusable Nunjucks macros (card art, synergy, boss stack)
 ├── _data/
-│   ├── cards.js           # all card data + image auto-detection
-│   └── landing.js         # landing-page content
-├── css/style.css          # design tokens + components
-└── assets/cards/          # card art, split by section
+│   ├── cards.js            # Mitsurugi card data + image auto-detection
+│   ├── mitsurugi.js         # Mitsurugi overview-page content
+│   ├── combos.js            # Mitsurugi combo lines
+│   ├── fiendsmith.js        # Fiendsmith card data
+│   ├── sacredBeasts.js      # Sacred Beasts card data (CORI package)
+│   ├── handtraps.js         # shared handtrap card data
+│   ├── matchups.js          # per-archetype interaction map, reads handtraps.js
+│   └── hub.js               # deck-hub content, and the nav's single source
+├── _lib/zones.js           # deriveZones(), shared by every deck's card-data file
+├── css/style.css           # design tokens + components + per-deck accent overrides
+├── assets/js/card-filter.js # card compendium filtering, shared <script src> across every deck
+└── assets/cards/           # card art, split by section (main/support/nonengine/extra/handtraps/fiendsmith)
 ```
 
 ## Deployment
