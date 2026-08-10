@@ -5,6 +5,9 @@
 // To add a line: push an object to `lines`. Keep steps honest (verified card
 // text only): unverified lines stay in `pending` until the effects are confirmed.
 export default {
+  // Page header, read by _includes/combos-page.njk (shared with every deck).
+  kicker: "// COMBO LINES",
+  h1: "From one card to a full board",
   intro:
     "Mitsurugi wins by looping tributes into searches and revivals. Below is the main line that turns a single starter into a board wipe plus a grind engine. Each step notes what to do and why the resources come back.",
 
@@ -136,6 +139,7 @@ export default {
     {
       id: "two-card-placeholder",
       name: "Two-card combos",
+      jump: "2-Card",   // shorter label for the jump nav, which is tight on mobile
       section: "2 Card Combos",
       placeholder: true,
       note: 'Two-card combos add double-starter lines that punch through a handtrap, plus openers that need a second card to reach Habakiri. They are still being written up. Until they land, the <a class="clink" href="#1-card-combos">one-card lines above</a> cover every core payoff.',

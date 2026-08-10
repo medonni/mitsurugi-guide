@@ -32,6 +32,7 @@ const CARD_LINKS = [
   ["Fiendsmith's Sanct", "fiendsmiths-sanct"],
   ["Fiendsmith's Tract", "fiendsmiths-tract"],
   ["Fiendsmith Kyrie", "fiendsmith-kyrie"],
+  ["D/D/D Wave High King Caesar", "dddd-wave-high-king-caesar"],
   ["Fabled Lurrie", "fabled-lurrie"],
   ["Rextremende", "fiendsmiths-rextremende"],
   ["Engraver", "fiendsmith-engraver"],
@@ -87,7 +88,7 @@ const CARD_TARGETS = {
     "fiendsmith-engraver", "fiendsmiths-tract", "fiendsmiths-requiem",
     "fiendsmiths-sequence", "fiendsmiths-desirae", "fiendsmiths-lacrima",
     "fiendsmiths-sanct", "fiendsmiths-rextremende", "fiendsmith-kyrie",
-    "lacrima-the-crimson-tears", "fabled-lurrie",
+    "lacrima-the-crimson-tears", "fabled-lurrie", "dddd-wave-high-king-caesar",
   ]),
   ...fromDeck("/sacred-beasts/cards/", "/assets/cards/sacred-beasts/", "jpg", [
     "uria", "raviel", "martyr-of-the-sacred-beasts", "summoner-of-the-sacred-beasts",

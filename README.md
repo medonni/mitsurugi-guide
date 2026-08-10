@@ -163,7 +163,8 @@ over the same card rows, plus a "no results" fallback:
 1. `src/<deck-id>/` with `index.njk` (Overview), `cards.njk`, `combos.njk`,
    mirroring an existing deck's frontmatter (`nav`, `bg`), using the
    `cardGroup` macro for the card list, and wired for filtering per "Card
-   compendium filtering" above.
+   compendium filtering" above. `combos.njk` includes the shared
+   `combos-page.njk`, see "Adding combo lines to a deck" below.
 2. `src/<deck-id>/<deck-id>.11tydata.js` exporting `{ brand: { id, glyph,
    wordmark, href } }`, cascades the header brand mark to every page in the
    folder.
@@ -180,6 +181,42 @@ over the same card rows, plus a "no results" fallback:
    one page puts a 50px jog in the left edge between the hero and everything
    under it, which is exactly what Fiendsmith and Sacred Beasts shipped with.
 6. Frame the hero boss stack, see below. The defaults are not a finished job.
+
+## Adding combo lines to a deck
+
+The combos page body is **one shared template**, `src/_includes/combos-page.njk`.
+A deck's `combos.njk` is frontmatter plus two lines:
+
+```njk
+{% set c = fiendsmithCombos %}
+{% include "combos-page.njk" %}
+```
+
+1. Add `src/_data/<deck>Combos.js` exporting `kicker`, `h1`, `intro`, `lines`,
+   `interactions`, `pending`, and optionally `interactionsTitle`. Mitsurugi's
+   `src/_data/combos.js` keeps its generic name for history; new decks use the
+   `<deck>Combos` form.
+2. Each entry in `lines` needs `id`, `name`, `section`, `tag`, `starter`,
+   `result`, and `steps[]` of `{ n, card, do, why?, info?, warn? }`. Sections
+   group automatically: consecutive lines sharing a `section` string fold into
+   one collapsible block, so **keep lines of the same section adjacent**.
+   A `note` on a line renders under the heading and may contain HTML.
+   A `placeholder: true` entry renders `note` as a stub instead of steps, and
+   takes an optional short `jump` label for the jump nav.
+3. Card names in `do`/`why`/`info`/`warn`/`starter`/`result`/`intro` auto-link
+   through the `linkcards` filter. A name only links if it is in **both**
+   `CARD_LINKS` and `CARD_TARGETS` in `eleventy.config.js`; add it to both, and
+   put the longest alias first so "Fiendsmith's Requiem" wins over "Requiem".
+   `interactions[].body` is **not** run through `linkcards`, it renders as plain
+   text.
+4. Keep the honesty rule the data files already follow: only publish sequencing
+   that traces to a real line. Anything assembled from card text alone carries
+   a visible `note` saying so, and anything unconfirmed stays in `pending`
+   rather than going on the page. See the header comment in
+   `src/_data/fiendsmithCombos.js` for what that looks like in practice.
+
+Note the frontmatter `description` is unquoted YAML, so a colon inside it
+breaks the build. Use a comma.
 
 ## Framing the hero boss stack
 

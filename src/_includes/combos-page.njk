@@ -1,0 +1,138 @@
+{# Shared combos page body. Each deck's combos.njk sets `c` to its own data file
+   and includes this; nothing here may reference a specific deck. Extracted from
+   Mitsurugi's page when Fiendsmith got real lines: per CLAUDE.md, a second deck
+   needing the same page shape means extract, not copy-paste.
+
+   `c` needs: kicker, h1, intro, lines[], interactions[], pending[]. #}
+<section class="container-narrow comp-head">
+  <div class="kicker">{{ c.kicker }}</div>
+  <h1>{{ c.h1 }}</h1>
+  <p class="intro">{{ c.intro | linkcards | safe }}</p>
+</section>
+
+<nav class="container-narrow combo-jump" aria-label="Jump to a combo line">
+  <span class="combo-jump-label">JUMP TO</span>
+  {% for line in c.lines %}
+  {% if line.placeholder %}
+  <a href="#{{ line.section | lower | replace(' ', '-') }}">{{ line.jump or line.name }} <span class="combo-jump-wip">WIP</span></a>
+  {% else %}
+  <a href="#{{ line.id }}">{{ line.name }}</a>
+  {% endif %}
+  {% endfor %}
+</nav>
+
+<section class="container-narrow combos">
+  {% for line in c.lines %}
+  {% if loop.first or line.section != c.lines[loop.index0 - 1].section %}
+  {% if not loop.first %}
+      </div>
+  </details>
+  {% endif %}
+  <details class="combo-section" id="{{ line.section | lower | replace(' ', '-') }}" open>
+    <summary class="combo-section-head">
+      <span class="group-dot" style="background:var(--gold);"></span>
+      <h2>{{ line.section }}</h2>
+      <span class="combo-section-hint">collapse all</span>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="combo-section-body">
+  {% endif %}
+
+  {% if line.placeholder %}
+    <p class="combo-placeholder">{{ line.note | safe }}</p>
+  {% else %}
+    <details id="{{ line.id }}" class="combo-line" open>
+      <summary class="combo-head">
+        <div class="combo-head-main">
+          <span class="group-tag">{{ line.tag }}</span>
+          <h3>{{ line.name }} <span class="chev chev-sm" aria-hidden="true"></span></h3>
+        </div>
+        <div class="combo-meta">
+          <div class="combo-meta-row"><span class="combo-meta-k">START</span><span>{{ line.starter | linkcards | safe }}</span></div>
+          <div class="combo-meta-row"><span class="combo-meta-k end">END</span><span>{{ line.result | linkcards | safe }}</span></div>
+        </div>
+      </summary>
+      {% if line.note %}<p class="combo-note">{{ line.note | safe }}</p>{% endif %}
+
+      {% if line.video %}
+      <div class="combo-video">
+        <div class="combo-video-label">VIDEO WALKTHROUGH</div>
+        <div class="combo-video-frame" role="button" tabindex="0" aria-label="Play video walkthrough"
+             data-ytid="{{ line.video }}"{% if line.t %} data-ytstart="{{ line.t }}"{% endif %}>
+          <img src="https://i.ytimg.com/vi/{{ line.video }}/hqdefault.jpg" alt="" loading="lazy">
+          <span class="combo-video-play" aria-hidden="true"></span>
+        </div>
+      </div>
+      {% endif %}
+
+      <ol class="combo-steps">
+        {% for s in line.steps %}
+        <li class="combo-step">
+          <span class="combo-n">{{ s.n if s.n is defined else loop.index }}</span>
+          <div class="combo-step-body">
+            <div class="combo-card">{{ s.card }}</div>
+            <div class="combo-do">{{ s.do | linkcards | safe }}</div>
+            {% if s.why %}<div class="combo-why"><span class="combo-why-tag">WHY</span>{{ s.why | linkcards | safe }}</div>{% endif %}
+            {% if s.info %}<div class="combo-info"><span class="combo-info-tag">INFO</span>{{ s.info | linkcards | safe }}</div>{% endif %}
+            {% if s.warn %}<div class="combo-warn"><span class="combo-warn-tag">WATCH OUT</span>{{ s.warn | linkcards | safe }}</div>{% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </details>
+  {% endif %}
+
+  {% if loop.last %}
+      </div>
+  </details>
+  {% endif %}
+  {% endfor %}
+
+  <div class="combo-interactions">
+    <div class="group-head">
+      <span class="group-dot" style="background:var(--gold);"></span>
+      <h2>{{ c.interactionsTitle or "Key interactions mid-combo" }}</h2>
+    </div>
+    <div class="grid-3">
+      {% for x in c.interactions %}
+      <div class="panel-card">
+        <h3>{{ x.name }}</h3>
+        <div class="body">{{ x.body }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if c.pending.length %}
+  <p class="combo-pending mono">More lines to document: {{ c.pending | join(" · ") }}</p>
+  {% endif %}
+</section>
+
+<script>
+  // Lite YouTube facade: click the thumbnail to swap in the real player.
+  // ponytail: one delegated listener, iframes load on demand (not on page load),
+  // youtube-nocookie so no tracking cookies land unless a viewer actually plays.
+  (function () {
+    const load = (f) => {
+      if (f.dataset.loaded) return;
+      const start = f.dataset.ytstart ? "&start=" + f.dataset.ytstart : "";
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + f.dataset.ytid + "?autoplay=1&rel=0" + start;
+      iframe.title = "Video walkthrough";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      f.dataset.loaded = "1";
+      f.replaceWith(iframe);
+    };
+    document.addEventListener("click", (e) => {
+      const f = e.target.closest(".combo-video-frame");
+      if (f) load(f);
+    });
+    document.addEventListener("keydown", (e) => {
+      const a = document.activeElement;
+      if ((e.key === "Enter" || e.key === " ") && a && a.classList.contains("combo-video-frame")) {
+        e.preventDefault(); load(a);
+      }
+    });
+  })();
+</script>

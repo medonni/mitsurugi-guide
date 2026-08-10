@@ -552,6 +552,16 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
 .turn-more a:hover span { transform: translateX(3px); }
 .turn-more a span { display: inline-block; transition: transform .15s; }
 
+/* ---- author's note (hub) ---- */
+/* A hairline, not another panel: the note closes the hub, it isn't a fourth
+   thing on offer beside the deck cards. Diamond motif signs it off.
+   row-gap is a no-op while the two columns sit on one row; it only bites once
+   .two-col collapses under 900px, where the shared 56px column gap left the
+   heading floating half a screen above its own note. */
+.note { border-top: 1px solid var(--border-soft); padding-top: var(--space-lg); row-gap: var(--space-md); }
+.note-sign { display: flex; align-items: center; gap: 10px; margin-top: 24px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.08em; color: var(--text-caption); }
+.note-sign::before { content: ""; width: 7px; height: 7px; background: var(--violet); transform: rotate(45deg); }
+
 /* ---- CTA + footer ---- */
 /* Was 24px above and 96px below: the closing CTA was crowded into the section
    it closes and then floated away from the footer. */

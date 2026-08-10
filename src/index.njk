@@ -43,3 +43,21 @@ description: A fan-made Yu-Gi-Oh! guide covering multiple Ritual and combo decks
     {% endfor %}
   </div>
 </section>
+
+{# The page's closing aside: whose notebook this is and why it's public. Heading
+   left, note right, so it reads as an afterword rather than a fourth thing to
+   pick off the hub. #}
+<section class="container section">
+  <div class="two-col note">
+    <h2>Why does this site exist?</h2>
+    <div>
+      <div class="prose">
+        <p>Honestly: for me. I've been playing Yu-Gi-Oh! for about a year, and the fastest way I've found to actually learn a deck is to write it down. Every card sorted by where it activates, every combo line typed out step by step until the sequencing sticks in my head.</p>
+        <p>So this is my notebook, made public. A deck is here because I wanted to pilot it and had to understand it first, and anything marked <strong>WIP</strong> is a deck I'm still learning.</p>
+        <p>No ads, no wall of verbatim card text, no sign-up. If it helps you pick up a deck too, even better.</p>
+      </div>
+      {# Outside .prose: `.prose p + p` would outrank .note-sign's own margin. #}
+      <p class="note-sign">Medonni</p>
+    </div>
+  </div>
+</section>
