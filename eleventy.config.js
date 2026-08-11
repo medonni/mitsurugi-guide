@@ -1,3 +1,15 @@
+// id -> the card it names, derived from the deck data files. Every href is
+// root-absolute; linkCards() rewrites them relative to whichever page is
+// rendering, so the same map works from /mitsurugi/combos/ and
+// /handtraps/matchups/ alike, and relative output survives the
+// /mitsurugi-guide/ pathPrefix without the filter knowing it (the pathPrefix
+// isn't readable from the config callback).
+//
+// Nothing to register here when a card is added: put it in the deck's data
+// file, give it art, and add an alias to CARD_LINKS below only if the prose
+// calls it something other than its full name.
+import { cardIndex as CARD_TARGETS } from "./src/_lib/card-index.js";
+
 // Combo step text repeats card names; link the FIRST mention of each card per
 // block so a reader can recall an effect without leaving the page. Longest
 // aliases first so "Ame no Murakumo" wins over bare "Murakumo", etc.
@@ -20,23 +32,83 @@ const CARD_LINKS = [
   ["Aramasa", "aramasa"],
   ["Saji", "saji"],
   ["Futsu", "futsu"],
+  // Fiendsmith and Sacred Beast names, used by the matchup map. Same rule:
+  // full name before the bare one people actually write mid-sentence.
+  ["Lacrima the Crimson Tears", "lacrima-the-crimson-tears"],
+  ["Fiendsmith's Rextremende", "fiendsmiths-rextremende"],
+  ["Fiendsmith's Requiem", "fiendsmiths-requiem"],
+  ["Fiendsmith's Sequence", "fiendsmiths-sequence"],
+  ["Fiendsmith's Desirae", "fiendsmiths-desirae"],
+  ["Fiendsmith's Lacrima", "fiendsmiths-lacrima"],
+  ["Fiendsmith Engraver", "fiendsmith-engraver"],
+  ["Fiendsmith's Sanct", "fiendsmiths-sanct"],
+  ["Fiendsmith's Tract", "fiendsmiths-tract"],
+  ["Fiendsmith Kyrie", "fiendsmith-kyrie"],
+  ["D/D/D Wave High King Caesar", "dddd-wave-high-king-caesar"],
+  ["Evilswarm Exciton Knight", "exciton"],
+  ["Saryuja Skull Dread", "saryuja-skull-dread"],
+  ["Skull Archfiend of Chaos", "skull-archfiend-of-chaos"],
+  ["Fiendsmith's Agnumday", "fiendsmiths-agnumday"],
+  ["Fiendsmith in Paradise", "fiendsmith-in-paradise"],
+  ["Necroquip Princess", "necroquip-princess"],
+  ["Fabled Lurrie", "fabled-lurrie"],
+  ["Aerial Eater", "aerial-eater"],
+  ["Necroquip", "necroquip-princess"],
+  ["Agnumday", "fiendsmiths-agnumday"],
+  ["Rextremende", "fiendsmiths-rextremende"],
+  ["Engraver", "fiendsmith-engraver"],
+  ["Requiem", "fiendsmiths-requiem"],
+  ["Sequence", "fiendsmiths-sequence"],
+  ["Desirae", "fiendsmiths-desirae"],
+  ["Sanct", "fiendsmiths-sanct"],
+  ["Tract", "fiendsmiths-tract"],
+  ["Zenna's Deceiving Doll Maidens", "zennas-deceiving-doll-maidens"],
+  ["Charmer Quartet in Bloom", "charmer-quartet-in-bloom"],
+  ["Albion the Branded Dragon", "albion-the-branded-dragon"],
+  ["The Fallen & The Virtuous", "the-fallen-and-the-virtuous"],
+  ["Thunder Dragon Colossus", "thunder-dragon-colossus"],
+  ["Protectcode Talker", "protectcode-talker"],
+  ["S:P Little Knight", "sp-little-knight"],
+  ["Firewall Dragon", "firewall-dragon"],
+  ["Charmer Quartet", "charmer-quartet-in-bloom"],
+  ["Linkuriboh", "linkuriboh"],
+  ["Cross-Sheep", "cross-sheep"],
+  ["Protectcode", "protectcode-talker"],
+  ["Colossus", "thunder-dragon-colossus"],
+  ["Albion", "albion-the-branded-dragon"],
+  ["Zenna", "zennas-deceiving-doll-maidens"],
+  ["Calamity of the Sacred Beasts - Hamon, Lord of Striking Thunder", "hamon"],
+  ["Infinity of the Sacred Beasts - Raviel, Lord of Phantasms", "raviel"],
+  ["Inferno of the Sacred Beasts - Uria, Lord of Searing Flames", "uria"],
+  ["The Chaotic Phantasmal Sacred Beasts", "chaotic-phantasmal-sacred-beasts"],
+  ["Fallen Paradise of the Sacred Beasts", "fallen-paradise-of-the-sacred-beasts"],
+  ["Sacred Beasts Combined Assault", "sacred-beasts-combined-assault"],
+  ["Summoner of the Sacred Beasts", "summoner-of-the-sacred-beasts"],
+  ["Martyr of the Sacred Beasts", "martyr-of-the-sacred-beasts"],
+  ["Sacred Beasts Thunderclap", "sacred-beasts-thunderclap"],
+  ["Sacred Beasts Released", "sacred-beasts-released"],
+  ["Chaotic Phantasmal", "chaotic-phantasmal-sacred-beasts"],
+  ["Fallen Paradise", "fallen-paradise-of-the-sacred-beasts"],
+  ["Combined Assault", "sacred-beasts-combined-assault"],
+  ["Thunderclap", "sacred-beasts-thunderclap"],
+  ["Summoner", "summoner-of-the-sacred-beasts"],
+  ["Martyr", "martyr-of-the-sacred-beasts"],
+  ["Raviel", "raviel"],
+  ["Hamon", "hamon"],
+  ["Uria", "uria"],
 ];
-
-// id -> art path (relative to /combos/). Card art is a fixed set; if a card's
-// file/section changes, update here. Powers the hover/tap image preview.
-const CARD_IMG = {
-  murakumo: "main/murakumo", futsu: "main/futsu", habakiri: "main/habakiri",
-  saji: "main/saji", aramasa: "main/aramasa", kusanagi: "main/kusanagi",
-  ritual: "main/ritual", mirror: "main/mirror", prayers: "main/prayers",
-  purification: "main/purification", preprep: "support/preprep",
-  raggedrecords: "support/raggedrecords",
-  ash: "nonengine/ash", droll: "nonengine/droll",
-};
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+// "/a/b/" -> "../../", so a root-absolute target becomes relative to this page.
+const upTo = (url) => "../".repeat((String(url || "/").match(/[^/]+\//g) || []).length);
+
 function linkCards(text) {
   if (!text) return text;
+  // `this.page` is the page being rendered; depth decides how many "../" a
+  // CARD_TARGETS path needs. Non-arrow function so Eleventy can bind it.
+  const up = upTo(this && this.page && this.page.url);
+  const rel = (p) => up + p.slice(1);
   // Escape first (input is plain text), then splice anchors via placeholders so
   // a shorter alias can't match inside an already-linked longer one. Aliases are
   // escaped the same way so names with "&" (Droll & Lock Bird) still match.
@@ -47,8 +119,9 @@ function linkCards(text) {
     const i = out.indexOf(ea);
     if (i < 0) continue;
     const token = "\x00" + slots.length + "\x00";
-    const img = CARD_IMG[id] ? ` data-img="../assets/cards/${CARD_IMG[id]}.webp"` : "";
-    slots.push(`<a class="clink" href="../cards/#${id}"${img}>${ea}</a>`);
+    const t = CARD_TARGETS[id];
+    const img = t && t.image ? ` data-img="${rel(t.image)}"` : "";
+    slots.push(`<a class="clink" href="${t ? rel(t.href) : "#" + id}"${img}>${ea}</a>`);
     out = out.slice(0, i) + token + out.slice(i + ea.length);
   }
   return out.replace(/\x00(\d+)\x00/g, (_, n) => slots[n]);
@@ -58,7 +131,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/css": "css" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   // Google Search Console verification file — served verbatim at the site root.
+  // Ignore it as a template so it isn't rendered into a page or the sitemap;
+  // passthrough copy still emits the raw file Google fetches.
   eleventyConfig.addPassthroughCopy("src/google*.html");
+  eleventyConfig.ignores.add("src/google*.html");
   eleventyConfig.ignores.add("src/assets/**/*.md");
   eleventyConfig.addFilter("linkcards", linkCards);
   return {

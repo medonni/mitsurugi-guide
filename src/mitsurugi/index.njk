@@ -1,0 +1,94 @@
+---
+title: Mitsurugi Overview
+bg: landing
+description: Mitsurugi is a DARK Reptile Ritual archetype that grinds value from on-tribute triggers, looping searches and revives into an unbreakable board. Learn how the engine works.
+---
+{% from "components.njk" import synergyCard, heroArt, deckCta %}
+
+<section class="container hero">
+  <div>
+    <div class="attr-pills">
+      <span class="attr-pill attr-dark">DARK</span>
+      <span class="attr-pill attr-reptile">REPTILE</span>
+      <span class="attr-pill attr-ritual">RITUAL</span>
+    </div>
+    <h1>All roads lead to <span class="em-gold">Habakiri</span>.</h1>
+    <p>Mitsurugi is a DARK Reptile Ritual archetype built around tributing your own monsters. Almost every one has an effect that fires the moment you tribute it, so the cost you pay searches or revives something right <em class="em-gold">back</em>. The board rebuilds faster than most decks can clear it.</p>
+    <div class="hero-cta">
+      <a href="{{ '/mitsurugi/cards/' | url }}" class="btn btn-violet">Explore every card <span class="mono">→</span></a>
+      <a href="#engine" class="btn btn-outline">How it works</a>
+    </div>
+  </div>
+  {{ heroArt(mitsurugi.bosses, '/mitsurugi/cards/', mitsurugi.hero) }}
+</section>
+
+<section class="container spec-strip">
+  <dl class="spec-row">
+    {% for s in mitsurugi.stats %}
+    <div class="spec-item">
+      <dt>{{ s.label }}</dt>
+      <dd>{{ s.value }}</dd>
+    </div>
+    {% endfor %}
+  </dl>
+</section>
+
+<section class="container section">
+  <div class="two-col">
+    <div>
+      <div class="kicker">// THE ARCHETYPE</div>
+      <h2>A Ritual combo deck named after legendary Japanese swords</h2>
+    </div>
+    <div class="prose">
+      <p>Each Mitsurugi card is named after a legendary Japanese sword and the Shinto myth around it. Mechanically it revives two long-underused ideas at once: <strong>Ritual Summoning</strong> and the <strong>Reptile</strong> type.</p>
+      <p>It plays as a <strong>combo-recursion</strong> deck, not pure control. The Ritual Spell tributes Reptiles straight from the Deck to fire their on-Tribute effects, chaining searches and revivals as it goes. A good turn ends on <a class="gold" href="{{ '/mitsurugi/cards/' | url }}#murakumo" data-img="{{ '/assets/cards/main/murakumo.webp' | url }}">Ame no Murakumo</a> and <a class="gold" href="{{ '/mitsurugi/cards/' | url }}#futsu" data-img="{{ '/assets/cards/main/futsu.webp' | url }}">Futsu no Mitama</a>: a board wipe, ongoing disruption, and enough recursion to grind out most decks.</p>
+    </div>
+  </div>
+</section>
+
+<section id="engine" class="container section-pad-lg">
+  <div class="section-head-center">
+    <h2>Costs become advantages</h2>
+    <p>Nearly every Mitsurugi monster has an <em class="em-gold">on-Tribute</em> trigger. It doesn't matter how the monster left the field: a Ritual Summon, a defensive tribute, or the deck's own effects all set it off.</p>
+  </div>
+  <div class="grid-4">
+    {% for step in mitsurugi.loop %}
+    <div class="panel-card">
+      <div class="step-n">{{ step.n }}</div>
+      <h3>{{ step.title }}</h3>
+      <div class="body">{{ step.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="synergy" class="container section">
+  <div class="section-head">
+    <h2>Pairs well with</h2>
+  </div>
+  <div class="synergy-grid">
+    {% for a in mitsurugi.synergy %}
+    {{ synergyCard(a) }}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container section">
+  <div class="turn-panel">
+    <h2>From one card to a full board</h2>
+    <div class="turn-grid">
+      {% for t in mitsurugi.turn %}
+      <div class="turn-step">
+        <div class="step-n">STEP {{ t.n }}</div>
+        <div class="card">{{ t.card }}</div>
+        <div class="do">{{ t.do }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="turn-more">
+      <a href="{{ '/mitsurugi/combos/' | url }}" class="mono">See the full combos <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+{{ deckCta('/mitsurugi/', 'Ready to learn the loop?', 'Every card, simplified by where it activates, with notes on how to play each one.') }}

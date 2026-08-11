@@ -1,0 +1,15 @@
+---
+title: Sacred Beasts Cards
+bg: cards
+description: The Sacred Beast "Chaos Origins" (CORI) card package, Uria, Hamon, Raviel, and their support, with official text and stats. Older Sacred Beast staples aren't in this pool yet.
+---
+{# Page body lives in _includes/cards-page.njk, shared with every deck's
+   compendium. `sacredBeasts` is this deck's data file. #}
+{% set c = sacredBeasts %}
+{% set showStats = true %}
+{% set kicker %}// CARD COMPENDIUM · SACRED BEASTS <span class="wip-badge">WORK IN PROGRESS</span>{% endset %}
+{% set heading = "The Chaos Origins package" %}
+{% set intro %}
+<p class="intro">Every Sacred Beast card from <em class="em-gold">Chaos Origins</em> (CORI, July 2026): Uria, Hamon, and Raviel plus the monsters, Spells, and Traps that fetch and Summon them, with <em class="em-gold">official</em> text and stats pulled from YGOPRODeck.</p>
+{% endset %}
+{% include "cards-page.njk" %}

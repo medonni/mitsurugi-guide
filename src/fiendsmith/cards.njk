@@ -1,0 +1,19 @@
+---
+title: Fiendsmith Cards
+bg: cards
+description: Every Fiendsmith card with its official effect text and stats, the splashable LIGHT Fiend engine that pairs with Mitsurugi and Sacred Beasts. Card info pulled straight from YGOPRODeck, no house rulings.
+---
+{# Page body lives in _includes/cards-page.njk, shared with every deck's
+   compendium. `fiendsmith` is this deck's data file. #}
+{% set c = fiendsmith %}
+{% set showStats = true %}
+{% set kicker %}// CARD COMPENDIUM · FIENDSMITH{% endset %}
+{% set heading = "Every Fiendsmith card" %}
+{% set intro %}
+<p class="intro">Every Fiendsmith card, plus the non-archetype staples the engine leans on to actually function, with its <em class="em-gold">official</em> text and stats pulled from YGOPRODeck, and tips &amp; tricks for real games.</p>
+{# Was "This page is a work in progress", which contradicted the hub, the nav
+   and the README, all of which present Fiendsmith as complete. The page IS
+   complete; what's outstanding is host-deck-specific lines elsewhere. #}
+<p class="wip-note mono">Card reference is complete. Per-deck hybrid combo lines are still being added.</p>
+{% endset %}
+{% include "cards-page.njk" %}

@@ -1,32 +1,29 @@
 {#
   Reusable UI components (Nunjucks macros).
   Import into a template with, e.g.:
-    {% from "components.njk" import synergyCard, cardArt, bossArt %}
+    {% from "components.njk" import synergyCard, cardGroup, bossStack %}
 #}
 
 {# Synergy / partner-archetype card. `rating` is optional (compendium shows it,
    the landing page omits it). Shared by index.njk and cards.njk. #}
 {% macro synergyCard(a) %}
-<div class="synergy-card">
+{% set tag = "a" if a.href else "div" %}
+<{{ tag }} class="synergy-card"{% if a.href %} href="{{ a.href | url }}"{% endif %}>
   <div class="synergy-head">
     <span class="synergy-dot" style="background:{{ a.dot }};"></span>
     <span class="synergy-name">{{ a.name }}</span>
     {% if a.rating %}<span class="synergy-rating">{{ a.rating }}</span>{% endif %}
   </div>
   <div class="synergy-body">{{ a.body }}</div>
-</div>
+</{{ tag }}>
 {% endmacro %}
 
-{# Compendium card art: real image when present, else a glyph placeholder. #}
+{# Compendium card art. Every card carries an image: src/_data/cards.js's
+   findImage() auto-wires src/assets/cards/<section>/<id>.<ext>, so a card with
+   no art is a missing file, not a data shape to render around. #}
 {% macro cardArt(c) %}
-<div class="card-art{% if c.image %} has-img{% endif %}">
-  {% if c.image %}
+<div class="card-art has-img">
   <img class="zoomable" src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" loading="lazy" tabindex="0" role="button" aria-label="View {{ c.name }} full size">
-  {% else %}
-  <span class="diamond" style="border-color:{{ c.glyphColor }};"><span style="color:{{ c.glyphColor }};">{{ c.glyph }}</span></span>
-  <div class="art-caption mono">[ CARD ART ]<br>{{ c.short }}</div>
-  <div class="art-stat">{{ c.stat }}</div>
-  {% endif %}
 </div>
 {% endmacro %}
 
@@ -42,9 +39,7 @@
 <div class="card-cost"><span class="cost-label cost-{{ mt }}">{{ ml }}</span>{{ c.cost }}</div>{% endif %}
 {% endmacro %}
 
-{# Card-group header: dot, title, tag, count. Shared by cards.njk and
-   fiendsmith.njk. The parent <details>/id/data-section stays in the page since
-   only the compendium filter needs data-section. #}
+{# Card-group header: dot, title, tag, count. #}
 {% macro groupHead(g) %}
 <summary class="group-head">
   <span class="group-dot" style="background:{{ g.dot }};"></span>
@@ -52,6 +47,156 @@
   <span class="group-tag">{{ g.tag }}</span>
   <span class="group-count">{{ g.cards | length }}</span>
 </summary>
+{% endmacro %}
+
+{# Card compendium filter header: zone chips (WHERE a card activates). Reads
+   `zones` off the page's card data (Mitsurugi's `cards.zones`, `fiendsmith.zones`,
+   `sacredBeasts.zones`, ...), which is only the zone labels some card in that
+   deck actually uses, in a fixed order, see src/_lib/zones.js.
+   Pairs with sectionTabs, filterEmpty, and assets/js/card-filter.js below,
+   every card compendium page needs all three plus that script, see README's
+   "Adding a new deck". #}
+{% macro zoneFilter(zones) %}
+<div class="legend" id="zone-filter">
+  <span class="legend-label">WHERE:</span>
+  {% for z in zones %}
+  {# Real <button aria-pressed>, not a role="button" span: the pressed state has
+     to be announced, and a button brings keyboard activation for free. Matches
+     the handtrap filter on /handtraps/matchups/. #}
+  <button type="button" class="zone-pill zone-{{ z | lower | replace(' ', '') }}" aria-pressed="false" data-zone="{{ z | lower | replace(' ', '') }}">{{ z }}</button>
+  {% endfor %}
+  <span class="note">Tap to filter, tap again to clear</span>
+</div>
+{% endmacro %}
+
+{# Search-by-name for a card compendium. The two zone/section axes both need
+   the reader to already know where a card lives; this is the axis for a reader
+   who just knows its name, which is the common case. #}
+{% macro cardSearch(total) %}
+<div class="card-search-wrap">
+  <label class="card-search-label" for="card-search">FIND A CARD</label>
+  <input type="search" id="card-search" class="card-search" autocomplete="off"
+         placeholder="Search {{ total }} cards by name">
+</div>
+{% endmacro %}
+
+{# Card compendium section tabs: "All Cards" plus one tab per card group, each
+   with a live count. `total` is the page's card data's `total` field. #}
+{% macro sectionTabs(groups, total) %}
+<section class="container-narrow tabs">
+  <div class="tabs-row">
+    <button class="tab active" data-filter="all" aria-pressed="true">All Cards <span class="count">{{ total }}</span></button>
+    {% for g in groups %}
+    <button class="tab" data-filter="{{ g.key }}" aria-pressed="false">{{ g.title | replace(" Cards", "") | replace(" Staples", "") }} <span class="count">{{ g.cards | length }}</span></button>
+    {% endfor %}
+  </div>
+</section>
+{% endmacro %}
+
+{# "No cards match" fallback + reset, shown by the page's filter script when the
+   filters leave zero rows visible. The message names every active filter, not
+   just the zone: blaming the chip when the tab is the cause points the reader at
+   the wrong control. `aria-live` announces it, since the failure is a screenful
+   of cards silently vanishing. `lead` is the sentence's subject, so a page
+   filtering something other than cards can say what it actually hid. #}
+{% macro filterEmpty(lead="No cards") %}
+<p class="filter-empty" id="filter-empty" role="status" aria-live="polite" hidden>
+  {{ lead }} <span class="filter-empty-what"></span>.
+  <button type="button" class="filter-reset" id="filter-reset">Clear filters</button>
+  {# Filled by card-filter.js when the query matches a card documented on
+     another page. Inside the aria-live region on purpose: "no results, but it's
+     over here" is the useful half of the announcement. #}
+  <span class="filter-empty-hint"></span>
+</p>
+{% endmacro %}
+
+{# Foot navigation for a deck's Cards and Combos pages, and the third link on
+   its Overview. Those two inner pages are the most search-indexed on the site,
+   and PRODUCT.md's operating context says readers arrive one page deep with no
+   prior visit to the hub: before this, /fiendsmith/cards/ and
+   /sacred-beasts/cards/ held ZERO internal links in <main>, so a cold visitor's
+   only route onward was the header caret. Lives here, and is rendered by the
+   shared cards-page/combos-page includes, so it arrives with the page shape
+   rather than being pasted per deck (the divergence CLAUDE.md records twice).
+   `base` is the deck's overview URL, e.g. "/mitsurugi/"; `here` is the page you
+   are on ("overview" | "cards" | "combos") and is the one link omitted. #}
+{% macro deckFootNav(base, here) %}
+<nav class="foot-nav" aria-label="More on this deck">
+  {% if here != "overview" %}
+  <a class="foot-nav-item" href="{{ base | url }}">
+    <span class="mono foot-nav-dir">← Deck overview</span>
+    <span class="foot-nav-label">What the deck does and how the engine loops</span>
+  </a>
+  {% endif %}
+  {% if here != "cards" %}
+  <a class="foot-nav-item" href="{{ (base ~ 'cards/') | url }}">
+    <span class="mono foot-nav-dir">Card compendium →</span>
+    <span class="foot-nav-label">Every card, by where it activates</span>
+  </a>
+  {% endif %}
+  {% if here != "combos" %}
+  <a class="foot-nav-item" href="{{ (base ~ 'combos/') | url }}">
+    <span class="mono foot-nav-dir">Combo lines →</span>
+    <span class="foot-nav-label">Step by step, from starter to end board</span>
+  </a>
+  {% endif %}
+</nav>
+{% endmacro %}
+
+{# A deck overview's closing call to action. Shared so every deck offers both
+   inner pages: Mitsurugi's overview linked its combos (via the turn panel) and
+   the other two linked only their compendium, stranding fully-written combo
+   pages with no in-body route to them. Copy stays per deck; the link set does
+   not. #}
+{% macro deckCta(base, heading, body) %}
+<section class="container cta">
+  <h2>{{ heading }}</h2>
+  <p>{{ body }}</p>
+  <div class="cta-actions">
+    <a href="{{ (base ~ 'cards/') | url }}" class="btn btn-gold">Open the Card Compendium <span class="mono">→</span></a>
+    <a href="{{ (base ~ 'combos/') | url }}" class="btn btn-outline">See the combo lines <span class="mono">→</span></a>
+  </div>
+</section>
+{% endmacro %}
+
+{# One card row: optional sub-label divider, art, role/name/badges, optional
+   stat line, cost pill, optional pre text, and the zones/tips columns.
+   `showStatLine` renders the plain-text stat line in the content column
+   (Fiendsmith, Sacred Beasts, whose cards always have real art so the stat
+   never shows via cardArt's placeholder path); decks that rely on the
+   placeholder's own stat line (Mitsurugi, Handtraps) leave it off. #}
+{% macro cardRow(c, showStatLine=false) %}
+{% if c.label %}<div class="sub-label"><span>{{ c.label }}</span></div>{% endif %}
+<div id="{{ c.id }}" class="card-row" data-zones="{% for z in c.zones %}{{ z[0] | lower | replace(' ', '') | replace('/', ' ') }} {% endfor %}">
+  {{ cardArt(c) }}
+  <div class="card-content">
+    <span class="card-role" style="color:{{ c.glyphColor or c.accent }};">{{ c.role }}</span>
+    <h3>{{ c.name }}</h3>
+    <div class="badges">
+      {% for b in c.badges %}<span class="badge">{{ b }}</span>{% endfor %}
+    </div>
+    {% if showStatLine and c.stat %}<div class="fs-stat mono">{{ c.stat }}</div>{% endif %}
+    {{ cardCost(c) }}
+    {% if c.pre %}<p class="fs-pre">{{ c.pre }}</p>{% endif %}
+    {{ cardCols(c) }}
+  </div>
+</div>
+{% endmacro %}
+
+{# One <details> card group: header, blurb (raw HTML: a data file's blurb may
+   end in a link-out, e.g. Mitsurugi's nonengine group pointing at
+   /handtraps/), and every card row. `data-section` is read by the compendium
+   tab filter where one exists; harmless where it doesn't. #}
+{% macro cardGroup(g, showStatLine=false) %}
+<details id="{{ g.key }}" class="card-group" data-section="{{ g.key }}" open>
+  {{ groupHead(g) }}
+  <p class="group-blurb">{{ g.blurb | safe }}</p>
+  <div class="card-list">
+    {% for c in g.cards %}
+    {{ cardRow(c, showStatLine) }}
+    {% endfor %}
+  </div>
+</details>
 {% endmacro %}
 
 {# The two-column "where it activates" + "tips & tricks" body of a card row.
@@ -81,14 +226,13 @@
 </div>
 {% endmacro %}
 
-{# Desktop-only hover accordion of the three ritual bosses. Each occupies a
-   third at rest; hovering a slice expands it to reveal the full card. Order is
-   Murakumo · Habakiri · Futsu so Habakiri sits in the middle. #}
-{% macro bossStack(bosses) %}
-<div class="boss-stack">
-  {% for i in [0, 2, 1] %}
-  {% set c = bosses[i] %}
-  <a class="boss-slice" href="{{ '/cards/' | url }}#{{ c.id }}" style="background-image:url('{{ c.image | url }}');" aria-label="{{ c.name }}">
+{# Desktop-only hover accordion of a deck's hero cards (2 or 3). Each occupies
+   an equal slice at rest; hovering one expands it to reveal the full card.
+   `cardsHref` is the deck's compendium URL, e.g. "/mitsurugi/cards/". #}
+{% macro bossStack(bosses, cardsHref) %}
+<div class="boss-stack{% if bosses.length == 2 %} boss-stack-2{% endif %}">
+  {% for c in bosses %}
+  <a class="boss-slice" href="{{ cardsHref | url }}#{{ c.id }}" style="background-image:url('{{ c.image | url }}');{% if c.focus %}--pan:{{ c.focus }};{% endif %}{% if c.zoom %}--zoom:{{ c.zoom }};{% endif %}" aria-label="{{ c.name }}">
     <span class="boss-slice-info">
       <span class="boss-slice-name">{{ c.name }}</span>
       <span class="boss-slice-stat">{{ c.stat }}</span>
@@ -98,9 +242,30 @@
 </div>
 {% endmacro %}
 
-{# Landing boss-card art: real image when present, else a caption placeholder. #}
+{# A deck overview's hero art column: the desktop hover accordion plus the
+   single card that stands in for it below 901px, where .boss-stack is
+   display:none. Every deck's index.njk renders exactly this, so the wrapper
+   lives with bossStack rather than being pasted three times, per CLAUDE.md.
+   `hero` is the card shown on mobile: it isn't always bosses[0] (Mitsurugi
+   leads its stack with Futsu but fronts the page with Murakumo). #}
+{% macro heroArt(bosses, cardsHref, hero) %}
+<div class="hero-art-wrap">
+  <div class="hero-art-glow"></div>
+  <div class="hero-art">
+    {{ bossStack(bosses, cardsHref) }}
+    <div class="hero-card has-img">
+      <img src="{{ hero.image | url }}" alt="{{ hero.name }}">
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{# Landing boss-card art: real image when present, else a caption placeholder.
+   Not lazy: its only caller is the hub's deck grid, which sits directly under
+   the h1 and holds the page's LCP element. `loading="lazy"` there hides the
+   src from the preload scanner, so the fetch can't start until layout does. #}
 {% macro bossArt(c) %}
 <div class="boss-art{% if c.image %} has-img{% endif %}">
-  {% if c.image %}<img src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" loading="lazy">{% else %}<span class="art-caption mono">[ ART · {{ c.short }} ]</span>{% endif %}
+  {% if c.image %}<img src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" fetchpriority="high">{% else %}<span class="art-caption mono">[ ART · {{ c.short }} ]</span>{% endif %}
 </div>
 {% endmacro %}

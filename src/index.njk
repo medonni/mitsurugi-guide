@@ -1,129 +1,66 @@
 ---
-title: Overview
-nav: landing
-description: Mitsurugi is a DARK Reptile Ritual archetype that grinds value from on-tribute triggers, looping searches and revives into an unbreakable board. Learn how the engine works.
+title: Choose Your Deck
+bg: landing
+description: A fan-made Yu-Gi-Oh! guide covering multiple Ritual and combo decks and engines. Mitsurugi and Fiendsmith are live now, Sacred Beasts is in progress, plus a shared Handtraps reference.
 ---
-{% from "components.njk" import synergyCard, bossArt, bossStack %}
+{% from "components.njk" import bossArt, synergyCard %}
 
-<section class="container hero">
-  <div>
-    <div class="attr-pills">
-      <span class="attr-pill attr-dark">DARK</span>
-      <span class="attr-pill attr-reptile">REPTILE</span>
-      <span class="attr-pill attr-ritual">RITUAL</span>
-    </div>
-    <h1>All roads lead to <span class="em-gold">Habakiri</span>.</h1>
-    <p>Mitsurugi is a DARK Reptile Ritual archetype built around tributing your own monsters. Almost every one has an effect that fires the moment you tribute it, so the cost you pay searches or revives something right <em class="em-gold">back</em>. The board rebuilds faster than most decks can clear it.</p>
-    <div class="hero-cta">
-      <a href="{{ '/cards/' | url }}" class="btn btn-violet">Explore every card <span class="mono">→</span></a>
-      <a href="#engine" class="btn btn-outline">How it works</a>
-    </div>
-  </div>
-  <div class="hero-art-wrap">
-    <div class="hero-art-glow"></div>
-    <div class="hero-art">
-      {{ bossStack(landing.bosses) }}
-      <div class="hero-card has-img">
-        <img src="{{ '/assets/cards/main/murakumo.webp' | url }}" alt="Ame no Murakumo no Mitsurugi">
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="container spec-strip">
-  <dl class="spec-row">
-    {% for s in landing.stats %}
-    <div class="spec-item">
-      <dt>{{ s.label }}</dt>
-      <dd>{{ s.value }}</dd>
-    </div>
-    {% endfor %}
-  </dl>
-</section>
-
-<section class="container section">
-  <div class="two-col">
-    <div>
-      <div class="kicker">// THE ARCHETYPE</div>
-      <h2>A Ritual combo deck named after legendary Japanese swords</h2>
-    </div>
-    <div class="prose">
-      <p>Each Mitsurugi card is named after a legendary Japanese sword and the Shinto myth around it. Mechanically it revives two long-underused ideas at once: <strong>Ritual Summoning</strong> and the <strong>Reptile</strong> type.</p>
-      <p>It plays as a <strong>combo-recursion</strong> deck, not pure control. The Ritual Spell tributes Reptiles straight from the Deck to fire their on-Tribute effects, chaining searches and revivals as it goes. A good turn ends on <a class="gold" href="{{ '/cards/' | url }}#murakumo">Ame no Murakumo</a> and <a class="gold" href="{{ '/cards/' | url }}#futsu">Futsu no Mitama</a>: a board wipe, ongoing disruption, and enough recursion to grind out most decks.</p>
-    </div>
-  </div>
-</section>
-
-<section id="engine" class="container section-pad-lg">
+{# The header and the grid it introduces are one section. As two sections they
+   were 96px apart while the grid sat only 48px from the next section down, so
+   the page's biggest gap fell inside a group and its smallest between them. #}
+<section class="container section-pad-lg">
   <div class="section-head-center">
-    <h2>Costs become advantages</h2>
-    <p>Nearly every Mitsurugi monster has an <em class="em-gold">on-Tribute</em> trigger. It doesn't matter how the monster left the field: a Ritual Summon, a defensive tribute, or the deck's own effects all set it off.</p>
+    <div class="kicker">// {{ site.neutralWordmark }}</div>
+    <h1>Choose your deck.</h1>
+    <p>One guide, more than one grind. Pick a deck or engine below for its full card compendium and combo lines.</p>
   </div>
-  <div class="grid-4">
-    {% for step in landing.loop %}
-    <div class="panel-card">
-      <div class="step-n">{{ step.n }}</div>
-      <h3>{{ step.title }}</h3>
-      <div class="body">{{ step.body }}</div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-
-<section class="container section">
-  <div class="section-head-row">
-    <div>
-      <h2>The three ritual monsters</h2>
-    </div>
-    <a href="{{ '/cards/' | url }}" class="mono link-more">full breakdown →</a>
-  </div>
-  <div class="grid-3">
-    {% for c in landing.bosses %}
-    <a class="boss-card" href="{{ '/cards/' | url }}#{{ c.id }}">
-      {{ bossArt(c) }}
+  <div class="deck-grid">
+    {% for d in hub.decks %}
+    <a class="boss-card" href="{{ d.href | url }}" style="--card-accent:{{ d.accent }};">
+      {{ bossArt(d) }}
       <div class="boss-body">
-        <h3>{{ c.name }}</h3>
-        <div class="boss-stat">{{ c.stat }}</div>
-        <div class="boss-desc">{{ c.desc }}</div>
+        {# h2, not h3: the deck names are this page's primary content and they
+           come before the only other h2 ("Shared reference"), so an h3 here
+           made the hub's outline read h1 → h3 → h2. #}
+        <h2>{{ d.name }}{% if d.status == "wip" %} <span class="wip-badge">WIP</span>{% endif %}</h2>
+        <div class="boss-stat">{{ d.tagline }}</div>
+        <div class="boss-desc">{{ d.body }}</div>
+        {# Names the three-page shape before the reader commits, which also makes
+           the header's per-deck dropdown discoverable by implication. Not links:
+           the whole card is already one, and nesting anchors is invalid. #}
+        <div class="boss-pages mono">Overview · Cards · Combos</div>
       </div>
     </a>
     {% endfor %}
   </div>
 </section>
 
-<section id="synergy" class="container section">
+<section class="container section">
   <div class="section-head">
-    <h2>Archetypes that pair well</h2>
-    <p class="prose">Mitsurugi has no in-archetype locks, so its pieces slot into other strategies, and other engines slot into it.</p>
+    <h2>Shared reference</h2>
+    <p class="prose">Not every card belongs to one deck. Handtraps get one shared page instead of being copy-pasted onto each deck's compendium.</p>
   </div>
   <div class="synergy-grid">
-    {% for a in landing.synergy %}
-    {{ synergyCard(a) }}
+    {% for e in hub.engines %}
+    {{ synergyCard(e) }}
     {% endfor %}
   </div>
-  <p class="pending-note mono">More deck variants in progress: {{ landing.synergyPending | join(" · ") }}</p>
 </section>
 
+{# The page's closing aside: whose notebook this is and why it's public. Heading
+   left, note right, so it reads as an afterword rather than a fourth thing to
+   pick off the hub. #}
 <section class="container section">
-  <div class="turn-panel">
-    <h2>From one card to a full board</h2>
-    <div class="turn-grid">
-      {% for t in landing.turn %}
-      <div class="turn-step">
-        <div class="step-n">STEP {{ t.n }}</div>
-        <div class="card">{{ t.card }}</div>
-        <div class="do">{{ t.do }}</div>
+  <div class="two-col note">
+    <h2>Why does this site exist?</h2>
+    <div>
+      <div class="prose">
+        <p>Honestly: for me. I've been playing Yu-Gi-Oh! for about a year, and the fastest way I've found to actually learn a deck is to write it down. Every card sorted by where it activates, every combo line typed out step by step until the sequencing sticks in my head.</p>
+        <p>So this is my notebook, made public. A deck is here because I wanted to pilot it and had to understand it first, and anything marked <strong>WIP</strong> is a deck I'm still learning.</p>
+        <p>No ads, no wall of verbatim card text, no sign-up. If it helps you pick up a deck too, even better.</p>
       </div>
-      {% endfor %}
-    </div>
-    <div class="turn-more">
-      <a href="{{ '/combos/' | url }}" class="mono">See the full combos <span>→</span></a>
+      {# Outside .prose: `.prose p + p` would outrank .note-sign's own margin. #}
+      <p class="note-sign">Medonni</p>
     </div>
   </div>
-</section>
-
-<section class="container cta">
-  <h2>Ready to learn the loop?</h2>
-  <p>Every card, simplified by where it activates, with notes on how to play each one.</p>
-  <a href="{{ '/cards/' | url }}" class="btn btn-gold">Open the Card Compendium <span class="mono">→</span></a>
 </section>

@@ -1,0 +1,53 @@
+---
+title: Fiendsmith Overview
+bg: landing
+description: Fiendsmith is a splashable LIGHT Fiend engine, an omni-negate and grindy recursion package that bridges into more than one deck in this guide.
+---
+{% from "components.njk" import synergyCard, heroArt, deckCta %}
+
+<section class="container hero">
+  <div>
+    <div class="attr-pills">
+      <span class="attr-pill attr-violet">LIGHT</span>
+      <span class="attr-pill attr-teal">FIEND</span>
+      <span class="attr-pill attr-gold">ENGINE</span>
+    </div>
+    <h1>One card is all it takes.</h1>
+    <p>Fiendsmith is a small, self-sufficient package: a couple of starters that turn into an on-demand negate and a grindy recursion loop. It isn't a standalone deck, it's a toolbox other archetypes branch into for extra interaction and resilience.</p>
+    <div class="hero-cta">
+      <a href="{{ '/fiendsmith/cards/' | url }}" class="btn btn-violet">Explore every card <span class="mono">→</span></a>
+      <a href="#how-it-works" class="btn btn-outline">How it works</a>
+    </div>
+  </div>
+  {{ heroArt(fiendsmith.heroBosses, '/fiendsmith/cards/', fiendsmith.heroBosses[0]) }}
+</section>
+
+<section id="how-it-works" class="container section">
+  <div class="two-col">
+    <div>
+      <div class="kicker">// THE ENGINE</div>
+      <h2>Two starters, one big payoff</h2>
+    </div>
+    <div class="prose">
+      <p><a class="gold" href="{{ '/fiendsmith/cards/' | url }}#fiendsmith-engraver" data-img="{{ '/assets/cards/fiendsmith/fiendsmith-engraver.webp' | url }}">Fiendsmith Engraver</a> and <a class="gold" href="{{ '/fiendsmith/cards/' | url }}#lacrima-the-crimson-tears" data-img="{{ '/assets/cards/fiendsmith/lacrima-the-crimson-tears.webp' | url }}">Lacrima the Crimson Tears</a> are the engine's entry points: either one turns a single card into a chain of Links and Fusions that ends on <a class="gold" href="{{ '/fiendsmith/cards/' | url }}#fiendsmiths-desirae" data-img="{{ '/assets/cards/fiendsmith/fiendsmiths-desirae.webp' | url }}">Fiendsmith's Desirae</a>, an untargeted, on-demand negate.</p>
+      <p>The GY effects keep paying for themselves. Cards that leave the field come back or trade up, so a well-sequenced line ends with more resources than it started.</p>
+      <p>The names fit the theme: every Fiendsmith card except Engraver is named after a piece of the Requiem Mass or the Dies Irae, the Latin judgment-day poem sung within it. <a class="gold" href="{{ '/fiendsmith/cards/' | url }}#fiendsmiths-desirae" data-img="{{ '/assets/cards/fiendsmith/fiendsmiths-desirae.webp' | url }}">Desirae</a> comes straight from "Dies Irae," and <a class="gold" href="{{ '/fiendsmith/cards/' | url }}#lacrima-the-crimson-tears" data-img="{{ '/assets/cards/fiendsmith/lacrima-the-crimson-tears.webp' | url }}">Lacrima</a> is short for Lacrimosa, the Mass's weeping movement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head">
+    <h2>Where it bridges in</h2>
+    <p class="prose">Fiendsmith doesn't convert a host archetype's own monsters on its own, each deck needs its own path into the package.</p>
+  </div>
+  {% set hosts = [
+    { name: "Mitsurugi", dot: "#b98cff", href: "/mitsurugi/", body: "Bridges in through Evilswarm Exciton Knight, a Rank 4 the deck makes naturally, with Skull Archfiend of Chaos bridging back into Mitsurugi." },
+    { name: "Sacred Beasts", dot: "#52d68f", rating: "WIP", href: "/sacred-beasts/", body: "Bridge not written up yet, this deck's own card reference is still in progress." }
+  ] %}
+  <div class="synergy-grid">
+    {% for h in hosts %}{{ synergyCard(h) }}{% endfor %}
+  </div>
+</section>
+
+{{ deckCta('/fiendsmith/', 'See every card', 'Official text and stats for every Fiendsmith card, with tips for real games.') }}

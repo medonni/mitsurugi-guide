@@ -1,0 +1,18 @@
+---
+title: Handtraps
+bg: cards
+description: Common handtraps run alongside Mitsurugi and the other decks in this guide, grouped by what they do, with tips for real games.
+---
+{% from "components.njk" import cardGroup %}
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// SHARED TOOLBOX · HANDTRAPS</div>
+  <h1>Handtraps, across every deck</h1>
+  <p class="intro">Handtraps aren't specific to any one archetype, so they get one shared reference instead of being duplicated on every deck page. Each entry below notes what it actually stops and, where relevant, how it interacts with the decks in this guide. For which of these to hold against a given opponent, see the <a class="gold" href="{{ '/handtraps/matchups/' | url }}">matchup interaction map</a>.</p>
+</section>
+
+<section class="container-narrow groups">
+  {% for g in handtraps.groups %}
+  {{ cardGroup(g) }}
+  {% endfor %}
+</section>

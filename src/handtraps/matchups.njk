@@ -1,0 +1,263 @@
+---
+title: Matchups
+bg: cards
+description: "An interaction map organized by matchup: for each opponent archetype, the cards that decide the game and which of your handtraps answers each one, with the timing."
+---
+{% from "components.njk" import cardSearch, filterEmpty %}
+
+<section class="container-narrow comp-head">
+  <div class="kicker">// SHARED TOOLBOX · INTERACTION MAP</div>
+  <h1>Where your interaction lands</h1>
+  <p class="intro">A handtrap is only as good as the card it stops. This page is organized <em class="em-gold">by their card</em>: find what the opponent just resolved, and see which of your handtraps answers it and when. What each handtrap does is on the <a class="gold" href="{{ '/handtraps/' | url }}">handtrap reference</a>; this page only covers where it lands.</p>
+
+  {% if matchups.documented %}
+  {# Recomputed by apply(): a seed count that stays baked while the page filters
+     underneath it is the Live Count Rule's exact failure. #}
+  <p class="matchup-seed mono" id="matchup-seed"
+     data-total="{{ matchups.threatCount }}" data-calls="{{ matchups.documented }}">{{ matchups.threatCount }} cards mapped, {{ matchups.documented }} handtrap call{{ "s" if matchups.documented != 1 }}, more added as they're verified.</p>
+  {% else %}
+  <p class="matchup-seed mono">Matchups are still being written up, your handtrap toolkit is below.</p>
+  {% endif %}
+</section>
+
+{% if matchups.matchups.length %}
+{# Two axes, the same shape every compendium ships: search by THEIR card name
+   (the page's own lookup key, and the common arrival case) and filter by YOUR
+   handtrap. The page previously offered only the second, which answered the
+   rarer question. #}
+<section class="container-narrow tabs matchup-filter" aria-label="Filter matchups">
+  {{ cardSearch(matchups.threatCount) }}
+  {% if matchups.traps.length %}
+  <div class="trap-filter-head">
+    <span class="trap-filter-label">SHOW HANDTRAPS</span>
+    <button class="trap-clear" id="trap-clear" hidden>Clear ✕</button>
+  </div>
+  <div class="tabs-row" id="trap-filter">
+    {% for t in matchups.traps %}
+    <button class="tab" data-trap="{{ t.id }}" aria-pressed="false" title="{{ t.name }}">{{ t.short }}</button>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+
+<nav class="container-narrow combo-jump" aria-label="Jump to a matchup">
+  <span class="combo-jump-label">JUMP TO</span>
+  {% for d in matchups.matchups %}
+  <a href="#{{ d.slug }}" data-jump="{{ d.slug }}">{{ d.name }}</a>
+  {% endfor %}
+</nav>
+
+<section class="container-narrow hit-list">
+  {% for d in matchups.matchups %}
+  <details class="hit-deck-block" id="{{ d.slug }}" open>
+    <summary class="group-head">
+      <span class="group-dot" style="background:var(--gold);"></span>
+      <h2>{{ d.name }}</h2>
+      <span class="group-count">{% if d.threats.length %}{{ d.threats | length }} card{{ "s" if d.threats | length != 1 }}{% else %}not mapped yet{% endif %}</span>
+    </summary>
+    {% if d.note %}<p class="group-blurb">{{ d.note }}</p>{% endif %}
+
+    {% if d.threats.length %}
+    <div class="threats">
+      {% for t in d.threats %}
+      {# One opponent card and every verdict against it. The art is the lookup
+         key: a reader recognises the card they were just shown across the table
+         faster than they read its name. #}
+      <article class="threat">
+        {# The art and the card name link to the same place, so the art is
+           decorative: hiding it from the a11y tree and the tab order leaves one
+           link per row instead of two identical ones announced back to back.
+           Mouse users still get the whole image as a click target. #}
+        {% if t.href %}<a class="threat-art has-img" href="{{ t.href | url }}" tabindex="-1" aria-hidden="true">
+          <img src="{{ t.image | url }}" alt="" width="412" height="600" loading="lazy">
+        </a>
+        {% else %}<span class="threat-art" aria-hidden="true"></span>{% endif %}
+        <div class="threat-id">
+          <h3>{% if t.href %}<a href="{{ t.href | url }}">{{ t.name }}</a>{% else %}{{ t.name }}{% endif %}</h3>
+          <p class="threat-does">{{ t.does }}</p>
+        </div>
+        <div class="threat-answers">
+          {% for a in t.answers %}
+          {# The verdict's polarity lives in the chip column, not inside the
+             sentence: the chip is the leftmost, highest-contrast thing in the
+             row, so it is what a reader scanning under time pressure actually
+             reads. A blank chip that looked live was telling them to fire a
+             handtrap that does nothing. #}
+          <div class="answer{% if a.blank %} is-blank{% endif %}" data-trap="{{ a.id }}">
+            <span class="answer-verdict">
+              <a class="answer-trap" href="{{ '/handtraps/' | url }}#{{ a.id }}"
+                 data-img="{{ a.image | url }}" title="{{ a.name }}">{{ a.short }}</a>
+              {%- if a.blank %}<span class="answer-blank">BLANK</span>{% endif %}
+            </span>
+            <p class="answer-line">{{ a.when | linkcards | safe }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% if d.dead.length %}
+    {# Handtraps that are blank across this entire matchup. No single card owns
+       them, and "don't side this" is the most actionable line on the page. #}
+    <div class="dead-list">
+      {# h3, not h4: this is a peer section of the matchup (a sibling of the
+         threat cards' own h3s), not a subsection of whichever card happened to
+         be listed last. #}
+      <h3 class="dead-head">Leave at home</h3>
+      <div class="dead-list-rows">
+      {% for x in d.dead %}
+      <div class="answer is-blank dead-row" data-trap="{{ x.id }}">
+        <span class="answer-verdict">
+          <a class="answer-trap" href="{{ '/handtraps/' | url }}#{{ x.id }}"
+             data-img="{{ x.image | url }}" title="{{ x.name }}">{{ x.short }}</a>
+        </span>
+        <p class="answer-line">{{ x.why | linkcards | safe }}</p>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% else %}
+    <p class="hit-section-empty">Handtrap targets for this matchup aren't mapped yet.</p>
+    {% endif %}
+  </details>
+  {% endfor %}
+
+  {{ filterEmpty("Nothing") }}
+
+  {% if matchups.unmapped.length %}
+  <p class="unmapped-note">Not mapped yet: {{ matchups.unmapped | join(", ") }}. Handtrap targets go up as they're verified.</p>
+  {% endif %}
+</section>
+
+<script>
+  // Two filter axes, one apply(): a name search over THEIR cards, and a
+  // multi-select over YOUR handtraps. Empty search + empty selection = show
+  // everything. The handtrap axis cascades three levels, because a card can
+  // have several verdicts against it: hide answers whose handtrap isn't
+  // selected, then any card left with no visible answer, then any archetype
+  // left with no visible card. Search acts on the card, so it cuts in at the
+  // second level. Same conventions as assets/js/card-filter.js (hidden
+  // attribute, recomputed counts, Escape clears, filtering opens a collapsed
+  // group); that script drives the compendium's own .card-row markup, so this
+  // page can't just include it.
+  (function () {
+    const bar = document.getElementById("trap-filter");
+    const search = document.getElementById("card-search");
+    if (!bar && !search) return;
+    const chips = bar ? bar.querySelectorAll(".tab[data-trap]") : [];
+    const clear = document.getElementById("trap-clear");
+    const answers = document.querySelectorAll(".answer[data-trap]");
+    const threats = document.querySelectorAll(".threat");
+    const deadLists = document.querySelectorAll(".dead-list");
+    const blocks = document.querySelectorAll(".hit-deck-block");
+    const jumps = document.querySelectorAll("[data-jump]");
+    const empty = document.getElementById("filter-empty");
+    const emptyWhat = empty && empty.querySelector(".filter-empty-what");
+    const seed = document.getElementById("matchup-seed");
+    const sel = new Set();
+    let q = "";
+
+    // Match on the card name AND the "what it does for them" caption, so
+    // "search" or "field spell" finds a card whose name you can't recall.
+    const threatText = (t) =>
+      ((t.querySelector("h3") || {}).textContent + " " + ((t.querySelector(".threat-does") || {}).textContent || "")).toLowerCase();
+
+    // A block's header count is baked from the data, so it has to be recomputed
+    // or it claims "8 cards" over a single filtered row. Blocks with no threats
+    // at all are the "not mapped yet" stubs: leave their label alone.
+    function recount(b) {
+      if (!b.querySelector(".threat")) return;
+      const n = b.querySelectorAll(".threat:not([hidden])").length;
+      // A block can survive the filter on a "leave at home" row alone, with no
+      // cards showing. "0 cards" over visible content is the Live Count Rule's
+      // failure inverted, so say what the zero actually means instead.
+      b.querySelector(".group-count").textContent =
+        n === 0 ? "no answers here" : n + (n === 1 ? " card" : " cards");
+    }
+
+    function apply() {
+      const on = sel.size !== 0;
+      const filtering = on || !!q;
+      answers.forEach((a) => { a.hidden = on && !sel.has(a.dataset.trap); });
+      threats.forEach((t) => {
+        const okTrap = !on || !!t.querySelector(".answer:not([hidden])");
+        t.hidden = !(okTrap && (!q || threatText(t).includes(q)));
+      });
+      // The "leave at home" list is a group of answers, not a threat, so it
+      // needs its own emptiness check or its heading survives alone. A card-name
+      // search says nothing about deck-level siding advice, so it hides those
+      // rather than pretending they matched.
+      deadLists.forEach((l) => { l.hidden = !!q || (on && !l.querySelector(".answer:not([hidden])")); });
+      let any = false;
+      blocks.forEach((b) => {
+        // A dead row only counts as visible if its LIST is visible too: the row
+        // itself carries no `hidden` when the search hides the list around it,
+        // which kept every archetype open on a search that matched one card.
+        const shown = b.querySelector(".threat:not([hidden]), .dead-list:not([hidden]) .dead-row:not([hidden])");
+        b.hidden = filtering && !shown;
+        // A group collapsed by the reader would otherwise show nothing with no
+        // explanation while a filter is narrowing. Open it.
+        if (shown && filtering) b.open = true;
+        recount(b);
+        if (shown) any = true;
+      });
+      // Don't offer a jump to a matchup the filter just hid.
+      jumps.forEach((j) => { j.hidden = document.getElementById(j.dataset.jump).hidden; });
+      if (seed) {
+        const cards = document.querySelectorAll(".threat:not([hidden])").length;
+        // Scoped to visible cards and visible lists: an unscoped count reported
+        // all 46 calls next to "1 card", which is the same Live Count Rule
+        // failure the baked-in number had.
+        const calls = document.querySelectorAll(
+          ".threat:not([hidden]) .answer:not([hidden]), .dead-list:not([hidden]) .dead-row:not([hidden])").length;
+        seed.textContent = filtering
+          ? `${cards} card${cards === 1 ? "" : "s"}, ${calls} handtrap call${calls === 1 ? "" : "s"} shown.`
+          : `${seed.dataset.total} cards mapped, ${seed.dataset.calls} handtrap calls, more added as they're verified.`;
+      }
+      if (empty) {
+        // Name every active filter: blaming the chips when the search is the
+        // cause sends the reader to fix the wrong control.
+        const parts = [];
+        if (q) parts.push(`matching "${q}"`);
+        if (on) parts.push(`answered by ${[...sel].map((id) => (bar.querySelector(`[data-trap="${id}"]`) || {}).textContent).join(" or ")}`);
+        emptyWhat.textContent = parts.join(" ") || "matching this filter";
+        empty.hidden = any;
+      }
+      if (clear) clear.hidden = !on;
+    }
+    chips.forEach((c) => c.addEventListener("click", () => {
+      const id = c.dataset.trap;
+      sel.has(id) ? sel.delete(id) : sel.add(id);
+      c.classList.toggle("active", sel.has(id));
+      c.setAttribute("aria-pressed", sel.has(id));
+      apply();
+    }));
+    function reset() {
+      sel.clear();
+      q = "";
+      if (search) search.value = "";
+      chips.forEach((c) => { c.classList.remove("active"); c.setAttribute("aria-pressed", "false"); });
+      apply();
+    }
+    if (clear) clear.addEventListener("click", reset);
+    const resetBtn = document.getElementById("filter-reset");
+    if (resetBtn) resetBtn.addEventListener("click", () => { reset(); if (search) search.focus(); });
+
+    if (search) {
+      search.addEventListener("input", () => { q = search.value.trim().toLowerCase(); apply(); });
+      // Escape clears the field without reaching for the mouse.
+      search.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && search.value) { search.value = ""; q = ""; apply(); }
+      });
+    }
+
+    apply();
+  })();
+</script>
+{% else %}
+<section class="container-narrow hit-list">
+  <p class="hit-empty">No matchups mapped yet. As they're written up, each opponent archetype will list the cards that decide the game and which of your handtraps answers each one.</p>
+</section>
+{% endif %}

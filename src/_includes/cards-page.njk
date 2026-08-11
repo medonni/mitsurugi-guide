@@ -1,0 +1,55 @@
+{# Shared card compendium body. Each deck's cards.njk sets the variables below
+   and includes this; nothing here may reference a specific deck. Same shape as
+   combos-page.njk, and for the same reason: per CLAUDE.md, three decks needing
+   one page shape means extract, not copy-paste. This file is also the fix for
+   the drift CLAUDE.md records, where Mitsurugi's zone filter and section tabs
+   silently never reached Fiendsmith and Sacred Beasts. The six pieces the
+   filter script needs (cardSearch, zoneFilter, sectionTabs, the cardGroup
+   loop, filterEmpty, the <script>) now arrive together or not at all, so a new
+   deck cannot get four of them.
+
+   Set before including:
+     c            the deck's card data — needs .total, .zones, .groups
+     kicker       raw markup for the eyebrow line
+     heading      the page's h1, plain text
+     intro        raw markup under the h1 (the .intro paragraph, any WIP note)
+     showStats    passed to cardRow as showStatLine, see components.njk
+     afterGroups  optional raw markup below the compendium #}
+{% from "components.njk" import cardGroup, zoneFilter, sectionTabs, filterEmpty, cardSearch, deckFootNav %}
+
+{# This include is only ever reached from a deck's <deck>/cards.njk, so the
+   deck's own base URL is this page's URL minus its last segment. Derived rather
+   than passed in: a variable every deck has to remember to set is exactly how
+   the last three compendium features reached one deck and not the others. #}
+{% set deckBase = page.url | replace("cards/", "") %}
+
+<section class="container-narrow comp-head">
+  <div class="kicker">{{ kicker | safe }}</div>
+  <h1>{{ heading }}</h1>
+  {{ intro | safe }}
+
+  {{ cardSearch(c.total) }}
+  {{ zoneFilter(c.zones) }}
+</section>
+
+{{ sectionTabs(c.groups, c.total) }}
+
+<section class="container-narrow groups">
+  {% for g in c.groups %}
+  {{ cardGroup(g, showStats) }}
+  {% endfor %}
+
+  {{ filterEmpty() }}
+  {{ afterGroups | safe }}
+
+  {{ deckFootNav(deckBase, "cards") }}
+</section>
+
+{# Every card in the guide, so a search that misses on this page can point at
+   the page that has it. Hrefs go through `| url` here rather than being read
+   root-absolute in JS, so the /mitsurugi-guide/ pathPrefix is already applied
+   and the script never has to know the site is deployed under one. #}
+<script type="application/json" id="all-cards">[
+{%- for c in allCards %}{% if not loop.first %},{% endif %}{"name":{{ c.name | dump | safe }},"href":{{ c.href | url | dump | safe }},"page":{{ c.page | dump | safe }}}{% endfor -%}
+]</script>
+<script src="{{ '/assets/js/card-filter.js' | url }}"></script>

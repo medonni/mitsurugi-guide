@@ -1,4 +1,10 @@
 node_modules/
 _site/
-design_handoff_mitsurugi_guide/
-CLAUDE.md
+_check/
+
+# Browser-automation scratch: screenshots, console logs, and a11y snapshots
+# written by the Playwright MCP server. Regenerated on every run, never input
+# to a build. .impeccable/ is deliberately NOT here: its config.json/design.json
+# are project config, and critique/*.md are the backlog /impeccable polish reads.
+.playwright-mcp/
+.impeccable/
