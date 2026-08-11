@@ -1,7 +1,7 @@
 {#
   Reusable UI components (Nunjucks macros).
   Import into a template with, e.g.:
-    {% from "components.njk" import synergyCard, cardArt, bossArt %}
+    {% from "components.njk" import synergyCard, cardGroup, bossStack %}
 #}
 
 {# Synergy / partner-archetype card. `rating` is optional (compendium shows it,
@@ -18,22 +18,12 @@
 </{{ tag }}>
 {% endmacro %}
 
-{# Compendium card art: real image when present, else a placeholder. Two
-   placeholder styles depending on the data shape: a glyph diamond for decks
-   authored with glyph/glyphColor/short (Mitsurugi, Handtraps), or a plain
-   accent-colored caption for decks authored with accent (Fiendsmith,
-   Sacred Beasts). #}
+{# Compendium card art. Every card carries an image: src/_data/cards.js's
+   findImage() auto-wires src/assets/cards/<section>/<id>.<ext>, so a card with
+   no art is a missing file, not a data shape to render around. #}
 {% macro cardArt(c) %}
-<div class="card-art{% if c.image %} has-img{% endif %}">
-  {% if c.image %}
+<div class="card-art has-img">
   <img class="zoomable" src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" loading="lazy" tabindex="0" role="button" aria-label="View {{ c.name }} full size">
-  {% elif c.glyph %}
-  <span class="diamond" style="border-color:{{ c.glyphColor }};"><span style="color:{{ c.glyphColor }};">{{ c.glyph }}</span></span>
-  <div class="art-caption mono">[ CARD ART ]<br>{{ c.short }}</div>
-  <div class="art-stat">{{ c.stat }}</div>
-  {% else %}
-  <div class="art-caption mono" style="color:{{ c.accent }};">[ CARD ART ]<br>{{ c.name }}</div>
-  {% endif %}
 </div>
 {% endmacro %}
 

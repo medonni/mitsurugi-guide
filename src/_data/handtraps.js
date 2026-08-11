@@ -9,7 +9,7 @@ import { findImage } from "../_lib/card-images.js";
 const cardData = [
   {
     id: "ash", name: "Ash Blossom & Joyous Spring", short: "ASH", role: "Handtrap",
-    glyph: "灰", glyphColor: "#7fd8c6", stat: "LV3 · Handtrap",
+    glyphColor: "#7fd8c6", stat: "LV3 · Handtrap",
     badges: ["FIRE", "Zombie", "Tuner"],
     zones: [
       ["HAND", "Discard: negate a card that adds from Deck, Special Summons from Deck, or sends Deck-to-GY."],
@@ -20,7 +20,7 @@ const cardData = [
   },
   {
     id: "nibiru", name: "Nibiru, the Primal Being", short: "NIBIRU", role: "Handtrap",
-    glyph: "星", glyphColor: "#7fd8c6", stat: "LV11 · Handtrap",
+    glyphColor: "#7fd8c6", stat: "LV11 · Handtrap",
     badges: ["LIGHT", "Rock"],
     zones: [
       ["HAND", "After the opponent's 5th+ summon this turn: tribute ALL monsters both players control, gain a token."],
@@ -34,7 +34,7 @@ const cardData = [
   },
   {
     id: "imperm", name: "Infinite Impermanence", short: "IMPERM", role: "Handtrap / Trap",
-    glyph: "無", glyphColor: "#7fd8c6", stat: "Trap Card",
+    glyphColor: "#7fd8c6", stat: "Trap Card",
     badges: ["Trap", "Normal"],
     zones: [
       ["HAND", "From hand (if you control no cards): negate a face-up monster's effects."],
@@ -47,7 +47,7 @@ const cardData = [
   },
   {
     id: "droll", name: "Droll & Lock Bird", short: "DROLL", role: "Handtrap · Search Lock",
-    glyph: "封", glyphColor: "#7fd8c6", stat: "LV1 · Handtrap",
+    glyphColor: "#7fd8c6", stat: "LV1 · Handtrap",
     badges: ["WIND", "Winged Beast"],
     zones: [
       ["HAND", "If a card is added from the Deck to a hand (except during the Draw Phase): discard this. For the rest of this turn, neither player can add cards from the Deck to the hand."],
@@ -58,7 +58,7 @@ const cardData = [
   },
   {
     id: "fuwalos", name: "Mulcharmy Fuwalos", short: "FUWALOS", role: "Handtrap · Draw",
-    glyph: "綿", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
+    glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
     badges: ["WIND", "Winged Beast"],
     zones: [
       ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Special Summons a monster from the Deck or Extra Deck this turn, draw 1 (keeping a set hand size at the End Phase)."],
@@ -70,7 +70,7 @@ const cardData = [
   },
   {
     id: "purulia", name: "Mulcharmy Purulia", short: "PURULIA", role: "Handtrap · Draw",
-    glyph: "毬", glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
+    glyphColor: "#7fd8c6", stat: "LV4 · Handtrap",
     badges: ["WATER", "Aqua"],
     zones: [
       ["HAND", "If you control no monsters (Quick Effect): discard this. Each time the opponent Normal or Special Summons a monster from the Hand this turn, draw 1 (End Phase hand-size limit applies)."],
@@ -82,7 +82,7 @@ const cardData = [
   },
   {
     id: "dshifter", name: "Dimension Shifter", short: "DIM. SHIFTER", role: "Handtrap · GY Hate",
-    glyph: "次", glyphColor: "#7fd8c6", stat: "LV6 · Handtrap",
+    glyphColor: "#7fd8c6", stat: "LV6 · Handtrap",
     badges: ["DARK", "Spellcaster", "Effect", "Level 6"],
     zones: [
       ["HAND", "If your GY is empty (Quick Effect): send this from hand to GY: until the end of the next turn, cards sent to the GY are banished instead."],

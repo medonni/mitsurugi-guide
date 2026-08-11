@@ -20,8 +20,8 @@ const sections = [
 const cardData = [
   // ===== MAIN ARCHETYPE =====
   {
-    id: "murakumo", section: "main", name: "Ame no Murakumo no Mitsurugi", short: "MURAKUMO", role: "Ritual Monster",
-    glyph: "叢", glyphColor: "#e0c46a", stat: "LV8 · 3200 / 800",
+    id: "murakumo", section: "main", name: "Ame no Murakumo no Mitsurugi", role: "Ritual Monster",
+    glyphColor: "#e0c46a", stat: "LV8 · 3200 / 800",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
       ["FIELD", "On Special Summon: destroy ALL monsters your opponent controls."],
@@ -35,8 +35,8 @@ const cardData = [
     ],
   },
   {
-    id: "futsu", section: "main", name: "Futsu no Mitama no Mitsurugi", short: "FUTSU", role: "Ritual Monster",
-    glyph: "布", glyphColor: "#e0c46a", stat: "LV8 · 2000 / 3400",
+    id: "futsu", section: "main", name: "Futsu no Mitama no Mitsurugi", role: "Ritual Monster",
+    glyphColor: "#e0c46a", stat: "LV8 · 2000 / 3400",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
       ["FIELD", "When the opponent Special Summons(Except during the Damage Step): target a Reptile in your GY (except itself) to special summon it. Once per Chain."],
@@ -48,8 +48,8 @@ const cardData = [
     ],
   },
   {
-    id: "habakiri", section: "main", name: "Ame no Habakiri no Mitsurugi", short: "HABAKIRI", role: "Ritual Monster",
-    glyph: "羽", glyphColor: "#e0c46a", stat: "LV8 · 2400 / 1800",
+    id: "habakiri", section: "main", name: "Ame no Habakiri no Mitsurugi", role: "Ritual Monster",
+    glyphColor: "#e0c46a", stat: "LV8 · 2400 / 1800",
     badges: ["DARK", "Reptile", "Ritual", "Level 8"],
     zones: [
       ["HAND", "Reveal this card: Special Summon 1 Mitsurugi from Deck, then tribute 1 monster you control. Once per DUEL."],
@@ -63,8 +63,8 @@ const cardData = [
     ],
   },
   {
-    id: "aramasa", section: "main", name: "Mitsurugi no Mikoto, Aramasa", short: "ARAMASA", role: "Lv4 MonsterSearcher",
-    glyph: "荒", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    id: "aramasa", section: "main", name: "Mitsurugi no Mikoto, Aramasa", role: "Lv4 MonsterSearcher",
+    glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
       ["TRIGGER", "If Normal/Special Summoned or Tributed: add 1 Mitsurugi monster from your Deck (except itself)."],
@@ -76,8 +76,8 @@ const cardData = [
     ],
   },
   {
-    id: "saji", section: "main", name: "Mitsurugi no Mikoto, Saji", short: "SAJI", role: "Lv4 Spell/Trap Searcher",
-    glyph: "早", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    id: "saji", section: "main", name: "Mitsurugi no Mikoto, Saji", role: "Lv4 Spell/Trap Searcher",
+    glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
       ["TRIGGER", "If Normal/Special Summoned or Tributed: add 1 Mitsurugi Spell/Trap from your Deck to your hand."],
@@ -89,8 +89,8 @@ const cardData = [
     ],
   },
   {
-    id: "kusanagi", section: "main", name: "Mitsurugi no Mikoto, Kusanagi", short: "KUSANAGI", role: "Lv4 Recursion",
-    glyph: "草", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    id: "kusanagi", section: "main", name: "Mitsurugi no Mikoto, Kusanagi", role: "Lv4 Recursion",
+    glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
       ["TRIGGER", "If Normal/Special Summoned or Tributed: add 1 Mitsurugi card from your GY or banishment back to your hand."],
@@ -103,8 +103,8 @@ const cardData = [
     ],
   },
   {
-    id: "ritual", section: "main", name: "Mitsurugi Ritual", short: "RITUAL SPELL", role: "Ritual Spell",
-    glyph: "儀", glyphColor: "#7fd8c6", stat: "Ritual Spell",
+    id: "ritual", section: "main", name: "Mitsurugi Ritual", role: "Ritual Spell",
+    glyphColor: "#7fd8c6", stat: "Ritual Spell",
     badges: ["Spell", "Ritual"],
     zones: [
       ["HAND", "Ritual Summon 1 Reptile Ritual Monster from your DECK, tributing Reptiles from your hand or field. Once per turn."],
@@ -118,8 +118,8 @@ const cardData = [
     ],
   },
   {
-    id: "prayers", section: "main", name: "Mitsurugi Prayers", short: "PRAYERS", role: "Quick-Play Spell",
-    glyph: "祈", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    id: "prayers", section: "main", name: "Mitsurugi Prayers", role: "Quick-Play Spell",
+    glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["HAND", "Tribute 1 Reptile from your hand or field, then add 1 Mitsurugi monster from your Deck to hand."],
@@ -132,8 +132,8 @@ const cardData = [
     ],
   },
   {
-    id: "magatama", section: "main", name: "Mitsurugi Magatama", short: "MAGATAMA", role: "Quick-Play Spell",
-    glyph: "勾", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    id: "magatama", section: "main", name: "Mitsurugi Magatama", role: "Quick-Play Spell",
+    glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["FIELD", "Tribute 1 Reptile, then target and destroy 1 face-up card your opponent controls."],
@@ -146,8 +146,8 @@ const cardData = [
     ],
   },
   {
-    id: "mirror", section: "main", name: "Mitsurugi Mirror", short: "MIRROR", role: "Ritual Spell",
-    glyph: "鏡", glyphColor: "#7fd8c6", stat: "Ritual Spell",
+    id: "mirror", section: "main", name: "Mitsurugi Mirror", role: "Ritual Spell",
+    glyphColor: "#7fd8c6", stat: "Ritual Spell",
     badges: ["Spell", "Ritual"],
     zones: [
       ["HAND", "Ritual Summon 1 Mitsurugi Ritual Monster from your hand or GY, tributing monsters from your hand or field. Once per turn."],
@@ -161,8 +161,8 @@ const cardData = [
     ],
   },
   {
-    id: "purification", section: "main", name: "Mitsurugi Great Purification", short: "PURIFICATION", role: "Trap",
-    glyph: "祓", glyphColor: "#7fd8c6", stat: "Trap Card",
+    id: "purification", section: "main", name: "Mitsurugi Great Purification", role: "Trap",
+    glyphColor: "#7fd8c6", stat: "Trap Card",
     badges: ["Trap", "Normal"],
     zones: [
       ["FIELD", "Tribute 1 Level 5+ Ritual Monster: negate the activation of any card/effect and destroy it (omni-negate)."],
@@ -176,9 +176,9 @@ const cardData = [
   },
   // ===== SUPPORTING =====
   {
-    id: "preprep", section: "support", name: "Pre-Preparation of Rites", short: "PRE-PREP", role: "Normal Spell",
+    id: "preprep", section: "support", name: "Pre-Preparation of Rites", role: "Normal Spell",
     label: "RITUAL ACCESS",
-    glyph: "備", glyphColor: "#b98cff", stat: "Normal Spell",
+    glyphColor: "#b98cff", stat: "Normal Spell",
     badges: ["Spell", "Generic"],
     zones: [
       ["HAND", "Add 1 Ritual Spell (Mitsurugi Mirror) + 1 matching Ritual Monster from your Deck to your hand, in one card."],
@@ -190,8 +190,8 @@ const cardData = [
     ],
   },
   {
-    id: "raggedrecords", section: "support", name: "Ragged Records of Rites", short: "RAGGED RECORDS", role: "Normal Spell",
-    glyph: "録", glyphColor: "#b98cff", stat: "Normal Spell",
+    id: "raggedrecords", section: "support", name: "Ragged Records of Rites", role: "Normal Spell",
+    glyphColor: "#b98cff", stat: "Normal Spell",
     badges: ["Spell", "Ritual", "Generic"],
     zones: [
       ["HAND", "Reveal 1 Ritual Spell (hand or Deck), then add 1 monster from Deck that mentions it. Once per turn."],
@@ -203,8 +203,8 @@ const cardData = [
     ],
   },
   {
-    id: "manju", section: "support", name: "Manju of the Ten Thousand Hands", short: "MANJU", role: "Lv4 · Searcher",
-    glyph: "萬", glyphColor: "#b98cff", stat: "LV4 · Fairy",
+    id: "manju", section: "support", name: "Manju of the Ten Thousand Hands", role: "Lv4 · Searcher",
+    glyphColor: "#b98cff", stat: "LV4 · Fairy",
     badges: ["LIGHT", "Fairy", "Effect", "Level 4"],
     zones: [
       ["FIELD", "When Normal or Flip Summoned: add 1 Ritual Monster OR 1 Ritual Spell from your Deck to hand."],
@@ -216,9 +216,9 @@ const cardData = [
     ],
   },
   {
-    id: "lamia", section: "support", name: "Lamia", short: "LAMIA", role: "Lv4 Reptile · Ritual Monster Searcher",
+    id: "lamia", section: "support", name: "Lamia", role: "Lv4 Reptile · Ritual Monster Searcher",
     label: "REPTILE ENGINE",
-    glyph: "妖", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
       ["FIELD", "On Normal/Special Summon: add 1 Level 8 Reptile from your Deck: grabs a Mitsurugi Ritual Monster directly. Once per turn."],
@@ -230,8 +230,8 @@ const cardData = [
     ],
   },
   {
-    id: "nightsword", section: "support", name: "Night Sword Serpent", short: "NIGHT SWORD", role: "Lv4 Reptile Fodder",
-    glyph: "夜", glyphColor: "#b98cff", stat: "LV4 · Reptile",
+    id: "nightsword", section: "support", name: "Night Sword Serpent", role: "Lv4 Reptile Fodder",
+    glyphColor: "#b98cff", stat: "LV4 · Reptile",
     badges: ["DARK", "Reptile", "Effect", "Level 4"],
     zones: [
       ["GY", "If sent to the GY by an effect of a card (Mitsurugi Ritual), it special summons itself."],
@@ -243,9 +243,9 @@ const cardData = [
   },
   // ===== NON-ENGINE =====
   {
-    id: "extravagance", section: "nonengine", name: "Pot of Extravagance", short: "EXTRAVAGANCE", role: "Normal Spell · Draw",
+    id: "extravagance", section: "nonengine", name: "Pot of Extravagance", role: "Normal Spell · Draw",
     label: "DRAW & CONSISTENCY",
-    glyph: "壺", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    glyphColor: "#7fd8c6", stat: "Normal Spell",
     badges: ["Spell", "Draw"],
     zones: [
       ["HAND", "Banish 3 or 6 random cards from your Extra Deck face-down; draw 1 or 2. You can't draw more cards by effects this turn."],
@@ -257,8 +257,8 @@ const cardData = [
     ],
   },
   {
-    id: "prosperity", section: "nonengine", name: "Pot of Prosperity", short: "PROSPERITY", role: "Normal Spell · Dig",
-    glyph: "繁", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    id: "prosperity", section: "nonengine", name: "Pot of Prosperity", role: "Normal Spell · Dig",
+    glyphColor: "#7fd8c6", stat: "Normal Spell",
     badges: ["Spell", "Dig"],
     zones: [
       ["HAND", "Banish 3 or 6 cards from your Extra Deck face-down; excavate that many from the top of your Deck, add 1 to your hand, send the rest to the bottom. No other draws that turn."],
@@ -269,8 +269,8 @@ const cardData = [
     ],
   },
   {
-    id: "ttt", section: "nonengine", name: "Triple Tactics Talent", short: "TRIPLE TACTICS", role: "Normal Spell · Value",
-    glyph: "策", glyphColor: "#7fd8c6", stat: "Normal Spell",
+    id: "ttt", section: "nonengine", name: "Triple Tactics Talent", role: "Normal Spell · Value",
+    glyphColor: "#7fd8c6", stat: "Normal Spell",
     badges: ["Spell", "Generic"],
     zones: [
       ["HAND", "After the opponent activates a monster effect during your main phase, choose 1:\n- Draw 2 cards\n- Take control of an opponent's monster until the End Phase\n- Look at their hand"],
@@ -281,8 +281,8 @@ const cardData = [
     ],
   },
   {
-    id: "rtv", section: "nonengine", name: "Radiant Typhoon Vision", short: "RADIANT TYPHOON", role: "Quick-Play · Draw & Search",
-    glyph: "閃", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    id: "rtv", section: "nonengine", name: "Radiant Typhoon Vision", role: "Quick-Play · Draw & Search",
+    glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play Spell", "Draw"],
     zones: [
       ["HAND", "Draw 2, then discard a Quick-Play/Radiant Typhoon card (or your whole hand if you have none); OR add 1 Mystical Space Typhoon from Deck or GY. Each effect once per turn."],
@@ -294,8 +294,8 @@ const cardData = [
     ],
   },
   {
-    id: "mst", section: "nonengine", name: "Mystical Space Typhoon", short: "MST", role: "Quick-Play · S/T Removal",
-    glyph: "颶", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    id: "mst", section: "nonengine", name: "Mystical Space Typhoon", role: "Quick-Play · S/T Removal",
+    glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["FIELD", "Target 1 Spell/Trap on the field; destroy it."],
@@ -305,9 +305,9 @@ const cardData = [
     ],
   },
   {
-    id: "cbtg", section: "nonengine", name: "Called by the Grave", short: "CALLED BY", role: "Quick-Play · Protection",
+    id: "cbtg", section: "nonengine", name: "Called by the Grave", role: "Quick-Play · Protection",
     label: "PROTECTION",
-    glyph: "墓", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["HAND", "Banish 1 monster in opponent's GY; if it's a handtrap, negate its effects for the turn."],
@@ -318,8 +318,8 @@ const cardData = [
     ],
   },
   {
-    id: "crossout", section: "nonengine", name: "Crossout Designator", short: "CROSSOUT", role: "Quick-Play · Protection",
-    glyph: "抹", glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
+    id: "crossout", section: "nonengine", name: "Crossout Designator", role: "Quick-Play · Protection",
+    glyphColor: "#7fd8c6", stat: "Quick-Play Spell",
     badges: ["Spell", "Quick-Play Spell"],
     zones: [
       ["HAND", "Declare 1 card name, then banish a copy of it from your Deck; every card with that name has its effects negated for the rest of the turn."],
@@ -330,8 +330,8 @@ const cardData = [
     ],
   },
   // {
-  //   id: "dominusimpulse", section: "nonengine", name: "Dominus Impulse", short: "IMPULSE", role: "Handtrap · Negate",
-  //   glyph: "衝", glyphColor: "#7fd8c6", stat: "Trap Card",
+  //   id: "dominusimpulse", section: "nonengine", name: "Dominus Impulse", role: "Handtrap · Negate",
+  //   glyphColor: "#7fd8c6", stat: "Trap Card",
   //   badges: ["Trap", "Normal"],
   //   zones: [
   //     ["HAND", "If opponent controls a card, activate from hand: when an effect that Special Summons is activated, negate it, then if you have a Trap in GY, destroy that card."],
@@ -342,8 +342,8 @@ const cardData = [
   //   ],
   // },
   // {
-  //   id: "dominusspark", section: "nonengine", name: "Dominus Spark", short: "SPARK", role: "Handtrap · Banish",
-  //   glyph: "閃", glyphColor: "#7fd8c6", stat: "Trap Card",
+  //   id: "dominusspark", section: "nonengine", name: "Dominus Spark", role: "Handtrap · Banish",
+  //   glyphColor: "#7fd8c6", stat: "Trap Card",
   //   badges: ["Trap", "Normal"],
   //   zones: [
   //     ["HAND", "On a turn the opponent used a monster effect in hand or GY, activate from hand: banish 1 monster they control (if you have no Traps in GY, they may Special Summon 1 from hand)."],
@@ -355,8 +355,8 @@ const cardData = [
   // },
   // ===== EXTRA DECK =====
   {
-    id: "granite", section: "extra", name: "Gallant Granite", short: "GRANITE", role: "Rank 4 Xyz · Rock Searcher",
-    glyph: "岩", glyphColor: "#cbb0ff", stat: "R4 · 2300 / 1800",
+    id: "granite", section: "extra", name: "Gallant Granite", role: "Rank 4 Xyz · Rock Searcher",
+    glyphColor: "#cbb0ff", stat: "R4 · 2300 / 1800",
     badges: ["EARTH", "Rock", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [
@@ -369,8 +369,8 @@ const cardData = [
     ],
   },
   {
-    id: "ipmask", section: "extra", name: "I:P Masquerena", short: "I:P MASQUERENA", role: "Link 2 · Turn-Skip",
-    glyph: "仮", glyphColor: "#cbb0ff", stat: "LINK-2 · 800",
+    id: "ipmask", section: "extra", name: "I:P Masquerena", role: "Link 2 · Turn-Skip",
+    glyphColor: "#cbb0ff", stat: "LINK-2 · 800",
     badges: ["DARK", "Cyberse", "Link"],
     cost: "2 non-Link monsters",
     zones: [
@@ -383,8 +383,8 @@ const cardData = [
     ],
   },
   {
-    id: "splittle", section: "extra", name: "S:P Little Knight", short: "S:P LITTLE KNIGHT", role: "Link 2 · Disruptor",
-    glyph: "騎", glyphColor: "#cbb0ff", stat: "LINK-2 · 1600",
+    id: "splittle", section: "extra", name: "S:P Little Knight", role: "Link 2 · Disruptor",
+    glyphColor: "#cbb0ff", stat: "LINK-2 · 1600",
     badges: ["DARK", "Warrior", "Link"],
     cost: "2 Effect Monsters",
     zones: [
@@ -399,8 +399,8 @@ const cardData = [
     ],
   },
   {
-    id: "dugares", section: "extra", name: "Number 60: Dugares the Timeless", short: "DUGARES", role: "Rank 4 Xyz · Value",
-    glyph: "刻", glyphColor: "#cbb0ff", stat: "R4 · 1000 / 1000",
+    id: "dugares", section: "extra", name: "Number 60: Dugares the Timeless", role: "Rank 4 Xyz · Value",
+    glyphColor: "#cbb0ff", stat: "R4 · 1000 / 1000",
     badges: ["FIRE", "Fairy", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [
@@ -412,8 +412,8 @@ const cardData = [
     ],
   },
   {
-    id: "bagooska", section: "extra", name: "Number 41: Bagooska the Terribly Tired Tapir", short: "BAGOOSKA", role: "Rank 4 Xyz · Wall",
-    glyph: "眠", glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
+    id: "bagooska", section: "extra", name: "Number 41: Bagooska the Terribly Tired Tapir", role: "Rank 4 Xyz · Wall",
+    glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
     badges: ["EARTH", "Beast", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [
@@ -426,8 +426,8 @@ const cardData = [
     ],
   },
   {
-    id: "tornado", section: "extra", name: "Tornado Dragon", short: "TORNADO DRAGON", role: "Rank 4 Xyz · S/T Removal",
-    glyph: "旋", glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
+    id: "tornado", section: "extra", name: "Tornado Dragon", role: "Rank 4 Xyz · S/T Removal",
+    glyphColor: "#cbb0ff", stat: "R4 · 2100 / 2000",
     badges: ["WIND", "Dragon", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [
@@ -440,8 +440,8 @@ const cardData = [
     ],
   },
   {
-    id: "exciton", section: "extra", name: "Evilswarm Exciton Knight", short: "EXCITON KNIGHT", role: "Rank 4 Xyz · Reset",
-    glyph: "掃", glyphColor: "#cbb0ff", stat: "R4 · 1800 / 1000",
+    id: "exciton", section: "extra", name: "Evilswarm Exciton Knight", role: "Rank 4 Xyz · Reset",
+    glyphColor: "#cbb0ff", stat: "R4 · 1800 / 1000",
     badges: ["DARK", "Fiend", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [

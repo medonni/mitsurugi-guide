@@ -22,9 +22,8 @@
   --gold-deep: #c9a24b;
   --zone-gy: #8f9bd0;
   --zone-field: #7fd8c6;
-  /* Zone-pill colors (HAND/DECK/GY/FIELD/TRIGGER) are pinned, not deck-themed:
+  /* Zone-pill colors (HAND/GY/FIELD/TRIGGER) are pinned, not deck-themed:
      the same zone should read the same color on every deck's compendium. */
-  --zone-deck: #b98cff;
   --zone-trigger: #b98cff;
 
   --stripe: repeating-linear-gradient(135deg, #1e1633, #1e1633 9px, #241b3d 9px, #241b3d 18px);
@@ -303,14 +302,6 @@ p { margin: 0; }
   background: repeating-linear-gradient(135deg, #1e1633, #1e1633 10px, #241b3d 10px, #241b3d 20px);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 28px; text-align: center;
 }
-.hero-card .diamond { width: 60px; height: 60px; border: 1px solid rgba(224, 196, 106, 0.5); }
-.hero-card .diamond > span { font-size: 26px; color: var(--gold); } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
-/* --text-caption, not --text-faint: every .art-caption sits on the 45-degree
-   --stripe placeholder, whose darker band (--surface-alt2) puts faint at 4.31:1,
-   under the 4.5 this 11px text needs. Caption clears it on both bands (5.00 /
-   4.69). Same call as .card-search::placeholder and .hit-empty. */
-.art-caption { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--text-caption); letter-spacing: 0.06em; line-height: 1.7; }
-.hero-card .art-stat { font-family: "Space Grotesk", sans-serif; font-size: var(--text-meta); color: var(--violet-lt); letter-spacing: 0.04em; }
 .hero-card.has-img { padding: 0; gap: 0; }
 .hero-card.has-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -494,7 +485,6 @@ a.boss-card:focus-visible { border-color: var(--card-accent, rgba(224, 196, 106,
 .boss-art { aspect-ratio: 16/10; background: var(--stripe); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-soft); }
 .boss-art.has-img { aspect-ratio: 59/86; background: #120d1f; }
 .boss-art img { width: 100%; height: 100%; object-fit: cover; }
-.boss-art .art-caption { font-size: var(--text-label-sm); letter-spacing: 0.05em; }
 .boss-body { padding: 22px; }
 /* h2 on the hub (outline order), h3 elsewhere: same visual step either way. */
 .boss-body :is(h2, h3) { font-weight: 600; font-size: var(--text-title-sm); margin-bottom: 6px; }
@@ -612,7 +602,6 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
   #zone-filter .zone-pill { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; min-width: 40px; padding: 8px 14px; }
 }
 .zone-hand { color: var(--gold); border: 1px solid #e0c46a55; }
-.zone-deck { color: var(--zone-deck); border: 1px solid #b98cff55; }
 .zone-gy { color: var(--zone-gy); border: 1px solid #8f9bd055; }
 .zone-field { color: var(--zone-field); border: 1px solid #7fd8c655; }
 .zone-ontribute { background: var(--gold); color: var(--bg); }
@@ -682,10 +671,6 @@ summary.group-head:hover::after { border-color: var(--violet); }
 .card-art { background: var(--stripe); border-right: 1px solid var(--border-soft); padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
 .card-art.has-img { padding: 16px; background: #120d1f; }
 .card-art img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
-.card-art .diamond { width: 48px; height: 48px; border: 1px solid; }
-.card-art .diamond > span { font-size: 20px; } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
-.card-art .art-caption { font-size: var(--text-label-xs); color: var(--text-faint); }
-.card-art .art-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--violet-lt); letter-spacing: 0.03em; }
 .card-content { padding: 24px 28px; }
 .card-role { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-bottom: 8px; }
 .card-content h3 { font-weight: 600; font-size: var(--text-title); margin-bottom: 12px; letter-spacing: -0.01em; }

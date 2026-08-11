@@ -67,23 +67,20 @@ in `src/_includes/components.njk`, so a new card just needs an object
 appended to the right file's `groups`, no template changes.
 
 Two card-object shapes are in use, pick whichever the file you're editing
-already uses:
+already uses. They differ only in which field colors the role label
+(`glyphColor` or `accent`) and whether the card is filed under a `section`:
 
 ```js
-// Mitsurugi / Handtraps style: glyph + glyphColor, used as the placeholder
-// art (a diamond icon) when no real card image exists yet.
+// Mitsurugi / Handtraps style.
 {
   id: "newcard", section: "main",              // main | support | nonengine | extra
-  name: "Full Card Name", short: "SHORTNAME",
-  role: "Lv4 Searcher", glyph: "刀", glyphColor: "#b98cff",
+  name: "Full Card Name", role: "Lv4 Searcher", glyphColor: "#b98cff",
   stat: "LV4 · Reptile", badges: ["DARK", "Reptile", "Effect"],
   zones: [ ["HAND", "What it does."], ["ON TRIBUTE", "The trigger."] ],
   tips: [ "A tip.", "Another." ],
 }
 
-// Fiendsmith / Sacred Beasts style: accent instead of glyph/glyphColor,
-// used when every card already has real art (the placeholder path is
-// effectively dead but still there for a card added without art yet).
+// Fiendsmith / Sacred Beasts style: accent instead of glyphColor.
 {
   id: "newcard", name: "Full Card Name", role: "Effect Monster",
   accent: "#e0c46a", badges: ["DARK", "Fiend", "Effect", "Level 4"],

@@ -198,7 +198,7 @@ Violet is Mitsurugi's accent, not the whole site's. Each deck or engine section 
 - **Sacred Beasts**: **Emerald** (`#52d68f`, light `#82e6ac`, deep `#2fa868`). Pairs with gold the way emerald and gold classically do, regal rather than competing with gold's warm hue, and reads clearly distinct from violet on the shared purple-black ground.
 - **Fiendsmith**: **Ether Cyan** (`#4fc9e8`, light `#85dcf2`, deep `#2fa0c2`). A cooler, paler blue than Mitsurugi's violet or the zone/frame blues (zone-gy, frame-link), fitting the engine's ghostly LIGHT Fiend flavor, and far enough from Warning Rose that a Fiendsmith combo page's brand color and its "watch out" callouts never get confused for one another.
 
-**Zone-pill colors are pinned, not deck-themed.** HAND/DECK/GY/FIELD/TRIGGER pill colors (`--zone-deck`, `--zone-trigger`, plus gold/teal/ash-blue) stay the fixed defaults on every deck's compendium, deliberately decoupled from the deck accent, so the "where it activates" language reads identically everywhere a reader has already learned it. Card-frame accents (§ Card-Frame Accents) and the DARK/LIGHT/etc. attribute pills are pinned the same way: they encode a game fact, not a brand.
+**Zone-pill colors are pinned, not deck-themed.** HAND/GY/FIELD/TRIGGER pill colors (`--zone-trigger`, plus gold/teal/ash-blue) stay the fixed defaults on every deck's compendium, deliberately decoupled from the deck accent, so the "where it activates" language reads identically everywhere a reader has already learned it. Card-frame accents (§ Card-Frame Accents) and the DARK/LIGHT/etc. attribute pills are pinned the same way: they encode a game fact, not a brand.
 
 ### Secondary
 - **Ritual Gold** (`#e0c46a`): The payoff color. Stat values, inline emphasis (used instead of italics), the tips column header, the on-tribute zone fill, and the brand mark glint. **Gold Deep** (`#c9a24b`) is its gradient partner on the primary gold CTA. Gold is rare on purpose: it marks reward, never decoration.
@@ -216,7 +216,7 @@ Cost-label and pill colors keyed to a card's Yu-Gi-Oh! frame, so an Extra Deck t
 
 ### Neutral
 - **Void Purple-Black** (`#14101f`): The body ground on every page; landing and cards layer soft radial violet glows on top of it.
-- **Surface** (`#191225`) and its two tonal steps **Surface Alt 1** (`#1e1633`) / **Surface Alt 2** (`#241b3d`): the layered card and panel backgrounds. Depth comes from these tonal steps, not shadow. The 45-degree stripe (`#1e1633` / `#241b3d`) backs empty card-art placeholders.
+- **Surface** (`#191225`) and its two tonal steps **Surface Alt 1** (`#1e1633`) / **Surface Alt 2** (`#241b3d`): the layered card and panel backgrounds. Depth comes from these tonal steps, not shadow. The 45-degree stripe (`#1e1633` / `#241b3d`) backs the empty threat-art slot on the matchup map.
 - **Text ramp** (purple-leaning, never neutral gray): Text `#ece8f5` → Muted `#b7add0` → Dim `#a79bc0` → Caption `#8f84af` → Faint `#8a7ea3`.
 - **Borders** are alpha-violet, never gray: `rgba(185,140,255,0.16)` standard, `0.14` soft.
 
@@ -231,9 +231,9 @@ Cost-label and pill colors keyed to a card's Yu-Gi-Oh! frame, so an Extra Deck t
 
 ### What lives outside the token tables
 The frontmatter `colors` / `rounded` / `typography` maps are the *palette, shape, and type system*, one representative value per named role, not an inventory of every literal in the CSS. §3's Hierarchy prose is the actual multi-step spec for a role that spans a range; these stay as contextual values on purpose, and a design-drift scan flagging them is expected, not a defect:
-- **Shadow and overlay rgba** (`rgba(0,0,0,*)` drop shadows, `rgba(20,16,31,*)` and `rgba(10,7,18,*)` translucent grounds: the header, the nav sheet, the boss-stack vignette and the boss-slice info scrim, all alpha steps of `--bg`; the `rgba(255,255,255,.75)` / `#fff` selection ring, the `rgba(61,42,90,*)` 45-degree art-placeholder stripe): these belong to Elevation (§4) and Neutral (§2), described there with exact values.
+- **Shadow and overlay rgba** (`rgba(0,0,0,*)` drop shadows, `rgba(20,16,31,*)` and `rgba(10,7,18,*)` translucent grounds: the header, the nav sheet, the boss-stack vignette and the boss-slice info scrim, all alpha steps of `--bg`; the `rgba(255,255,255,.75)` / `#fff` selection ring, the `rgba(61,42,90,*)` 45-degree stripe): these belong to Elevation (§4) and Neutral (§2), described there with exact values.
 - **Glyph radii** (2–4px on the chevron, diamond bullets, and the tiny WIP badges (`.nav-wip`, `.combo-jump-wip`)): sub-token shapes below `chip`/`xs`, each corner-rounded proportionally to its own small size rather than snapped to a shared step.
-- **Glyph sizes** (15 / 20 / 26px, one per diamond icon's own container: the 34px header brand-mark, the 48px card-art placeholder, the 60px hero placeholder): the single kanji/character inside a diamond icon is sized to its container, not to the Title ramp. These are the **only** three literal `font-size` values left in `style.css`, and they are not type, they are icon geometry.
+- **Glyph size** (15px, sized to the 34px header brand-mark diamond that contains it): the single kanji/character inside a diamond icon is sized to its container, not to the Title ramp. This is the **only** literal `font-size` value left in `style.css`, and it is not type, it is icon geometry.
 
 **Type is no longer on this list.** It used to be, with the same "contextual values on purpose" argument, and that argument was wrong. What it was defending was 28 distinct `px` font sizes, 18 of them between 8.5px and 18px, stepping by half a pixel: `.zone-text` at 13.5, `.panel-card .body` at 14, `.combo-do` at 14.5, `.turn-step .card` at 15, four sizes inside a pixel and a half, all doing the same job. That is drift, not context, and a doc that carves out room for it stops being a spec. §3's ramp is now the whole inventory: twelve `--text-*` tokens, every one of them in the frontmatter above.
 
@@ -374,7 +374,7 @@ On the overview hero (desktop only, ≥901px), one card-sized frame is split by 
 Below 900px the whole stack is replaced by a single static card.
 
 ### Signature Component: The Card Row
-The compendium's core unit: a left art rail (or striped `[ CARD ART ]` placeholder) beside a content block of role label, name, type badges, an optional summoning-cost pill, and two columns, **Where It Activates** (colored zone rows) and **Tips & Tricks** (gold-headed, diamond bullets). Two independent filter axes act on it: section tabs and zone chips, combining so a group hides when it has no visible rows.
+The compendium's core unit: a left art rail beside a content block of role label, name, type badges, an optional summoning-cost pill, and two columns, **Where It Activates** (colored zone rows) and **Tips & Tricks** (gold-headed, diamond bullets). Two independent filter axes act on it: section tabs and zone chips, combining so a group hides when it has no visible rows.
 
 ## 7. Do's and Don'ts
 
