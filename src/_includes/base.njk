@@ -51,8 +51,10 @@
       </div>
       {% endfor %}
       {# Shared reference, not a deck: same group shape as the decks above so the
-         dropdown behaviour and mobile accordion come for free. #}
-      <div class="nav-group{% if nav == 'handtraps' or nav == 'handtraps-matchups' %} active{% endif %}">
+         dropdown behaviour and mobile accordion come for free. Active state is
+         read off the URL, the same way the decks read it off `brand.id`, so no
+         page has to declare a nav sentinel in its front matter. #}
+      <div class="nav-group{% if '/handtraps/' in page.url %} active{% endif %}">
         <a href="{{ '/handtraps/' | url }}">Handtraps</a>
         <button class="nav-caret" aria-haspopup="true" aria-expanded="false" aria-label="Handtraps pages">
           <span class="chev" aria-hidden="true"></span>
@@ -130,13 +132,13 @@
     // popover can never intercept a later tap. ponytail: one shared popover.
     (function () {
       const box = document.getElementById("cardhover");
+      if (!box) return;
       // Any anchor that names a card carries data-img and gets the same
       // hover/tap preview: .clink (tips/combo steps), .gold (prose emphasis),
       // and the matchup map's handtrap chips. Keyed on the attribute rather
       // than the class list so a new kind of card link doesn't have to be
       // registered here to work.
-      const links = document.querySelectorAll("a[data-img]");
-      if (!box || !links.length) return;
+      const SEL = "a[data-img]";
       const img = box.querySelector("img");
       const link = box.querySelector("a");
       let touchedAt = 0;
@@ -174,20 +176,35 @@
         if (!e.target.closest("#cardhover")) hide();
       }, { passive: true, capture: true });
 
-      links.forEach((el) => {
-        el.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") show(el, false); });
-        el.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") hide(); });
-        el.addEventListener("focus", () => { if (!touchedRecently()) show(el, false); });
-        el.addEventListener("blur", () => { if (!touchedRecently()) hide(); });
-        el.addEventListener("click", (e) => {
-          const touch = (e.pointerType && e.pointerType !== "mouse") || touchedRecently();
-          if (touch) { e.preventDefault(); show(el, true); }   // touch: preview only; navigate via the popover
-        });
+      // ponytail: five delegated listeners, not five per link. The combos pages
+      // carry ~200 card links each, which was ~1000 registrations and a closure
+      // per link. Uses the bubbling variants (pointerover/out, focusin/out)
+      // since pointerenter/leave and focus/blur don't bubble.
+      const target = (e) => e.target.closest && e.target.closest(SEL);
+      document.addEventListener("pointerover", (e) => {
+        const el = target(e);
+        // Ignore moves between descendants of the same link.
+        if (el && e.pointerType === "mouse" && !el.contains(e.relatedTarget)) show(el, false);
+      });
+      document.addEventListener("pointerout", (e) => {
+        const el = target(e);
+        if (el && e.pointerType === "mouse" && !el.contains(e.relatedTarget)) hide();
+      });
+      document.addEventListener("focusin", (e) => {
+        const el = target(e);
+        if (el && !touchedRecently()) show(el, false);
+      });
+      document.addEventListener("focusout", (e) => {
+        if (target(e) && !touchedRecently()) hide();
       });
       document.addEventListener("click", (e) => {
-        // Same selector as `links`: a tap on a card link must not be dismissed
-        // by the document handler that runs right after its own show().
-        if (!e.target.closest("a[data-img]") && !e.target.closest("#cardhover")) hide();
+        const el = target(e);
+        if (el) {
+          const touch = (e.pointerType && e.pointerType !== "mouse") || touchedRecently();
+          if (touch) { e.preventDefault(); show(el, true); }   // touch: preview only; navigate via the popover
+          return;   // a tap on a card link must not be dismissed by its own show()
+        }
+        if (!e.target.closest("#cardhover")) hide();
       });
       window.addEventListener("scroll", hide, { passive: true });
       document.addEventListener("keydown", (e) => { if (e.key === "Escape") hide(); });

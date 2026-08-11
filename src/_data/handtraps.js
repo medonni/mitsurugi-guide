@@ -4,20 +4,7 @@
 // own: it's the common toolbox every deck page links out to.
 // Card names & effects © Konami: reference only. Extracted verbatim from the
 // former "nonengine" handtrap cluster in src/_data/cards.js.
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const HERE = path.dirname(fileURLToPath(import.meta.url));
-const EXTS = ["avif", "webp", "png", "jpg", "jpeg"];
-
-function findImage(id) {
-  for (const ext of EXTS) {
-    const rel = `assets/cards/handtraps/${id}.${ext}`;
-    if (fs.existsSync(path.join(HERE, "..", rel))) return "/" + rel;
-  }
-  return null;
-}
+import { findImage } from "../_lib/card-images.js";
 
 const cardData = [
   {
@@ -108,7 +95,7 @@ const cardData = [
   },
 ];
 
-for (const c of cardData) c.image = findImage(c.id);
+for (const c of cardData) c.image = findImage("handtraps", c.id);
 
 // id -> card, so the matchups page can reuse a handtrap's art and name without
 // redeclaring them. This file stays the single source for what a handtrap is.

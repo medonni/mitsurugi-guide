@@ -1,5 +1,26 @@
 // Landing / overview page content.
+
+// Order is Futsu · Habakiri · Murakumo: Habakiri (the "all roads lead to"
+// hero card) sits in the middle slice of the landing page's boss-stack, and
+// the outer two face inward toward it.
+// `focus`/`zoom` are boss-stack framing only (see .boss-slice's --pan/--zoom).
+// All three arts park their dragon in the lower half of the art window under a
+// large ornamental background, so the default crop showed mandala and gears
+// rather than a monster; Habakiri and Murakumo need the tighter zoom to reach
+// their heads without the effect box following them into frame. Futsu stays at
+// the 190% default, its head is high enough that 250% decapitates it.
+const bosses = [
+  { id: "futsu", name: "Futsu no Mitama", short: "FUTSU", stat: "LV8 · ATK 2000 · DEF 3400", image: "/assets/cards/main/futsu.webp", focus: "58% 35%", desc: "Swarms Reptiles whenever the opponent Special Summons, recurring your searchers. The grind-game backbone." },
+  { id: "habakiri", name: "Ame no Habakiri", short: "HABAKIRI", stat: "LV8 · ATK 2400 · DEF 1800", image: "/assets/cards/main/habakiri.webp", focus: "50% 62%", zoom: "250%", desc: "Reveal it in hand to Special Summon a Mitsurugi from Deck; the deck's best one-card starter, with a lingering -800 ATK." },
+  { id: "murakumo", name: "Ame no Murakumo", short: "MURAKUMO", stat: "LV8 · ATK 3200 · DEF 800", image: "/assets/cards/main/murakumo.webp", focus: "12% 60%", zoom: "250%", desc: "Board-wipes the opponent's monsters on Special Summon, then offers a negate-or-discard Quick Effect. The primary payoff." },
+];
+
 export default {
+  bosses,
+  // The single card that fronts the page below 901px, where .boss-stack is
+  // display:none. Deliberately not bosses[0]: the stack leads with Futsu so the
+  // outer arts face inward, but Murakumo is the payoff the copy actually names.
+  hero: bosses.find((b) => b.id === "murakumo"),
   stats: [
     { value: "DARK", label: "ATTRIBUTE" },
     { value: "Reptile", label: "MONSTER TYPE" },
@@ -11,20 +32,6 @@ export default {
     { n: "02", title: "Trigger fires", body: "The tributed monster searches, revives, or recurs a card from Deck, hand, or Graveyard." },
     { n: "03", title: "Rebuild the board", body: "Rituals re-summon themselves; searchers refill your hand. You rarely lose card advantage." },
     { n: "04", title: "Grind them out", body: "On-field disruption, plus everything you keep recurring, makes the board slow and costly to push through." },
-  ],
-  // Order is Futsu · Habakiri · Murakumo: Habakiri (the "all roads lead to"
-  // hero card) sits in the middle slice of the landing page's boss-stack, and
-  // the outer two face inward toward it.
-  // `focus`/`zoom` are boss-stack framing only (see .boss-slice's --pan/--zoom).
-  // All three arts park their dragon in the lower half of the art window under a
-  // large ornamental background, so the default crop showed mandala and gears
-  // rather than a monster; Habakiri and Murakumo need the tighter zoom to reach
-  // their heads without the effect box following them into frame. Futsu stays at
-  // the 190% default, its head is high enough that 250% decapitates it.
-  bosses: [
-    { id: "futsu", name: "Futsu no Mitama", short: "FUTSU", stat: "LV8 · ATK 2000 · DEF 3400", image: "/assets/cards/main/futsu.webp", focus: "58% 35%", desc: "Swarms Reptiles whenever the opponent Special Summons, recurring your searchers. The grind-game backbone." },
-    { id: "habakiri", name: "Ame no Habakiri", short: "HABAKIRI", stat: "LV8 · ATK 2400 · DEF 1800", image: "/assets/cards/main/habakiri.webp", focus: "50% 62%", zoom: "250%", desc: "Reveal it in hand to Special Summon a Mitsurugi from Deck; the deck's best one-card starter, with a lingering -800 ATK." },
-    { id: "murakumo", name: "Ame no Murakumo", short: "MURAKUMO", stat: "LV8 · ATK 3200 · DEF 800", image: "/assets/cards/main/murakumo.webp", focus: "12% 60%", zoom: "250%", desc: "Board-wipes the opponent's monsters on Special Summon, then offers a negate-or-discard Quick Effect. The primary payoff." },
   ],
   synergy: [
     { name: "Fiendsmith", dot: "#cbb0ff", href: "/fiendsmith/", body: "A splashable LIGHT Fiend engine that adds an omni-negate and grindy recursion. It doesn't convert the Reptile Mitsurugi Ritual Monsters on its own, so you bridge into the package through Evilswarm Exciton Knight, while the new Skull Archfiend of Chaos bridges back into Mitsurugi." },

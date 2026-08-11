@@ -463,9 +463,6 @@ p { margin: 0; }
 .section-head { margin-bottom: 32px; }
 .section-head h2 { font-weight: 700; font-size: var(--text-section); line-height: 1.1; margin-bottom: 12px; }
 .section-head .prose { max-width: 66ch; }
-/* compact "more" link, shared by section headers and inline CTAs */
-.link-more { font-size: var(--text-meta); letter-spacing: 0.03em; color: var(--violet-lt); }
-.link-more:hover { color: var(--violet-lt); }
 /* A no-op inside .two-col's ~560px column; it earns its keep once that grid
    collapses at 900px and the prose would otherwise inherit the full container. */
 .prose { font-size: var(--text-body); line-height: 1.7; color: var(--text-muted); max-width: 68ch; }

@@ -1,29 +1,16 @@
 ---
 title: Fiendsmith Cards
-nav: fiendsmith-cards
 bg: cards
 description: Every Fiendsmith card with its official effect text and stats, the splashable LIGHT Fiend engine that pairs with Mitsurugi and Sacred Beasts. Card info pulled straight from YGOPRODeck, no house rulings.
 ---
-{% from "components.njk" import cardGroup, zoneFilter, sectionTabs, filterEmpty, cardSearch %}
-
-<section class="container-narrow comp-head">
-  <div class="kicker">// CARD COMPENDIUM · FIENDSMITH</div>
-  <h1>Every Fiendsmith card</h1>
-  <p class="intro">Every Fiendsmith card, plus the non-archetype staples the engine leans on to actually function, with its <em class="em-gold">official</em> text and stats pulled from YGOPRODeck, and tips &amp; tricks for real games.</p>
-  <p class="wip-note mono">This page is a work in progress: card reference is complete, but per-deck hybrid combo lines are still being added.</p>
-
-  {{ cardSearch(fiendsmith.total) }}
-  {{ zoneFilter(fiendsmith.zones) }}
-</section>
-
-{{ sectionTabs(fiendsmith.groups, fiendsmith.total) }}
-
-<section class="container-narrow groups">
-  {% for g in fiendsmith.groups %}
-  {{ cardGroup(g, true) }}
-  {% endfor %}
-
-  {{ filterEmpty() }}
-</section>
-
-<script src="{{ '/assets/js/card-filter.js' | url }}"></script>
+{# Page body lives in _includes/cards-page.njk, shared with every deck's
+   compendium. `fiendsmith` is this deck's data file. #}
+{% set c = fiendsmith %}
+{% set showStats = true %}
+{% set kicker %}// CARD COMPENDIUM · FIENDSMITH{% endset %}
+{% set heading = "Every Fiendsmith card" %}
+{% set intro %}
+<p class="intro">Every Fiendsmith card, plus the non-archetype staples the engine leans on to actually function, with its <em class="em-gold">official</em> text and stats pulled from YGOPRODeck, and tips &amp; tricks for real games.</p>
+<p class="wip-note mono">This page is a work in progress: card reference is complete, but per-deck hybrid combo lines are still being added.</p>
+{% endset %}
+{% include "cards-page.njk" %}

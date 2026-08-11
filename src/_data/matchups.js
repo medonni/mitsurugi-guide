@@ -1,7 +1,5 @@
 import handtraps from "./handtraps.js";
-import mitsurugi from "./cards.js";
-import fiendsmith from "./fiendsmith.js";
-import sacredBeasts from "./sacredBeasts.js";
+import { DECKS, indexDeck } from "../_lib/card-index.js";
 
 // Interaction map, organized THREAT-FIRST: for each matchup, the opponent cards
 // that actually decide the game, and for each one, which of your handtraps
@@ -65,21 +63,14 @@ import sacredBeasts from "./sacredBeasts.js";
 // in handtraps.js.
 const order = ["ash", "imperm", "nibiru", "droll", "fuwalos", "purulia", "dshifter"];
 
-// Deck data files, keyed by the `deck` value a threat uses. Each exports groups
-// of cards; flattening them gives the id -> {name, image} lookup, and `href` is
-// that deck's compendium URL. Reading the deck files rather than restating card
-// names here means a renamed or re-arted card updates this page for free (the
-// three Sacred Beast Level 10s were renamed once already).
-const decksById = {
-  mitsurugi: { data: mitsurugi, href: "/mitsurugi/cards/" },
-  fiendsmith: { data: fiendsmith, href: "/fiendsmith/cards/" },
-  sacredBeasts: { data: sacredBeasts, href: "/sacred-beasts/cards/" },
-};
+// Card pools keyed by the `deck` value a threat uses, indexed id -> card with
+// its own anchor. Both the pool list and the indexing live in
+// src/_lib/card-index.js, shared with the `linkcards` filter, so reading the
+// deck files rather than restating card names here means a renamed or re-arted
+// card updates this page for free (the three Sacred Beast Level 10s were
+// renamed once already) and there is no second place to register a deck.
 const cardIndex = Object.fromEntries(
-  Object.entries(decksById).map(([key, { data, href }]) => [
-    key,
-    Object.fromEntries(data.groups.flatMap((g) => g.cards).map((c) => [c.id, { ...c, href: href + "#" + c.id }])),
-  ]),
+  Object.entries(DECKS).map(([key, deck]) => [key, indexDeck(deck)]),
 );
 
 // Matchups. A block with an empty `threats` array renders a "not mapped yet"

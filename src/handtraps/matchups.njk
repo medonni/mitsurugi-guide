@@ -1,9 +1,9 @@
 ---
 title: Matchups
-nav: handtraps-matchups
 bg: cards
 description: "An interaction map organized by matchup: for each opponent archetype, the cards that decide the game and which of your handtraps answers each one, with the timing."
 ---
+{% from "components.njk" import cardSearch, filterEmpty %}
 
 <section class="container-narrow comp-head">
   <div class="kicker">// SHARED TOOLBOX · INTERACTION MAP</div>
@@ -26,11 +26,7 @@ description: "An interaction map organized by matchup: for each opponent archety
    handtrap. The page previously offered only the second, which answered the
    rarer question. #}
 <section class="container-narrow tabs matchup-filter" aria-label="Filter matchups">
-  <div class="card-search-wrap">
-    <label class="card-search-label" for="card-search">FIND A CARD</label>
-    <input type="search" id="card-search" class="card-search" autocomplete="off"
-           placeholder="Search {{ matchups.threatCount }} cards by name">
-  </div>
+  {{ cardSearch(matchups.threatCount) }}
   {% if matchups.traps.length %}
   <div class="trap-filter-head">
     <span class="trap-filter-label">SHOW HANDTRAPS</span>
@@ -128,13 +124,7 @@ description: "An interaction map organized by matchup: for each opponent archety
   </details>
   {% endfor %}
 
-  {# Names the active filters rather than blaming one of them, and carries its
-     own way out: the old copy was a dead end that assumed the handtrap chips
-     were always the cause. #}
-  <p class="filter-empty" id="filter-empty" role="status" aria-live="polite" hidden>
-    Nothing <span class="filter-empty-what em-gold"></span>.
-    <button type="button" class="filter-reset" id="filter-reset">Clear filters</button>
-  </p>
+  {{ filterEmpty("Nothing") }}
 
   {% if matchups.unmapped.length %}
   <p class="unmapped-note">Not mapped yet: {{ matchups.unmapped | join(", ") }}. Handtrap targets go up as they're verified.</p>

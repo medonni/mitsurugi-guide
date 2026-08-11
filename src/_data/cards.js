@@ -3,22 +3,8 @@
 //
 // Image auto-wiring: drop a file at src/assets/cards/<section>/<id>.<ext>
 // (jpg/png/webp/avif) and it gets picked up automatically as the card art.
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { deriveZones } from "../_lib/zones.js";
-
-const HERE = path.dirname(fileURLToPath(import.meta.url));
-// Lightest formats win when multiple exist for one card.
-const EXTS = ["avif", "webp", "png", "jpg", "jpeg"];
-
-function findImage(section, id) {
-  for (const ext of EXTS) {
-    const rel = `assets/cards/${section}/${id}.${ext}`;
-    if (fs.existsSync(path.join(HERE, "..", rel))) return "/" + rel;
-  }
-  return null;
-}
+import { findImage } from "../_lib/card-images.js";
 
 const sections = [
   { key: "main", title: "Main Archetype Cards", tag: "the engine", dot: "#e0c46a",

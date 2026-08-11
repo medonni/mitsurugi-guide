@@ -1,10 +1,9 @@
 ---
 title: Mitsurugi Overview
-nav: mitsurugi-overview
 bg: landing
 description: Mitsurugi is a DARK Reptile Ritual archetype that grinds value from on-tribute triggers, looping searches and revives into an unbreakable board. Learn how the engine works.
 ---
-{% from "components.njk" import synergyCard, bossStack %}
+{% from "components.njk" import synergyCard, heroArt %}
 
 <section class="container hero">
   <div>
@@ -20,15 +19,7 @@ description: Mitsurugi is a DARK Reptile Ritual archetype that grinds value from
       <a href="#engine" class="btn btn-outline">How it works</a>
     </div>
   </div>
-  <div class="hero-art-wrap">
-    <div class="hero-art-glow"></div>
-    <div class="hero-art">
-      {{ bossStack(mitsurugi.bosses, '/mitsurugi/cards/') }}
-      <div class="hero-card has-img">
-        <img src="{{ '/assets/cards/main/murakumo.webp' | url }}" alt="Ame no Murakumo no Mitsurugi">
-      </div>
-    </div>
-  </div>
+  {{ heroArt(mitsurugi.bosses, '/mitsurugi/cards/', mitsurugi.hero) }}
 </section>
 
 <section class="container spec-strip">

@@ -26,6 +26,7 @@
 // ones. Same meaning, and it avoids repeating a 58-character card name inside
 // the effect box. Every other word matches the printed card.
 import { deriveZones } from "../_lib/zones.js";
+import { findImage } from "../_lib/card-images.js";
 
 const cards = [
   {
@@ -44,7 +45,6 @@ const cards = [
     tips: [
       `"The GYs" is both players' combined, so the ATK/DEF boost climbs even off Traps your opponent has used.`,
     ],
-    image: "/assets/cards/sacred-beasts/uria.jpg",
   },
   {
     id: "hamon",
@@ -59,7 +59,6 @@ const cards = [
       ["FIELD", `Once per turn, if a monster(s) is sent to your opponent's GY: Inflict 1000 damage to your opponent.`],
       ["FIELD", `If this card is destroyed by battle or card effect: You can activate this effect; you take no damage this turn.`],
     ],
-    image: "/assets/cards/sacred-beasts/hamon.jpg",
   },
   {
     id: "raviel",
@@ -73,7 +72,6 @@ const cards = [
       ["HAND", `Once per turn, you can reveal this card in your hand; add 1 "Sacred Beast" monster from your Deck to your hand, except "Infinity of the Sacred Beasts - Raviel, Lord of Phantasms", then discard 1 card.`],
       ["FIELD", `Once per turn (Quick Effect): You can Tribute 2 other "Sacred Beast" monsters; destroy as many monsters your opponent controls as possible, and if you do, this card gains 1000 ATK for each card destroyed.`],
     ],
-    image: "/assets/cards/sacred-beasts/raviel.jpg",
   },
   {
     id: "summoner-of-the-sacred-beasts",
@@ -91,7 +89,6 @@ const cards = [
     tips: [
       `Three separate ways to put a non-Level-8 Sacred Beast into Defense Position: from hand (discarding to trigger it), from hand or GY (discarding a different card as cost), and from GY (banishing itself). None of the three can target a Level 8 monster.`,
     ],
-    image: "/assets/cards/sacred-beasts/summoner-of-the-sacred-beasts.jpg",
   },
   {
     id: "martyr-of-the-sacred-beasts",
@@ -106,7 +103,6 @@ const cards = [
       ["GY", `During your opponent's End Phase, if you have this card and a Level 10 "Sacred Beast" monster in your GY: You can add this card to your hand.`],
     ],
     note: `You can only use each effect of "Martyr of the Sacred Beasts" once per turn.`,
-    image: "/assets/cards/sacred-beasts/martyr-of-the-sacred-beasts.jpg",
   },
   // ===== EXTRA DECK =====
   {
@@ -125,7 +121,6 @@ const cards = [
     tips: [
       `The materials are 3 Level 10 monsters that can't be Normal Summoned, so Uria, Hamon, and Raviel are the intended fuel, one of each, though any three qualifying Level 10s work.`,
     ],
-    image: "/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.jpg",
   },
   // ===== SPELLS =====
   {
@@ -140,7 +135,6 @@ const cards = [
       ["GY", `If this card is in your GY, except the turn it was sent there: You can banish it; add 1 Level 10 Pyro, Thunder, or Fiend monster that cannot be Normal Summoned/Set, from your Deck to your hand.`],
     ],
     note: `You can only use each effect of "Sacred Beasts Released" once per turn.`,
-    image: "/assets/cards/sacred-beasts/sacred-beasts-released.jpg",
   },
   {
     id: "fallen-paradise-of-the-sacred-beasts",
@@ -153,7 +147,6 @@ const cards = [
       ["FIELD", `Up to thrice per turn, during your Main Phase: You can send 3 other cards of the same type (Monster, Spell, or Trap) from your hand and/or face-up field to the GY, then you can Special Summon 1 "Sacred Beast" monster from your hand, Deck, GY, or banishment, and if you do, it is unaffected by your opponent's activated Spell/Trap effects.`],
       ["FIELD", `Once per turn, if you control a "Sacred Beast" monster whose original Level is 10: You can draw 2 cards.`],
     ],
-    image: "/assets/cards/sacred-beasts/fallen-paradise-of-the-sacred-beasts.jpg",
   },
   {
     id: "sacred-beasts-thunderclap",
@@ -167,7 +160,6 @@ const cards = [
       ["GY", `During your opponent's End Phase, if this card is in your GY: You can add this card to your hand.`],
     ],
     note: `You can only use each effect of "Sacred Beasts Thunderclap" once per turn.`,
-    image: "/assets/cards/sacred-beasts/sacred-beasts-thunderclap.jpg",
   },
   // ===== TRAPS =====
   {
@@ -185,29 +177,37 @@ const cards = [
     tips: [
       `The GY effect Fusion Summons any "Phantasm" Fusion Monster, which is what The Chaotic Phantasmal Sacred Beasts actually is under the hood (its archetype is "Phantasm", not "Sacred Beast"), so this can put it on the field without the 3-material cost.`,
     ],
-    image: "/assets/cards/sacred-beasts/sacred-beasts-combined-assault.jpg",
   },
 ];
 
+// Card art is resolved from disk, not written per card: drop a file at
+// src/assets/cards/sacred-beasts/<id>.<ext> and it is picked up. Same wiring as
+// cards.js and handtraps.js, so a lighter re-encode is a file drop.
+for (const c of cards) c.image = findImage("sacred-beasts", c.id);
+
+// Same shape as fiendsmith.js: card order within a group is set here by hand,
+// so it reads in the order listed rather than however `cards` happens to be
+// ordered above.
 const byId = Object.fromEntries(cards.map((c) => [c.id, c]));
+const pick = (...ids) => ids.map((id) => byId[id]);
 
 export default {
   // The three bosses, shown in the landing page's hero boss-stack.
   // Ordered Raviel · Hamon · Uria so the artwork faces inward.
-  heroBosses: ["raviel", "hamon", "uria"].map((id) => byId[id]),
+  heroBosses: pick("raviel", "hamon", "uria"),
   groups: [
     { key: "monsters", title: "Sacred Beast Monsters", tag: "the package", dot: "#e0c46a",
       blurb: "Uria, Hamon, and Raviel, the three Level 10 Sacred Beasts, plus the two support monsters that fetch and Summon them. None of the three bosses can be Normal Summoned; they need a \"Sacred Beast\" card to hit the field.",
-      cards: cards.filter((c) => ["uria", "hamon", "raviel", "summoner-of-the-sacred-beasts", "martyr-of-the-sacred-beasts"].includes(c.id)) },
+      cards: pick("uria", "hamon", "raviel", "summoner-of-the-sacred-beasts", "martyr-of-the-sacred-beasts") },
     { key: "extra", title: "Extra Deck", tag: "the payoff", dot: "#cbb0ff",
       blurb: "The Fusion boss the whole package builds toward.",
-      cards: cards.filter((c) => c.id === "chaotic-phantasmal-sacred-beasts") },
+      cards: pick("chaotic-phantasmal-sacred-beasts") },
     { key: "spells", title: "Spells", tag: "search & setup", dot: "#7fd8c6",
       blurb: "Consistency and the Field Spell that turns spare cards into a free Sacred Beast Special Summon.",
-      cards: cards.filter((c) => ["sacred-beasts-released", "fallen-paradise-of-the-sacred-beasts", "sacred-beasts-thunderclap"].includes(c.id)) },
+      cards: pick("sacred-beasts-released", "fallen-paradise-of-the-sacred-beasts", "sacred-beasts-thunderclap") },
     { key: "traps", title: "Traps", tag: "payoff & protection", dot: "#d98cba",
       blurb: "A Summon-plus-negate that doubles as a backdoor into the Fusion boss.",
-      cards: cards.filter((c) => c.id === "sacred-beasts-combined-assault") },
+      cards: pick("sacred-beasts-combined-assault") },
   ],
   zones: deriveZones(cards),
   total: cards.length,

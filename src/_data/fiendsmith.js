@@ -5,6 +5,7 @@
 // clause. No strategy commentary here on purpose, only factual card info.
 // First-pass segmentation, to be refined by hand.
 import { deriveZones } from "../_lib/zones.js";
+import { findImage } from "../_lib/card-images.js";
 
 const cards = [
   {
@@ -33,7 +34,6 @@ const cards = [
       `The engine's backbone: its GY effect turns a single LIGHT Fiend into two bodies (one of them a LIGHT Fiend), so any line that reaches Engraver ends on more than it started.`,
       `The in-hand discard usually grabs <a class="clink" href="#fiendsmiths-tract" data-img="../../assets/cards/fiendsmith/fiendsmiths-tract.webp">Fiendsmith's Tract</a> to open a play, and conveniently loads Engraver into the GY for that revive.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmith-engraver.webp",
   },
   {
     id: "lacrima-the-crimson-tears",
@@ -58,7 +58,6 @@ const cards = [
       `Prime <a class="clink" href="#fiendsmiths-requiem" data-img="../../assets/cards/fiendsmith/fiendsmiths-requiem.webp">Fiendsmith's Requiem</a> target: summon it, then send <a class="clink" href="#fiendsmith-engraver" data-img="../../assets/cards/fiendsmith/fiendsmith-engraver.webp">Fiendsmith Engraver</a> or <a class="clink" href="#fiendsmith-in-paradise" data-img="../../assets/cards/fiendsmith/fiendsmith-in-paradise.webp">Fiendsmith in Paradise</a> to the GY to build your grind.`,
       `Its opponent-turn GY effect revives a Fiendsmith Link for free interaction. As a Level 4 LIGHT Fiend it also pairs with a Level 6 (Engraver or <a class="clink" href="#necroquip-princess" data-img="../../assets/cards/fiendsmith/necroquip-princess.webp">Necroquip Princess</a>) toward <a class="clink" href="#chaos-angel" data-img="../../assets/cards/fiendsmith/chaos-angel.webp">Chaos Angel</a>.`,
     ],
-    image: "/assets/cards/fiendsmith/lacrima-the-crimson-tears.webp",
   },
   {
     id: "fiendsmiths-desirae",
@@ -83,7 +82,6 @@ const cards = [
       `The engine's main payoff: an on-demand Quick Effect negate of face-up cards, up to the total Link Rating equipped to it, and it doesn't target.`,
       `Even off the field it's removal: its GY effect sends a card to the GY. Foolishing it with <a class="clink" href="#fiendsmith-in-paradise" data-img="../../assets/cards/fiendsmith/fiendsmith-in-paradise.webp">Fiendsmith in Paradise</a> turns that into opponent-turn interaction.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-desirae.webp",
   },
   {
     id: "fiendsmiths-lacrima",
@@ -109,7 +107,6 @@ const cards = [
       `The easiest Fiendsmith Fusion (just 2 LIGHT Fiends) and a strong extender: on Fusion Summon it revives or adds back a LIGHT Fiend. Banned in the TCG; legal in the OCG and Master Duel.`,
       `Its GY effect burns 1200 for a cost that's basically upside (shuffle back a LIGHT Fiend), and it adds up across a grind.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-lacrima.webp",
   },
   {
     id: "fiendsmiths-rextremende",
@@ -138,7 +135,6 @@ const cards = [
       `A towers: unaffected by everything while it has a Fiendsmith Equip Spell on it.`,
       `Rarely worth it: its materials (a Fiendsmith Fusion + a Fusion or Link) are steep, so you seldom trade <a class="clink" href="#fiendsmiths-desirae" data-img="../../assets/cards/fiendsmith/fiendsmiths-desirae.webp">Fiendsmith's Desirae</a> away for it. Largely outclassed by <a class="clink" href="#aerial-eater" data-img="../../assets/cards/fiendsmith/aerial-eater.webp">Aerial Eater</a>.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-rextremende.webp",
   },
   {
     id: "fiendsmiths-agnumday",
@@ -158,7 +154,6 @@ const cards = [
       `Quick Effect revives any LIGHT non-Link Fiend from the GY and equips itself for an ATK boost plus piercing, most often to recur <a class="clink" href="#fiendsmiths-desirae" data-img="../../assets/cards/fiendsmith/fiendsmiths-desirae.webp">Fiendsmith's Desirae</a>.`,
       `ATK gain is 600 × the total Link Rating equipped; stacked with <a class="clink" href="#fiendsmiths-sequence" data-img="../../assets/cards/fiendsmith/fiendsmiths-sequence.webp">Fiendsmith's Sequence</a> on Desirae you get a huge, untargetable negate.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-agnumday.webp",
   },
   {
     id: "fiendsmiths-requiem",
@@ -184,7 +179,6 @@ const cards = [
       `The core bridge: Link it off any one LIGHT Fiend, then tribute it to Special Summon <a class="clink" href="#lacrima-the-crimson-tears" data-img="../../assets/cards/fiendsmith/lacrima-the-crimson-tears.webp">Lacrima the Crimson Tears</a> from the Deck. The tribute is a Quick Effect, so it dodges targeted negation and works on either turn.`,
       `Its equip effect (onto a LIGHT non-Link Fiend) enables <a class="clink" href="#fiendsmith-engraver" data-img="../../assets/cards/fiendsmith/fiendsmith-engraver.webp">Fiendsmith Engraver</a>'s removal and the <a class="clink" href="#necroquip-princess" data-img="../../assets/cards/fiendsmith/necroquip-princess.webp">Necroquip Princess</a> contact fusion.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-requiem.webp",
   },
   {
     id: "fiendsmiths-sequence",
@@ -209,7 +203,6 @@ const cards = [
       `The best way to make the Fiendsmith Fusions: it Fusion Summons a Fiend Fusion using GY fodder instead of hand or field. Great for <a class="clink" href="#fiendsmiths-desirae" data-img="../../assets/cards/fiendsmith/fiendsmiths-desirae.webp">Fiendsmith's Desirae</a> or generic Fiend Fusions like <a class="clink" href="#aerial-eater" data-img="../../assets/cards/fiendsmith/aerial-eater.webp">Aerial Eater</a>.`,
       `It can summon ANY Fiend Fusion, not just Fiendsmith. Its equip effect makes the equipped monster untargetable, so pair it with Desirae for a protected negate.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-sequence.webp",
   },
   {
     id: "fiendsmiths-sanct",
@@ -232,7 +225,6 @@ const cards = [
     tips: [
       `An alternate starter/extender: the Token gives you a LIGHT Fiend to reach <a class="clink" href="#fiendsmiths-requiem" data-img="../../assets/cards/fiendsmith/fiendsmiths-requiem.webp">Fiendsmith's Requiem</a>. Supplemental to <a class="clink" href="#fiendsmiths-tract" data-img="../../assets/cards/fiendsmith/fiendsmiths-tract.webp">Fiendsmith's Tract</a>, not a replacement: the Token vanishes when it leaves the field, leaving no LIGHT Fiend in the GY.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-sanct.webp",
   },
   {
     id: "fiendsmiths-tract",
@@ -256,7 +248,6 @@ const cards = [
       `It doesn't say "Fiendsmith"; it searches ANY LIGHT Fiend. Grab <a class="clink" href="#fabled-lurrie" data-img="../../assets/cards/fiendsmith/fabled-lurrie.webp">Fabled Lurrie</a> and discard it: the discard Special Summons Lurrie for free.`,
       `A consistency booster for any LIGHT-Fiend deck; its GY effect banishes it to Fusion Summon a Fiendsmith Fusion from your hand or field.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmiths-tract.webp",
   },
   {
     id: "fiendsmith-kyrie",
@@ -280,7 +271,6 @@ const cards = [
       `The least-used engine card. Its on-field battle protection rarely matters for the big bodies you end on.`,
       `The draw is the GY effect: a Fusion Summon that can use equipped Fiendsmith Links as material, but it costs too much setup to justify over <a class="clink" href="#fiendsmiths-tract" data-img="../../assets/cards/fiendsmith/fiendsmiths-tract.webp">Fiendsmith's Tract</a> or <a class="clink" href="#fiendsmiths-sequence" data-img="../../assets/cards/fiendsmith/fiendsmiths-sequence.webp">Fiendsmith's Sequence</a>.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmith-kyrie.webp",
   },
   {
     id: "fiendsmith-in-paradise",
@@ -304,13 +294,11 @@ const cards = [
       `GY effect + <a class="clink" href="#fiendsmiths-desirae" data-img="../../assets/cards/fiendsmith/fiendsmiths-desirae.webp">Fiendsmith's Desirae</a> is the payoff: when the opponent Special Summons, foolish Desirae, then use Desirae's GY effect to send a card away for removal on their turn.`,
       `The on-field effect is a Zeus-like board wipe, but it needs a Level 7+ LIGHT Fiend (Desirae or <a class="clink" href="#fiendsmiths-rextremende" data-img="../../assets/cards/fiendsmith/fiendsmiths-rextremende.webp">Fiendsmith's Rextremende</a>) and sends your own cards too.`,
     ],
-    image: "/assets/cards/fiendsmith/fiendsmith-in-paradise.webp",
   },
 
   // --- Staples run alongside Fiendsmith (not "Fiendsmith" cards themselves) ---
   {
     id: "necroquip-princess",
-    image: "/assets/cards/fiendsmith/necroquip-princess.webp",
     name: "Necroquip Princess",
     role: "Fusion Effect Monster",
     accent: "#cbb0ff",
@@ -331,7 +319,6 @@ const cards = [
   },
   {
     id: "fabled-lurrie",
-    image: "/assets/cards/fiendsmith/fabled-lurrie.webp",
     name: "Fabled Lurrie",
     role: "Effect Monster",
     accent: "#e0c46a",
@@ -345,7 +332,6 @@ const cards = [
   },
   {
     id: "dddd-wave-high-king-caesar",
-    image: "/assets/cards/fiendsmith/dddd-wave-high-king-caesar.webp",
     name: "D/D/D Wave High King Caesar",
     role: "Xyz Effect Monster",
     accent: "#b9b4c9",
@@ -369,7 +355,6 @@ const cards = [
   },
   {
     id: "aerial-eater",
-    image: "/assets/cards/fiendsmith/aerial-eater.webp",
     name: "Aerial Eater",
     role: "Fusion Effect Monster",
     accent: "#cbb0ff",
@@ -394,7 +379,6 @@ const cards = [
   },
   {
     id: "skull-archfiend-of-chaos",
-    image: "/assets/cards/fiendsmith/skull-archfiend-of-chaos.webp",
     name: "Skull Archfiend of Chaos",
     role: "Effect Monster",
     accent: "#e0c46a",
@@ -435,9 +419,13 @@ const cards = [
       `Easy off two Fiends, e.g. <a class="clink" href="#necroquip-princess" data-img="../../assets/cards/fiendsmith/necroquip-princess.webp">Necroquip Princess</a> (Level 6) + <a class="clink" href="#lacrima-the-crimson-tears" data-img="../../assets/cards/fiendsmith/lacrima-the-crimson-tears.webp">Lacrima the Crimson Tears</a> (Level 4), treating one as the Tuner, for a Level 10 that banishes a card on summon.`,
       `Made with both a LIGHT and a DARK material it turns on both clauses: your Synchros dodge the opponent's monster effects and your monsters can't be destroyed by battle.`,
     ],
-    image: "/assets/cards/fiendsmith/chaos-angel.webp",
   },
 ];
+
+// Card art is resolved from disk, not written per card: drop a file at
+// src/assets/cards/fiendsmith/<id>.<ext> and it is picked up. Same wiring as
+// cards.js and handtraps.js, so a lighter re-encode is a file drop.
+for (const c of cards) c.image = findImage("fiendsmith", c.id);
 
 // Deck-section grouping. Card order within a group is set here by hand, so
 // Fusions read low→high Level and Links low→high Rating with no runtime sort.

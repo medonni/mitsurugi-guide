@@ -1,10 +1,9 @@
 ---
 title: Sacred Beasts Overview
-nav: sb-overview
 bg: landing
 description: Sacred Beasts, backed by the new Chaos Origins (CORI) support package, Uria, Hamon, and Raviel, each a Level 10 monster that can't be Normal Summoned, revived and fused into a 5000 ATK negate machine.
 ---
-{% from "components.njk" import bossStack %}
+{% from "components.njk" import heroArt %}
 
 <section class="container hero">
   <div>
@@ -24,15 +23,7 @@ description: Sacred Beasts, backed by the new Chaos Origins (CORI) support packa
       <a href="#how-it-works" class="btn btn-outline">How it works</a>
     </div>
   </div>
-  <div class="hero-art-wrap">
-    <div class="hero-art-glow"></div>
-    <div class="hero-art">
-      {{ bossStack(sacredBeasts.heroBosses, '/sacred-beasts/cards/') }}
-      <div class="hero-card has-img">
-        <img src="{{ sacredBeasts.heroBosses[0].image | url }}" alt="{{ sacredBeasts.heroBosses[0].name }}">
-      </div>
-    </div>
-  </div>
+  {{ heroArt(sacredBeasts.heroBosses, '/sacred-beasts/cards/', sacredBeasts.heroBosses[0]) }}
 </section>
 
 <section id="how-it-works" class="container section">

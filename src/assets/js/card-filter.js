@@ -23,18 +23,31 @@
   const synergy = document.getElementById("synergy");
   const state = { section: "all", zone: "all", q: "" };
 
-  const rowName = (r) => (r.querySelector("h3") || {}).textContent || "";
+  // Each row's filterable facts, read once at startup: the name, the zone list,
+  // and the group it belongs to never change, so re-deriving them per keystroke
+  // (per row, per tab) was the same DOM walk over and over.
+  const meta = [...rows].map((r) => ({
+    row: r,
+    section: (r.closest("[data-section]") || { dataset: {} }).dataset.section,
+    name: ((r.querySelector("h3") || {}).textContent || "").toLowerCase(),
+    zones: r.dataset.zones.split(" "),
+  }));
+
   // A row's own filters, ignoring the section tabs: this is what a tab's count
   // has to answer, since the count predicts what clicking it would give you.
-  const matchesRow = (r) =>
-    (state.zone === "all" || r.dataset.zones.split(" ").includes(state.zone)) &&
-    (!state.q || rowName(r).toLowerCase().includes(state.q));
+  const matchesRow = (m) =>
+    (state.zone === "all" || m.zones.includes(state.zone)) &&
+    (!state.q || m.name.includes(state.q));
 
   function apply() {
-    rows.forEach((r) => {
-      const g = r.closest("[data-section]");
-      const okSection = state.section === "all" || !g || g.dataset.section === state.section;
-      r.hidden = !(matchesRow(r) && okSection);
+    // Group key -> how many of its rows survived, so the per-group recount
+    // below doesn't have to re-query the DOM for what this loop already knows.
+    const visibleBySection = new Map();
+    meta.forEach((m) => {
+      const okSection = state.section === "all" || !m.section || m.section === state.section;
+      const on = matchesRow(m) && okSection;
+      m.row.hidden = !on;
+      if (on && m.section) visibleBySection.set(m.section, (visibleBySection.get(m.section) || 0) + 1);
     });
     // Sub-label dividers only make sense in the unfiltered functional view.
     const filtering = state.zone !== "all" || !!state.q;
@@ -42,7 +55,7 @@
 
     let anyRow = false;
     groups.forEach((g) => {
-      const visible = g.querySelectorAll(".card-row:not([hidden])").length;
+      const visible = visibleBySection.get(g.dataset.section) || 0;
       g.hidden = visible === 0;
       if (visible) anyRow = true;
       // Counts are recomputed, never left at the baked-in total: a header that
@@ -60,13 +73,9 @@
       const count = t.querySelector(".count");
       if (!count) return;
       const key = t.dataset.filter;
-      const scope = key === "all"
-        ? [...rows]
-        : [...rows].filter((r) => {
-            const g = r.closest("[data-section]");
-            return g && g.dataset.section === key;
-          });
-      count.textContent = scope.filter(matchesRow).length;
+      count.textContent = meta.filter(
+        (m) => (key === "all" || m.section === key) && matchesRow(m)
+      ).length;
     });
 
     if (synergy) synergy.hidden = filtering;

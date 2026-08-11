@@ -1,3 +1,15 @@
+// id -> the card it names, derived from the deck data files. Every href is
+// root-absolute; linkCards() rewrites them relative to whichever page is
+// rendering, so the same map works from /mitsurugi/combos/ and
+// /handtraps/matchups/ alike, and relative output survives the
+// /mitsurugi-guide/ pathPrefix without the filter knowing it (the pathPrefix
+// isn't readable from the config callback).
+//
+// Nothing to register here when a card is added: put it in the deck's data
+// file, give it art, and add an alias to CARD_LINKS below only if the prose
+// calls it something other than its full name.
+import { cardIndex as CARD_TARGETS } from "./src/_lib/card-index.js";
+
 // Combo step text repeats card names; link the FIRST mention of each card per
 // block so a reader can recall an effect without leaving the page. Longest
 // aliases first so "Ame no Murakumo" wins over bare "Murakumo", etc.
@@ -56,48 +68,6 @@ const CARD_LINKS = [
   ["Uria", "uria"],
 ];
 
-// id -> where a card link should point, written root-absolute. linkCards()
-// rewrites these relative to whichever page is rendering, so the same map works
-// from /mitsurugi/combos/ and /handtraps/matchups/ alike, and relative output
-// survives the /mitsurugi-guide/ pathPrefix without the filter knowing it (the
-// pathPrefix isn't readable from the config callback). Handtraps live on the
-// shared /handtraps/ page, not on any deck's cards page.
-// Fiendsmith and Sacred Beasts name their image files after the card id, and
-// the cards page anchors each row by the same id, so their targets are derived
-// rather than written out. Mitsurugi's aren't: its ids are short nicknames
-// ("preprep") split across main/ and support/ image folders.
-const fromDeck = (page, dir, ext, ids) =>
-  Object.fromEntries(ids.map((id) => [id, { href: `${page}#${id}`, img: `${dir}${id}.${ext}` }]));
-
-const CARD_TARGETS = {
-  murakumo: { href: "/mitsurugi/cards/#murakumo", img: "/assets/cards/main/murakumo.webp" },
-  futsu: { href: "/mitsurugi/cards/#futsu", img: "/assets/cards/main/futsu.webp" },
-  habakiri: { href: "/mitsurugi/cards/#habakiri", img: "/assets/cards/main/habakiri.webp" },
-  saji: { href: "/mitsurugi/cards/#saji", img: "/assets/cards/main/saji.webp" },
-  aramasa: { href: "/mitsurugi/cards/#aramasa", img: "/assets/cards/main/aramasa.webp" },
-  kusanagi: { href: "/mitsurugi/cards/#kusanagi", img: "/assets/cards/main/kusanagi.webp" },
-  ritual: { href: "/mitsurugi/cards/#ritual", img: "/assets/cards/main/ritual.webp" },
-  mirror: { href: "/mitsurugi/cards/#mirror", img: "/assets/cards/main/mirror.webp" },
-  prayers: { href: "/mitsurugi/cards/#prayers", img: "/assets/cards/main/prayers.webp" },
-  purification: { href: "/mitsurugi/cards/#purification", img: "/assets/cards/main/purification.webp" },
-  preprep: { href: "/mitsurugi/cards/#preprep", img: "/assets/cards/support/preprep.webp" },
-  raggedrecords: { href: "/mitsurugi/cards/#raggedrecords", img: "/assets/cards/support/raggedrecords.webp" },
-  ash: { href: "/handtraps/#ash", img: "/assets/cards/handtraps/ash.webp" },
-  droll: { href: "/handtraps/#droll", img: "/assets/cards/handtraps/droll.webp" },
-  ...fromDeck("/fiendsmith/cards/", "/assets/cards/fiendsmith/", "webp", [
-    "fiendsmith-engraver", "fiendsmiths-tract", "fiendsmiths-requiem",
-    "fiendsmiths-sequence", "fiendsmiths-desirae", "fiendsmiths-lacrima",
-    "fiendsmiths-sanct", "fiendsmiths-rextremende", "fiendsmith-kyrie",
-    "lacrima-the-crimson-tears", "fabled-lurrie", "dddd-wave-high-king-caesar",
-  ]),
-  ...fromDeck("/sacred-beasts/cards/", "/assets/cards/sacred-beasts/", "jpg", [
-    "uria", "raviel", "martyr-of-the-sacred-beasts", "summoner-of-the-sacred-beasts",
-    "chaotic-phantasmal-sacred-beasts", "sacred-beasts-released",
-    "fallen-paradise-of-the-sacred-beasts", "sacred-beasts-thunderclap",
-    "sacred-beasts-combined-assault",
-  ]),
-};
-
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 // "/a/b/" -> "../../", so a root-absolute target becomes relative to this page.
@@ -120,7 +90,7 @@ function linkCards(text) {
     if (i < 0) continue;
     const token = "\x00" + slots.length + "\x00";
     const t = CARD_TARGETS[id];
-    const img = t ? ` data-img="${rel(t.img)}"` : "";
+    const img = t && t.image ? ` data-img="${rel(t.image)}"` : "";
     slots.push(`<a class="clink" href="${t ? rel(t.href) : "#" + id}"${img}>${ea}</a>`);
     out = out.slice(0, i) + token + out.slice(i + ea.length);
   }

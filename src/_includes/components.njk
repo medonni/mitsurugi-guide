@@ -103,16 +103,15 @@
 </section>
 {% endmacro %}
 
-{# "No cards match" fallback + reset, shown by card-filter.js when a filter
-   combination leaves zero rows visible. #}
-{# "No cards match" fallback + reset, shown by card-filter.js when the filters
-   leave zero rows visible. The message names every active filter, not just the
-   zone: blaming the chip when the tab is the cause points the reader at the
-   wrong control. `aria-live` announces it, since the failure is a screenful of
-   cards silently vanishing. #}
-{% macro filterEmpty() %}
+{# "No cards match" fallback + reset, shown by the page's filter script when the
+   filters leave zero rows visible. The message names every active filter, not
+   just the zone: blaming the chip when the tab is the cause points the reader at
+   the wrong control. `aria-live` announces it, since the failure is a screenful
+   of cards silently vanishing. `lead` is the sentence's subject, so a page
+   filtering something other than cards can say what it actually hid. #}
+{% macro filterEmpty(lead="No cards") %}
 <p class="filter-empty" id="filter-empty" role="status" aria-live="polite" hidden>
-  No cards <span class="filter-empty-what em-gold"></span>.
+  {{ lead }} <span class="filter-empty-what em-gold"></span>.
   <button type="button" class="filter-reset" id="filter-reset">Clear filters</button>
 </p>
 {% endmacro %}
@@ -200,9 +199,30 @@
 </div>
 {% endmacro %}
 
-{# Landing boss-card art: real image when present, else a caption placeholder. #}
+{# A deck overview's hero art column: the desktop hover accordion plus the
+   single card that stands in for it below 901px, where .boss-stack is
+   display:none. Every deck's index.njk renders exactly this, so the wrapper
+   lives with bossStack rather than being pasted three times, per CLAUDE.md.
+   `hero` is the card shown on mobile: it isn't always bosses[0] (Mitsurugi
+   leads its stack with Futsu but fronts the page with Murakumo). #}
+{% macro heroArt(bosses, cardsHref, hero) %}
+<div class="hero-art-wrap">
+  <div class="hero-art-glow"></div>
+  <div class="hero-art">
+    {{ bossStack(bosses, cardsHref) }}
+    <div class="hero-card has-img">
+      <img src="{{ hero.image | url }}" alt="{{ hero.name }}">
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{# Landing boss-card art: real image when present, else a caption placeholder.
+   Not lazy: its only caller is the hub's deck grid, which sits directly under
+   the h1 and holds the page's LCP element. `loading="lazy"` there hides the
+   src from the preload scanner, so the fetch can't start until layout does. #}
 {% macro bossArt(c) %}
 <div class="boss-art{% if c.image %} has-img{% endif %}">
-  {% if c.image %}<img src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" loading="lazy">{% else %}<span class="art-caption mono">[ ART · {{ c.short }} ]</span>{% endif %}
+  {% if c.image %}<img src="{{ c.image | url }}" alt="{{ c.name }}" width="412" height="600" fetchpriority="high">{% else %}<span class="art-caption mono">[ ART · {{ c.short }} ]</span>{% endif %}
 </div>
 {% endmacro %}
