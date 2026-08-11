@@ -441,11 +441,11 @@ const cardData = [
   },
   {
     id: "exciton", section: "extra", name: "Evilswarm Exciton Knight", role: "Rank 4 Xyz · Reset",
-    glyphColor: "#cbb0ff", stat: "R4 · 1800 / 1000",
-    badges: ["DARK", "Fiend", "Xyz", "Rank 4"],
+    glyphColor: "#cbb0ff", stat: "R4 · 1900 / 0",
+    badges: ["LIGHT", "Fiend", "Xyz", "Rank 4"],
     cost: "2 Level 4 monsters",
     zones: [
-      ["FIELD", "Once per chain, during your MP or your opponent's BP, if the opponent has more cards (hand + field) than you, detach 1 material: destroy all other cards on the field."],
+      ["FIELD", "Once per chain, during your MP or your opponent's BP, if the opponent has more cards (hand + field) than you, detach 1 material: destroy all other cards on the field, also your opponent takes no further damage this turn."],
     ],
     tips: [
       "A one-sided reset when you're behind.",

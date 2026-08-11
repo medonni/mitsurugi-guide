@@ -39,8 +39,7 @@ export default {
           why: "Prayers turns the spent Futsu into a fresh search plus a body." },
         { n: "5.5", card: "Mirror + Futsu trigger in GY", do: "As Prayers resolves, Futsu no Mitama and Mirror's GY effect triggers. Shuffle Mirror back into the deck, add Mitsurugi Great Purification and revive Futsu no Mitama.",
           why: "You get Futsu back and end on a live Trap." },
-        { n: "6", card: "Flexible Extra Deck end", do: "Normal Summon the Aramasa you added, then overlay the two Level 4s (Saji and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2. Keep the Level 8 ritual monsters on board.",
-          why: "The Level 8 bodies (Habakiri, Murakumo, the 3400 Futsu wall) are all strong on their own, so spend just the disposable Level 4s on the Extra Deck play." },
+        { n: "6", card: "Flexible Extra Deck end", do: "Normal Summon the Aramasa you added, then overlay the two Level 4s (Saji and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2." },
         { n: "6.5", card: "Set the Trap", do: "Set Mitsurugi Great Purification to finish, alongside any other cards that need to be set." },
       ],
     },
@@ -71,8 +70,7 @@ export default {
         { n: "5", card: "Mirror activation", do: "Activate Mitsurugi Mirror, tributing Futsu no Mitama to Special Summon Habakiri from the GY." },
         { n: "5.5", card: "Futsu trigger in GY", do: "As Mirror resolves, Futsu no Mitama GY effect triggers. Add Mitsurugi Great Purification and revive Futsu no Mitama.",
           why: "You get the Futsu wall back and end on a live Trap." },
-        { n: "6", card: "Flexible Extra Deck end", do: "Keep the Level 8 ritual monsters on board and overlay only the two Level 4s (Saji and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2.",
-          why: "The Level 8 bodies (Habakiri, Murakumo, the 3400 Futsu wall) are already your board, so spend just the disposable Level 4s on the Extra Deck play." },
+        { n: "6", card: "Flexible Extra Deck end", do: "Overlay only the two Level 4s (Saji and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2." },
         { n: "6.5", card: "Set the Trap", do: "Set Mitsurugi Great Purification to finish, alongside any other cards that need to be set." },
       ],
     },
@@ -81,7 +79,7 @@ export default {
       name: "Prayers solo starter",
       section: "1 Card Combos",
       tag: "Prayers opener",
-      starter: "A lone Mitsurugi Prayers",
+      starter: "Mitsurugi Prayers",
       result: "Habakiri, Murakumo, and Futsu no Mitama on board (three Level 8 bodies), plus a set Mitsurugi Great Purification, with an optional Link 2",
       steps: [
         { n: "0", card: "Open on Prayers", do: "Activate Mitsurugi Prayers to add Habakiri to hand.",
@@ -109,7 +107,7 @@ export default {
       name: "Pre-Preparation extended line",
       section: "1 Card Combos",
       tag: "Pre-Prep opener",
-      starter: "A lone Pre-Preparation of Rites. Make sure there is no Mitsurugi Mirror in your hand!",
+      starter: "Pre-Preparation of Rites. Make sure there is no Mitsurugi Mirror in your hand!",
       result: "Habakiri, Murakumo, and Futsu no Mitama on board, plus a Rank 4 Xyz or Link 2 of your choice, a set Mitsurugi Great Purification and Mitsurugi Prayers.",
       steps: [
         { n: "0", card: "Open on Pre-Prep", do: "Activate Pre-Preparation of Rites, adding Habakiri and Mitsurugi Mirror to hand.",
@@ -129,8 +127,8 @@ export default {
         { n: "4.5", card: "Murakumo on-Tribute", do: "Murakumo activates in the GY, adding Mitsurugi Great Purification and reviving itself." },
         { n: "5", card: "Prayers loop", do: "Activate Mitsurugi Prayers, tributing Futsu no Mitama to add Aramasa (pay 800 LP) and revive Kusanagi from the GY.",
           why: "Prayers turns the spent Futsu into a fresh search plus a Level 4 body." },
-        { n: "5.5", card: "Mirror + Futsu trigger in GY", do: "As Prayers hits the GY, revive Futsu no Mitama; Futsu's GY effect adds a second Mitsurugi Prayers.",
-          why: "You get the Futsu wall back and bank a spare Prayers to set as backup interaction." },
+        { n: "5.5", card: "Mirror + Futsu trigger in GY", do: "As Prayers resolves, Futsu no Mitama and Mirror's GY effect triggers. Shuffle Mirror back into the deck, add a second Mitsurugi Prayers and revive Futsu no Mitama.",
+          why: "You get the Futsu back and bank a spare Prayers to set as backup interaction. Great Purification is already in hand from step 4.5, so the second Prayers is the add that isn't a duplicate." },
         { n: "6", card: "Flexible Extra Deck end", do: "Normal Summon the Aramasa you added, then overlay the two Level 4s (Kusanagi and Aramasa) into any Rank 4 Xyz of your choice, or use them for a Link 2. Keep the Level 8 ritual monsters on board.",
           why: "The Level 8 bodies (Habakiri, Murakumo, the 3400 Futsu wall) are already your board, so spend just the disposable Level 4s on the Extra Deck play." },
         { n: "6.5", card: "Set the Traps", do: "Set Mitsurugi Great Purification, and set the spare Prayers as extra interaction." },
@@ -143,6 +141,26 @@ export default {
       section: "2 Card Combos",
       placeholder: true,
       note: 'Two-card combos add double-starter lines that punch through a handtrap, plus openers that need a second card to reach Habakiri. They are still being written up. Until they land, the <a class="clink" href="#1-card-combos">one-card lines above</a> cover every core payoff.',
+    },
+    {
+      id: "fiendsmith-bridge",
+      name: "Bridging back from Fiendsmith",
+      jump: "Fiendsmith",
+      section: "Fiendsmith bridge",
+      tag: "Splash line",
+      starter: "Any Fiendsmith line that reaches Fiendsmith's Sequence",
+      result: "Habakiri in hand and Mitsurugi Mirror in the GY, paid for entirely by the Fiendsmith engine",
+      note:
+        'The return half of the splash: how the Fiendsmith package hands you a Mitsurugi starter. The engine\'s own lines are on the <a class="clink" href="../../fiendsmith/combos/">Fiendsmith combos page</a>.',
+      steps: [
+        { n: "1", card: "Fiendsmith's Sequence", do: "Follow the usual Fiendsmith combo until you can Fusion Summon with Fiendsmith's Sequence." },
+        { n: "2", card: "Sequence", do: "Fusion Summon Aerial Eater from the Extra Deck, shuffling its materials out of your GY.",
+          why: "Sequence summons any Fiend Fusion, not just Fiendsmith ones. Aerial Eater wants 2 Fiends with the same Attribute, and the engine leaves a GY full of LIGHT Fiends." },
+        { n: "3", card: "Aerial Eater", do: "Its Fusion-Summon trigger sends Skull Archfiend of Chaos from the Deck to the GY." },
+        { n: "4", card: "Skull Archfiend of Chaos", do: "Its sent-to-GY effect sends Mitsurugi Mirror from your hand or Deck to the GY, then adds Habakiri from the Deck to your hand.",
+          why: "Mirror names the three Mitsurugi Ritual Monsters, so it is the Ritual Spell that can fetch Habakiri. Mitsurugi Ritual names none, so it cannot.",
+          info: "Mirror in the GY is not wasted: it shuffles itself back into the Deck the next time a Mitsurugi monster is tributed." },
+      ],
     },
   ],
 
@@ -157,5 +175,5 @@ export default {
   ],
 
   // Lines awaiting verified effects before they go on the page.
-  pending: ["Fiendsmith bridge"],
+  pending: [],
 };

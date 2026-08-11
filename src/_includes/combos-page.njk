@@ -9,7 +9,8 @@
    minus its last segment. Same derivation as cards-page.njk. #}
 {% set deckBase = page.url | replace("combos/", "") %}
 <section class="container-narrow comp-head">
-  <div class="kicker">{{ c.kicker }}</div>
+  {# raw markup, same as cards-page.njk's kicker: a deck can hang a WIP badge on it #}
+  <div class="kicker">{{ c.kicker | safe }}</div>
   <h1>{{ c.h1 }}</h1>
   <p class="intro">{{ c.intro | linkcards | safe }}</p>
 </section>

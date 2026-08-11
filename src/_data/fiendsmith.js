@@ -104,7 +104,7 @@ const cards = [
     ],
     note: `You can only use each of the following effects of "Fiendsmith's Lacrima" once per turn.`,
     tips: [
-      `The easiest Fiendsmith Fusion (just 2 LIGHT Fiends) and a strong extender: on Fusion Summon it revives or adds back a LIGHT Fiend. Banned in the TCG; legal in the OCG and Master Duel.`,
+      `The easiest Fiendsmith Fusion (just 2 LIGHT Fiends) and a strong extender: on Fusion Summon it revives or adds back a LIGHT Fiend. Limited in the TCG; unrestricted in the OCG and Master Duel.`,
       `Its GY effect burns 1200 for a cost that's basically upside (shuffle back a LIGHT Fiend), and it adds up across a grind.`,
     ],
   },
@@ -401,6 +401,34 @@ const cards = [
     ],
   },
   {
+    id: "saryuja-skull-dread",
+    name: "Saryuja Skull Dread",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["EARTH", "Dragon", "Link", "LINK-4"],
+    stat: "ATK 2800 · LINK-4",
+    cost: `2+ monsters with different names`,
+    pre: `This card gains effects based on the number of materials used for its Link Summon.`,
+    zones: [
+      [
+        "FIELD",
+        `● 2+: If a monster(s) is Normal or Special Summoned to a zone this card points to: That monster(s) gains 300 ATK/DEF.`,
+      ],
+      [
+        "FIELD",
+        `● 3+: Once per turn, during your Main Phase: You can Special Summon 1 monster from your hand.`,
+      ],
+      [
+        "FIELD",
+        `● 4: When this card is Link Summoned: You can draw 4 cards, then place 3 cards from your hand on the bottom of your Deck in any order.`,
+      ],
+    ],
+    tips: [
+      `Pure refuel. The engine naturally ends on four differently-named Fiends, which is exactly what the draw-4 tier asks for.`,
+      `Not a Fiend and not LIGHT, so it does nothing for <a class="clink" href="#fiendsmith-engraver" data-img="../../assets/cards/fiendsmith/fiendsmith-engraver.webp">Fiendsmith Engraver</a> or the Fusions afterwards: take it when your hand, not your board, is the problem.`,
+    ],
+  },
+  {
     id: "chaos-angel",
     name: "Chaos Angel",
     role: "Synchro Effect Monster",
@@ -460,7 +488,7 @@ export default {
     { key: "support", title: "Supporting Cards", tag: "generic glue", dot: "#b98cff",
       blurb: "Non-Fiendsmith Extra Deck targets and enablers the engine leans on to actually function.",
       cards: pick("skull-archfiend-of-chaos", "necroquip-princess", "aerial-eater",
-                  "dddd-wave-high-king-caesar", "chaos-angel") },
+                  "dddd-wave-high-king-caesar", "saryuja-skull-dread", "chaos-angel") },
   ],
   zones: deriveZones(cards),
   total: cards.length,

@@ -28,7 +28,7 @@ export default {
       // it off. Don't "correct" it to an attribute/type like the other two decks.
       id: "sacred-beasts", name: "Sacred Beasts", tagline: "Nostalgia Bait · Fusion",
       status: "wip", href: "/sacred-beasts/", image: "/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.webp",
-      body: "Uria, Hamon, and Raviel, three Level 10 monsters that can't be Normal Summoned, fused into a 5000 ATK negate machine. Chaos Origins package documented; older staples and combo lines are still in progress.",
+      body: "Uria, Hamon, and Raviel, three Level 10 monsters that can't be Normal Summoned, fused into a 5000 ATK negate machine. Chaos Origins package documented and the first two combo lines are up; older staples and a battle-tested line list are still in progress.",
       discord: "https://discord.com/invite/vgWuQXT", accent: "#52d68f",
     },
   ],

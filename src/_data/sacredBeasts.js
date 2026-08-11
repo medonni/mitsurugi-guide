@@ -82,12 +82,12 @@ const cards = [
     stat: "ATK 2300 / DEF 3000",
     zones: [
       ["HAND", `You can reveal this card in your hand; discard 1 card, and if you do, Special Summon 1 "Sacred Beast" monster from your hand in Defense Position, except a Level 8 monster.`],
-      ["HAND / GY", `You can discard 1 card; Special Summon 1 "Sacred Beast" monster from your hand or GY in Defense Position, except a Level 8 monster or the discarded card.`],
+      ["FIELD", `You can discard 1 card; Special Summon 1 "Sacred Beast" monster from your hand or GY in Defense Position, except a Level 8 monster or the discarded card.`],
       ["GY", `You can banish this card from your GY; Special Summon 1 "Sacred Beast" monster from your GY in Defense Position, except a Level 8 monster.`],
     ],
     note: `You can only use each effect of "Summoner of the Sacred Beasts" once per turn.`,
     tips: [
-      `Three separate ways to put a non-Level-8 Sacred Beast into Defense Position: from hand (discarding to trigger it), from hand or GY (discarding a different card as cost), and from GY (banishing itself). None of the three can target a Level 8 monster.`,
+      `Three separate ways to put a non-Level-8 Sacred Beast into Defense Position, one per location: revealed in hand it summons from your hand, on the field it discards 1 to summon from your hand or GY, and in the GY it banishes itself to summon from your GY. Each is once per turn, so one copy can do all three in a turn. None of them can target a Level 8 monster.`,
     ],
   },
   {
@@ -178,6 +178,185 @@ const cards = [
       `The GY effect Fusion Summons any "Phantasm" Fusion Monster, which is what The Chaotic Phantasmal Sacred Beasts actually is under the hood (its archetype is "Phantasm", not "Sacred Beast"), so this can put it on the field without the 3-material cost.`,
     ],
   },
+  // ===== GENERIC EXTRA DECK & STAPLES =====
+  // Not "Sacred Beast" cards. These are here because the Link line on the
+  // combos page rents them wholesale; text is API-verified like the rest.
+  {
+    id: "thunder-dragon-colossus",
+    name: "Thunder Dragon Colossus",
+    role: "Fusion Effect Monster",
+    accent: "#cbb0ff",
+    badges: ["DARK", "Thunder", "Fusion", "Level 8"],
+    stat: "ATK 2600 / DEF 2400",
+    cost: `"Thunder Dragon" + 1 Thunder monster`,
+    pre: `Must be either Fusion Summoned, or Special Summoned during the turn a Thunder monster's effect was activated in the hand, by Tributing 1 Thunder Effect non-Fusion Monster (in which case you do not use "Polymerization").`,
+    zones: [
+      ["FIELD", `Cards cannot be added from the Main Deck to your opponent's hand except by drawing them.`],
+      ["FIELD", `If this card would be destroyed by battle or card effect, you can banish 1 Thunder monster from your GY instead.`],
+    ],
+    tips: [
+      `The reason the deck can host it: Hamon, Summoner of the Sacred Beasts and Martyr of the Sacred Beasts are Thunder or Fiend bodies, and Hamon's own hand effect satisfies the "a Thunder monster's effect was activated in the hand" clause, so Tributing a Thunder monster summons it without "Polymerization".`,
+      `Its floodgate half stops searching outright, which is the hardest thing this package does to a combo opponent.`,
+    ],
+  },
+  {
+    id: "albion-the-branded-dragon",
+    name: "Albion the Branded Dragon",
+    role: "Fusion Effect Monster",
+    accent: "#cbb0ff",
+    badges: ["DARK", "Dragon", "Fusion", "Level 8"],
+    stat: "ATK 2500 / DEF 2000",
+    cost: `"Fallen of Albaz" + 1 LIGHT monster`,
+    zones: [
+      ["FIELD", `If this card is Fusion Summoned: You can Fusion Summon 1 Level 8 or lower Fusion Monster from your Extra Deck, except "Albion the Branded Dragon", by banishing Fusion Materials mentioned on it from your hand, field, and/or GY.`],
+      ["GY", `During the End Phase, if this card is in the GY because it was sent there this turn: You can add to your hand or Set 1 "Branded" Spell/Trap directly from your Deck.`],
+    ],
+    note: `You can only use each effect of "Albion the Branded Dragon" once per turn.`,
+    tips: [
+      `Never Fusion Summoned here. It gets sent from the Extra Deck to the GY (by Zenna's Deceiving Doll Maidens) purely for the End Phase half, which Sets a "Branded" card from the Deck.`,
+    ],
+  },
+  {
+    id: "linkuriboh",
+    name: "Linkuriboh",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["DARK", "Cyberse", "Link", "LINK-1"],
+    stat: "ATK 300 · LINK-1",
+    cost: `1 Level 1 monster`,
+    zones: [
+      ["FIELD", `When an opponent's monster declares an attack: You can Tribute this card; change that opponent's monster's ATK to 0, until the end of this turn.`],
+      ["GY", `If this card is in your GY (Quick Effect): You can Tribute 1 Level 1 monster; Special Summon this card.`],
+    ],
+    note: `You can only use this effect of "Linkuriboh" once per turn.`,
+    tips: [
+      `Martyr of the Sacred Beasts is a Level 1, so this is a free Link off a spare Martyr, and its GY effect can bring it back by Tributing another one.`,
+    ],
+  },
+  {
+    id: "cross-sheep",
+    name: "Cross-Sheep",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["EARTH", "Beast", "Link", "LINK-2"],
+    stat: "ATK 700 · LINK-2",
+    cost: `2 monsters with different names`,
+    zones: [
+      ["FIELD", `If a monster is Special Summoned to a zone this card points to: You can apply the following effects, in sequence, based on the card types of the monster(s) this card points to.\n● Ritual: Draw 2 cards, then discard 2 cards.\n● Fusion: Special Summon 1 Level 4 or lower monster from your GY.\n● Synchro: All monsters you control gain 700 ATK.\n● Xyz: All monsters your opponent controls lose 700 ATK.`],
+    ],
+    note: `You can only use this effect of "Cross-Sheep" once per turn.`,
+    tips: [
+      `Both arrows point down, so whatever you summon has to land in a zone below it. Summon Thunder Dragon Colossus there and the Fusion clause revives a Martyr for free.`,
+    ],
+  },
+  {
+    id: "sp-little-knight",
+    name: "S:P Little Knight",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["DARK", "Warrior", "Link", "LINK-2"],
+    stat: "ATK 1600 · LINK-2",
+    cost: `2 Effect Monsters`,
+    zones: [
+      ["FIELD", `If this card is Link Summoned using a Fusion, Synchro, Xyz, or Link Monster as material: You can target 1 card on the field or in either GY; banish it, also your monsters cannot attack directly this turn.`],
+      ["FIELD", `When your opponent activates a card or effect (Quick Effect): You can target 2 face-up monsters on the field, including a monster you control; banish both until the End Phase.`],
+    ],
+    note: `You can only use each effect of "S:P Little Knight" once per turn.`,
+    tips: [
+      `The banish-two is the real reason to end on it: it dodges a removal effect by banishing your own monster alongside theirs, and it works on their turn.`,
+      `Its first effect only turns on if a Fusion, Synchro, Xyz or Link was used as material, so build it off a spent Link, not off two Martyrs.`,
+    ],
+  },
+  {
+    id: "protectcode-talker",
+    name: "Protectcode Talker",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["DARK", "Cyberse", "Link", "LINK-3"],
+    stat: "ATK 2300 · LINK-3",
+    cost: `2+ Effect Monsters`,
+    zones: [
+      ["FIELD", `Your opponent cannot target Link-4 or higher monsters you control with card effects, also they cannot be destroyed by battle.`],
+      ["GY", `If you control a "Firewall" Link Monster (Quick Effect): You can banish Link Monsters from your GY whose combined Link Ratings equal exactly 3; Special Summon this card from your GY, but banish it when it leaves the field.`],
+    ],
+    note: `You can only use this effect of "Protectcode Talker" once per turn.`,
+    tips: [
+      `Its GY revive wants exactly 3 Link Ratings of fodder, which Linkuriboh plus Cross-Sheep supplies exactly, and it needs a "Firewall" monster already on the field.`,
+      `The static half protects Firewall Dragon and Charmer Quartet in Bloom, the two Link-4s this deck ends on.`,
+    ],
+  },
+  {
+    id: "firewall-dragon",
+    name: "Firewall Dragon",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["LIGHT", "Cyberse", "Link", "LINK-4"],
+    stat: "ATK 2500 · LINK-4",
+    cost: `2+ monsters`,
+    zones: [
+      ["FIELD", `Once while face-up on the field (Quick Effect): You can target monsters on the field and/or GY up to the number of monsters co-linked to this card; return them to the hand.`],
+      ["FIELD", `If a monster this card points to is destroyed by battle or sent to the GY: You can Special Summon 1 Cyberse monster from your hand.`],
+    ],
+    note: `You can only use each effect of "Firewall Dragon" once per turn.`,
+    tips: [
+      `Co-linked, not adjacent: the bounce counts monsters that point back at it, so a monster parked in an arrow zone facing away is worth nothing. Place the revived Protectcode Talker deliberately.`,
+      `It is a LIGHT monster, which is what lets Charmer Quartet in Bloom revive it alongside Hamon.`,
+    ],
+  },
+  {
+    id: "charmer-quartet-in-bloom",
+    name: "Charmer Quartet in Bloom",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["LIGHT", "Spellcaster", "Link", "LINK-4"],
+    stat: "ATK 1850 · LINK-4",
+    cost: `2+ monsters`,
+    zones: [
+      ["FIELD", `Gains 300 ATK for each different Attribute on the field.`],
+      ["FIELD", `Once, while this card is face-up on the field, during the Main Phase (Quick Effect): You can target 2 monsters in your GY with the same Attribute but different Types, or with the same Type but different Attributes; Special Summon both, also until the end of the next turn, this card and the Special Summoned monsters cannot be used as material for a Fusion, Synchro, Xyz, or Link Summon.`],
+    ],
+    note: `You can only use this effect of "Charmer Quartet in Bloom" once per turn.`,
+    tips: [
+      `Hamon and Firewall Dragon are both LIGHT with different Types, which is exactly the pairing its revive asks for.`,
+      `The restriction blocks using the revived monsters as material. It does not block a Tribute, so a revived Hamon can still pay for Thunder Dragon Colossus.`,
+    ],
+  },
+  {
+    id: "zennas-deceiving-doll-maidens",
+    name: "Zenna's Deceiving Doll Maidens",
+    role: "Link Effect Monster",
+    accent: "#8f9bd0",
+    badges: ["DARK", "Machine", "Link", "LINK-5"],
+    stat: "ATK 0 · LINK-5",
+    cost: `2+ Effect Monsters`,
+    pre: `You can also use 1 monster in your hand as material to Link Summon this card.`,
+    zones: [
+      ["FIELD", `If this card is Link Summoned: You can send 1 monster from your Deck to the GY, or if all materials used for its Link Summon were monsters you controlled, you can send 1 monster from your Extra Deck instead.`],
+      ["GY", `During your next Standby Phase after this card was sent from the field to the GY: You can add 1 monster from your GY to your hand.`],
+    ],
+    note: `You can only use each of the following effects of "Zenna's Deceiving Doll Maidens" once per turn.`,
+    tips: [
+      `A Link-5 off two materials, since it only asks for "2+". Feed it a spare Martyr and a spent Link.`,
+      `Summon it with monsters you already control and the send switches to the Extra Deck, which is the only reason Albion the Branded Dragon reaches the GY.`,
+    ],
+  },
+  {
+    id: "the-fallen-and-the-virtuous",
+    name: "The Fallen & The Virtuous",
+    role: "Quick-Play Spell",
+    accent: "#7fd8c6",
+    badges: ["Spell", "Quick-Play"],
+    stat: "Quick-Play Spell",
+    pre: `(This card is always treated as a "Branded" and "Dogmatika" card.)`,
+    zones: [
+      ["FIELD", `Activate 1 of these effects;\n● Send 1 monster that mentions "Fallen of Albaz" from your Extra Deck to the GY, then target 1 face-up card on the field; destroy it.\n● If you have an "Ecclesia" monster in your field or GY: Target 1 monster in either GY; Special Summon it to your field.`],
+    ],
+    note: `You can only activate 1 "The Fallen & The Virtuous" per turn.`,
+    tips: [
+      `Treated as a "Branded" card, which is the only reason Albion the Branded Dragon can Set it from the Deck in the End Phase.`,
+      `Set on your turn, live on theirs: the first effect is a Quick-Play destroy that pays for itself by dumping an Albaz Fusion.`,
+    ],
+  },
 ];
 
 // Card art is resolved from disk, not written per card: drop a file at
@@ -208,6 +387,12 @@ export default {
     { key: "traps", title: "Traps", tag: "payoff & protection", dot: "#d98cba",
       blurb: "A Summon-plus-negate that doubles as a backdoor into the Fusion boss.",
       cards: pick("sacred-beasts-combined-assault") },
+    { key: "support", title: "Supporting Cards", tag: "generic glue", dot: "#b98cff",
+      blurb: "Not \"Sacred Beast\" cards. The generic Extra Deck the Link line rents: Fusions listed by Level, Links by Rating, plus the one Spell that comes with them.",
+      cards: pick("thunder-dragon-colossus", "albion-the-branded-dragon", "linkuriboh",
+                  "cross-sheep", "sp-little-knight", "protectcode-talker", "firewall-dragon",
+                  "charmer-quartet-in-bloom", "zennas-deceiving-doll-maidens",
+                  "the-fallen-and-the-virtuous") },
   ],
   zones: deriveZones(cards),
   total: cards.length,

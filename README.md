@@ -19,8 +19,9 @@ Built with [Eleventy](https://www.11ty.dev/).
   archetype, piloted inside a host deck, but documented with the same
   three-page shape since it's used the same way once it's in your deck.
 - **`/sacred-beasts/`:** the *Chaos Origins* (CORI) card package is
-  documented; older Sacred Beast staples and combo lines for any deck aren't
-  yet, so it still carries a WIP badge.
+  documented and the first two combo lines are up, but they're compiled from
+  card text rather than battle-tested, and older Sacred Beast staples are
+  still missing, so it keeps its WIP badge.
 - Each deck/engine page is an Overview, a Card Compendium (every card
   grouped by *where it activates*: hand / deck / GY / field / trigger /
   on-tribute, with per-card tips), and Combos (step-by-step lines from
@@ -225,8 +226,9 @@ Two behaviours the shared kit gives you that are easy to mistake for bugs:
 **Every Cards and Combos page carries `deckFootNav(base, here)`.** The shared
 `cards-page.njk` and `combos-page.njk` render it for you, deriving `base` from
 `page.url`, so a deck using the shared includes gets it automatically and can't
-forget it. A page written by hand instead of through the includes (Sacred
-Beasts' placeholder combos page) has to import the macro and call it itself.
+forget it. A page written by hand instead of through the includes has to import
+the macro and call it itself, which is one more reason to go through the
+includes: all three decks' Cards and Combos pages now do.
 This matters more than it looks: a compendium is the most search-indexed page
 on the site, PRODUCT.md says readers arrive one page deep from search, and
 before this two of the three decks' Cards pages held *zero* internal links in
@@ -245,7 +247,8 @@ A deck's `combos.njk` is frontmatter plus two lines:
 1. Add `src/_data/<deck>Combos.js` exporting `kicker`, `h1`, `intro`, `lines`,
    `interactions`, `pending`, and optionally `interactionsTitle`. Mitsurugi's
    `src/_data/combos.js` keeps its generic name for history; new decks use the
-   `<deck>Combos` form.
+   `<deck>Combos` form. `kicker` renders as raw markup (same as `cards-page.njk`),
+   so a WIP deck can hang a `<span class="wip-badge">` on it.
 2. Each entry in `lines` needs `id`, `name`, `section`, `tag`, `starter`,
    `result`, and `steps[]` of `{ n, card, do, why?, info?, warn? }`. Sections
    group automatically: consecutive lines sharing a `section` string fold into

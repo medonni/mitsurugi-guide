@@ -1,23 +1,9 @@
 ---
 title: Sacred Beasts Combos
 bg: combos
-description: Step-by-step combo lines for the Sacred Beast archetype. Coming soon.
+description: Step-by-step Sacred Beast combo lines, the clean Raviel opener into a Fallen Paradise board and the long Hamon line that rents the Cyberse Link toolbox, with every discard and placement explained.
 ---
-{# This deck's combo lines aren't written yet, so this page is hand-written
-   rather than going through combos-page.njk. It still gets the shared foot nav
-   from the same macro: a page with no content is the LAST one that should also
-   be a dead end, and a cold visitor landing here from search has nothing else
-   to act on. #}
-{% from "components.njk" import deckFootNav %}
-
-<section class="container-narrow comp-head">
-  <div class="kicker">// COMBO LINES · SACRED BEASTS <span class="wip-badge">WORK IN PROGRESS</span></div>
-  <h1>Combo lines, coming soon</h1>
-  <p class="intro">Card reference for the Chaos Origins package is up on the <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}">Card Compendium</a>, but no combo line has been played and verified yet. Once they're written, this page will also cover variants that splash the <a class="gold" href="{{ '/fiendsmith/' | url }}">Fiendsmith</a> engine.</p>
-</section>
-
-<section class="container-narrow combos">
-  <p class="combo-placeholder">Check back soon, or see the live <a class="clink" href="{{ '/mitsurugi/combos/' | url }}">Mitsurugi combo lines</a> for the format this page will follow.</p>
-
-  {{ deckFootNav('/sacred-beasts/', "combos") }}
-</section>
+{# Page body lives in _includes/combos-page.njk, shared with every deck that has
+   lines. `sacredBeastsCombos` is this deck's data file. #}
+{% set c = sacredBeastsCombos %}
+{% include "combos-page.njk" %}
