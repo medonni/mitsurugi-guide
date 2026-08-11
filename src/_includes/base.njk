@@ -14,12 +14,24 @@
   <meta property="og:url" content="{{ site.origin }}{{ page.url | url }}">
   <meta property="og:image" content="{{ site.origin }}{{ site.ogImage | url }}">
   <meta name="twitter:card" content="summary_large_image">
+  {# Fonts come from Google's CDN rather than being self-hosted, deliberately.
+     Space Grotesk and the IBM Plex pair are SIL OFL 1.1: the licence permits
+     bundling, but self-hosting IS redistribution and obliges the repo to carry
+     the licence text. Linking the CDN redistributes nothing, so the obligation
+     never arises and there is no NOTICE file to go stale.
+
+     The cost is honest and known: two third-party round trips (DNS + TLS to
+     googleapis and gstatic) on the critical path, which an audit pass flagged.
+     The preconnects below cut that as far as it can be cut without hosting the
+     files. If this ever needs to be self-hosted for speed, the fix is to ship
+     the OFL text alongside the .woff2 files, not to skip it.
+
+     Only the weights the CSS actually sets. Space Grotesk 400 is absent because
+     nothing sets the display face below 600 and bare h1/h2/h3 inherit the UA's
+     bold; adding a weight here means using it in style.css, and vice versa. #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  {# Only the weights the CSS actually sets. Space Grotesk 500 was requested and
-     never used anywhere: it's a whole extra font file per page load for nothing.
-     Adding a weight here means using it in style.css, and vice versa. #}
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
 </head>
 <body class="page-{{ bg or 'landing' }}{% if brand %} deck-{{ brand.id }}{% endif %}">
@@ -35,7 +47,10 @@
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
-    <nav class="nav" id="site-nav">
+    {# Named because it is no longer the only nav landmark on a page: deck Cards
+       and Combos pages carry the foot nav, and combos pages add the jump list.
+       An unlabeled "navigation" among three is a coin flip in a landmark list. #}
+    <nav class="nav" id="site-nav" aria-label="Decks and engines">
       {% for d in hub.decks %}
       <div class="nav-group{% if brand and brand.id == d.id %} active{% endif %}">
         <a href="{{ d.href | url }}">{{ d.name }}{% if d.status == "wip" %} <span class="nav-wip">WIP</span>{% endif %}</a>
@@ -219,6 +234,20 @@
       const set = (open) => { nav.classList.toggle("open", open); btn.setAttribute("aria-expanded", open); };
       btn.addEventListener("click", () => set(nav.classList.contains("open") ? false : true));
       nav.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+      // The open sheet covers ~85% of the viewport, so it has to dismiss like
+      // the modal it visually is. The caret dropdown and the lightbox both
+      // already close on Escape and on an outside click; this one didn't, so
+      // the single largest layer on the site was the one you couldn't dismiss
+      // without hunting the toggle in the corner. Focus goes back to the
+      // toggle, matching what the caret does.
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+      });
+      // Runs after the toggle's own handler, so a click on the toggle is
+      // excluded here rather than being closed and reopened in one tap.
+      document.addEventListener("click", (e) => {
+        if (nav.classList.contains("open") && !e.target.closest("#site-nav") && !e.target.closest(".nav-toggle")) set(false);
+      });
     })();
   </script>
   <script>

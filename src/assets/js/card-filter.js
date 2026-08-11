@@ -19,6 +19,23 @@
   const subLabels = document.querySelectorAll(".sub-label");
   const empty = document.getElementById("filter-empty");
   const emptyWhat = empty && empty.querySelector(".filter-empty-what");
+  const emptyHint = empty && empty.querySelector(".filter-empty-hint");
+
+  // Every card in the guide, emitted by cards-page.njk with hrefs already run
+  // through `| url`. Used only to answer "not on this page, but we do have it":
+  // each compendium deliberately holds one pool, so a reader who knows a card
+  // name but guesses the wrong page would otherwise get a flat "no results"
+  // from a site that documents the card one page over.
+  const elsewhere = (() => {
+    const el = document.getElementById("all-cards");
+    if (!el) return [];
+    let all = [];
+    try { all = JSON.parse(el.textContent); } catch (e) { return []; }
+    // Same-page cards are already covered by the search itself. Compare on the
+    // path, which carries the deploy's pathPrefix on both sides.
+    const here = location.pathname;
+    return all.filter((c) => c.href.split("#")[0] !== here);
+  })();
   // Not a card group, so it must never read as a search result.
   const synergy = document.getElementById("synergy");
   const state = { section: "all", zone: "all", q: "" };
@@ -38,6 +55,28 @@
   const matchesRow = (m) =>
     (state.zone === "all" || m.zones.includes(state.zone)) &&
     (!state.q || m.name.includes(state.q));
+
+  // "Ash Blossom is on the shared handtrap reference." Only ever fires on a
+  // name search: a zone or section filter returning nothing is a filter the
+  // reader set, not a card they failed to find. Capped at three so the empty
+  // state stays one sentence.
+  function showHint() {
+    if (!emptyHint) return;
+    emptyHint.textContent = "";
+    if (!state.q) return;
+    const hits = elsewhere.filter((c) => c.name.toLowerCase().includes(state.q)).slice(0, 3);
+    if (!hits.length) return;
+    emptyHint.append("Not on this page: ");
+    hits.forEach((c, i) => {
+      if (i) emptyHint.append(i === hits.length - 1 ? ", and " : ", ");
+      const a = document.createElement("a");
+      a.href = c.href;
+      a.className = "clink";
+      a.textContent = c.name;
+      emptyHint.append(a, " on ", c.page);
+    });
+    emptyHint.append(".");
+  }
 
   function apply() {
     // Group key -> how many of its rows survived, so the per-group recount
@@ -92,6 +131,7 @@
       let what = parts.join(" ") || "matching this filter";
       if (tab && state.section !== "all") what += ` under ${tab.childNodes[0].textContent.trim()}`;
       emptyWhat.textContent = what;
+      showHint();
       empty.hidden = false;
     } else {
       empty.hidden = true;
@@ -145,6 +185,16 @@
     search.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && search.value) { search.value = ""; state.q = ""; apply(); }
     });
+  }
+
+  // Phones get every group collapsed but the first. Shipping them all `open`
+  // put ~1.3 screens of filter furniture and group headings above the first
+  // card row on a 23,000px page, on the device PRODUCT.md names as primary.
+  // apply() re-opens any group a filter matches, so search and chips are
+  // unaffected; this only changes the resting state. Desktop keeps them open,
+  // where the scroll cost is a fraction of the screen.
+  if (window.matchMedia("(max-width: 900px)").matches) {
+    groups.forEach((g, i) => { if (i) g.open = false; });
   }
 
   apply();

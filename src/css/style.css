@@ -1,5 +1,15 @@
 /* Mitsurugi Ritual Guide — design tokens ported from the handoff. */
 :root {
+  /* Type roles, not type names. Every rule below asks for the ROLE it needs
+     rather than naming a family, so a face change is these three lines instead
+     of 72 scattered declarations. That is not theoretical: this project swapped
+     its whole type system out and back again, and the second trip cost three
+     lines because of these tokens.
+     The families are loaded from Google Fonts in base.njk's <head>. */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
   --bg: #14101f;
   --surface: #191225;
   --surface-alt1: #1e1633;
@@ -14,7 +24,11 @@
      body.deck-* class below; see that block for how the cascade works. */
   --violet: #b98cff;
   --violet-lt: #cbb0ff;
-  --violet-deep: #8a5cf0;
+  /* Lifted from #8a5cf0, which put `--bg` ink at 4.33:1 over the deep end of
+     the violet gradient (.btn-violet, .tab.active), just under AA's 4.5:1 for
+     12px text. #9366f2 clears it at 4.83:1 with the hue intact. The other two
+     decks' deep accents already passed (emerald 6.16:1, cyan 6.17:1). */
+  --violet-deep: #9366f2;
   --violet-rgb: 185, 140, 255;
   --border: rgba(var(--violet-rgb), 0.16);
   --border-soft: rgba(var(--violet-rgb), 0.14);
@@ -163,14 +177,20 @@ summary:focus-visible, [tabindex]:focus-visible {
   position: absolute; top: 8px; left: -9999px; z-index: var(--z-skip);
   padding: 10px 16px; border-radius: 8px;
   background: var(--violet); color: var(--bg);
-  font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.06em;
+  font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.06em;
 }
 .skip-link:focus { left: 8px; color: var(--bg); }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  /* Short pages (a WIP combos page is ~660px) otherwise float their footer
+     mid-screen with bare ground below it, which reads as a broken page at
+     exactly the moment the copy is asking for patience. */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   /* Light-on-dark compensation. Type set in light ink on a dark ground reads
      optically lighter and tighter than the same type set dark-on-light, so the
      counters close up. A hair of tracking opens them back out. It is deliberately
@@ -188,6 +208,7 @@ body.page-landing {
 body.page-cards, body.page-combos {
   background: radial-gradient(1100px 600px at 82% -10%, rgba(61, 42, 90, 0.5), transparent 60%), var(--bg);
 }
+main { flex: 1 0 auto; }
 a { color: var(--violet); text-decoration: none; }
 a:hover { color: var(--violet-lt); }
 ::selection { background: rgba(var(--violet-rgb), 0.3); color: #fff; }
@@ -196,7 +217,7 @@ a:hover { color: var(--violet-lt); }
    (the tightening the .hero h1 / .comp-head h1 rules apply), and inheriting a
    positive value into a 64px headline is exactly wrong. Headings that set their
    own negative tracking are more specific and still win. */
-h1, h2, h3 { font-family: "Space Grotesk", sans-serif; margin: 0; text-wrap: balance; letter-spacing: normal; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; letter-spacing: normal; }
 p { margin: 0; }
 
 /* text-wrap: pretty on anything that wraps to a paragraph. The measure caps
@@ -207,8 +228,8 @@ p { margin: 0; }
 .combo-warn, .answer-line, .threat-does, .combo-placeholder, .boss-desc,
 .synergy-body, .panel-card .body { text-wrap: pretty; }
 
-.mono { font-family: "IBM Plex Mono", monospace; }
-.kicker { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.12em; color: var(--violet); margin-bottom: 14px; }
+.mono { font-family: var(--font-mono); }
+.kicker { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.12em; color: var(--violet); margin-bottom: 14px; }
 .em-gold { color: var(--gold); font-style: normal; }
 .container { max-width: 1280px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
 .container-narrow { max-width: 1180px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
@@ -232,9 +253,9 @@ p { margin: 0; }
   border: 1px solid rgba(224, 196, 106, 0.55);
   background: linear-gradient(135deg, rgba(224, 196, 106, 0.16), rgba(var(--violet-rgb), 0.16));
 }
-.brand-mark > span { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--gold); font-size: 15px; } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
-.wordmark { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: var(--text-title-sm); letter-spacing: 0.04em; }
-.nav { display: flex; align-items: center; gap: 6px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.03em; }
+.brand-mark > span { font-family: var(--font-display); font-weight: 700; color: var(--gold); font-size: 15px; } /* impeccable-disable-line design-system-font-size -- the kanji inside a diamond icon, sized to its own container, not a step on the type ramp; see DESIGN.md §2 "What lives outside the token tables" */
+.wordmark { font-family: var(--font-display); font-weight: 700; font-size: var(--text-title-sm); letter-spacing: 0.04em; }
+.nav { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.03em; }
 .nav a, .nav .soon { padding: 8px 14px; border-radius: 8px; color: var(--text-dim); }
 .nav a:hover { color: var(--violet-lt); }
 .nav .soon { color: var(--text-faint); }
@@ -279,7 +300,7 @@ p { margin: 0; }
 /* wrap: three pills on one line is a coincidence of these three words, not a
    guarantee. A longer attribute set, or a reader at a larger font size, pushes
    the third one off a phone. */
-.attr-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.08em; }
+.attr-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.08em; }
 .attr-pill { padding: 5px 11px; border-radius: 999px; border: 1px solid; }
 .attr-dark { border-color: rgba(185, 140, 255, 0.4); color: var(--violet-lt); }
 .attr-reptile { border-color: rgba(111, 191, 174, 0.4); color: var(--zone-field); }
@@ -425,8 +446,8 @@ p { margin: 0; }
     /* Delayed so the name lands as the wipe finishes rather than racing it. */
     transition: opacity .28s .16s ease-out, transform .28s .16s var(--ease-out-quint);
   }
-  .boss-slice-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body-sm); color: var(--text); }
-  .boss-slice-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--gold); letter-spacing: 0.03em; }
+  .boss-slice-name { font-family: var(--font-display); font-weight: 600; font-size: var(--text-body-sm); color: var(--text); }
+  .boss-slice-stat { font-family: var(--font-mono); font-size: var(--text-label-sm); color: var(--gold); letter-spacing: 0.03em; }
 }
 
 /* ---- stat strip ---- */
@@ -434,11 +455,11 @@ p { margin: 0; }
 .spec-strip { padding: 8px 40px 60px; }
 .spec-row { display: flex; flex-wrap: wrap; gap: 14px 36px; align-items: baseline; margin: 0; padding-top: 22px; border-top: 1px solid var(--border-soft); }
 .spec-item { display: flex; align-items: baseline; gap: 10px; }
-.spec-item dt { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-caption); }
+.spec-item dt { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-caption); }
 /* tabular-nums: these are a row of stat readouts on one baseline, and Space
    Grotesk's proportional figures put a "1"-heavy value visibly out of step with
    its neighbours. */
-.spec-item dd { margin: 0; font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body); color: var(--gold); font-variant-numeric: tabular-nums; }
+.spec-item dd { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--text-body); color: var(--gold); font-variant-numeric: tabular-nums; }
 /* quiet roadmap line, mirrors the combos page's pending convention */
 .pending-note { margin-top: 20px; font-size: var(--text-label); letter-spacing: 0.03em; color: var(--text-faint); }
 
@@ -473,7 +494,7 @@ a.gold:hover { color: #f0d98a; }
    to one. Replaces the per-breakpoint overrides these used to need. */
 .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
 .panel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px 22px; }
-.panel-card .step-n { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--gold); margin-bottom: 16px; }
+.panel-card .step-n { font-family: var(--font-mono); font-size: var(--text-label); color: var(--gold); margin-bottom: 16px; }
 .panel-card h3 { font-weight: 600; font-size: var(--text-title-sm); margin-bottom: 10px; color: var(--text); }
 .panel-card .body { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); }
 
@@ -488,8 +509,9 @@ a.boss-card:focus-visible { border-color: var(--card-accent, rgba(224, 196, 106,
 .boss-body { padding: 22px; }
 /* h2 on the hub (outline order), h3 elsewhere: same visual step either way. */
 .boss-body :is(h2, h3) { font-weight: 600; font-size: var(--text-title-sm); margin-bottom: 6px; }
-.boss-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--gold); letter-spacing: 0.04em; margin-bottom: 14px; }
+.boss-stat { font-family: var(--font-mono); font-size: var(--text-label-sm); color: var(--gold); letter-spacing: 0.04em; margin-bottom: 14px; }
 .boss-desc { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); }
+.boss-pages { margin-top: 12px; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-faint); }
 
 /* ---- deck hub ---- */
 .deck-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
@@ -519,8 +541,8 @@ a.synergy-card:hover { color: inherit; border-color: rgba(224, 196, 106, 0.5); }
 a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
 .synergy-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .synergy-dot { width: 9px; height: 9px; border-radius: 2px; transform: rotate(45deg); }
-.synergy-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-title-sm); color: var(--text); }
-.synergy-rating { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); color: var(--text-faint); margin-left: auto; }
+.synergy-name { font-family: var(--font-display); font-weight: 600; font-size: var(--text-title-sm); color: var(--text); }
+.synergy-rating { font-family: var(--font-mono); font-size: var(--text-label-xs); color: var(--text-faint); margin-left: auto; }
 .synergy-body { font-size: var(--text-body-sm); line-height: 1.65; color: var(--text-dim); }
 
 /* ---- turn panel ---- */
@@ -531,8 +553,8 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
    wider than the steps above it. auto-fit keeps 5 steps legible at 900-1100px,
    where five fixed columns were ~150px (about 20 characters) each. */
 .turn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; }
-.turn-step .step-n { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--gold); margin-bottom: 10px; }
-.turn-step .card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body-sm); color: var(--text); margin-bottom: 7px; }
+.turn-step .step-n { font-family: var(--font-mono); font-size: var(--text-label-sm); color: var(--gold); margin-bottom: 10px; }
+.turn-step .card { font-family: var(--font-display); font-weight: 600; font-size: var(--text-body-sm); color: var(--text); margin-bottom: 7px; }
 .turn-step .do { font-size: var(--text-meta); line-height: 1.55; color: var(--text-dim); }
 .turn-more { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-soft); }
 .turn-more a { font-size: var(--text-meta); color: var(--violet-lt); letter-spacing: 0.03em; }
@@ -545,8 +567,11 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
    row-gap is a no-op while the two columns sit on one row; it only bites once
    .two-col collapses under 900px, where the shared 56px column gap left the
    heading floating half a screen above its own note. */
-.note { border-top: 1px solid var(--border-soft); padding-top: var(--space-lg); row-gap: var(--space-md); }
-.note-sign { display: flex; align-items: center; gap: 10px; margin-top: 24px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.08em; color: var(--text-caption); }
+/* Scoped to the hub's closing aside. As a bare `.note` it also matched the zone
+   filter's "Tap to filter" hint span, which drew a hairline across whatever flex
+   width was left over beside the chips and read as a rendering artifact. */
+.two-col.note { border-top: 1px solid var(--border-soft); padding-top: var(--space-lg); row-gap: var(--space-md); }
+.note-sign { display: flex; align-items: center; gap: 10px; margin-top: 24px; font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.08em; color: var(--text-caption); }
 .note-sign::before { content: ""; width: 7px; height: 7px; background: var(--violet); transform: rotate(45deg); }
 
 /* ---- CTA + footer ---- */
@@ -555,6 +580,18 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
 .cta { padding: var(--space-2xl) var(--space-lg) var(--space-3xl); text-align: center; }
 .cta h2 { font-weight: 700; font-size: var(--text-section); margin-bottom: 16px; }
 .cta p { font-size: var(--text-body); color: var(--text-muted); margin-bottom: 28px; }
+.cta-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+/* ---- foot navigation (deck Cards / Combos pages) ---- */
+/* A compendium is the most search-indexed page on the site, and PRODUCT.md says
+   readers arrive one page deep with no prior visit to the hub. Before this, two
+   of the three decks' Cards pages held zero internal links in <main>: the only
+   route onward was a header caret a cold visitor has no reason to press. */
+.foot-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px solid var(--border-soft); }
+.foot-nav-item { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 14px; transition: border-color .15s, background .15s; }
+.foot-nav-item:hover { background: var(--surface-alt1); border-color: rgba(var(--violet-rgb), 0.28); }
+.foot-nav-dir { font-size: var(--text-label); letter-spacing: 0.06em; color: var(--violet-lt); }
+.foot-nav-label { font-size: var(--text-meta); color: var(--text-dim); }
 .site-footer { border-top: 1px solid var(--border-soft); padding: 32px 40px; text-align: center; }
 .site-footer .mono { font-size: var(--text-label); color: var(--text-faint); line-height: 1.7; }
 
@@ -566,18 +603,18 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
    bar was mostly an empty box. Hugging the chips also lines the filter block up
    with the search field above it instead of out-running it by 600px. */
 .legend { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; width: fit-content; max-width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; }
-.legend-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--text-caption); letter-spacing: 0.06em; margin-right: 4px; }
+.legend-label { font-family: var(--font-mono); font-size: var(--text-label-sm); color: var(--text-caption); letter-spacing: 0.06em; margin-right: 4px; }
 .legend .note { font-size: var(--text-label); color: var(--text-faint); margin-left: 2px; }
 
 /* ---- card search ---- */
 .card-search-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-.card-search-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; color: var(--text-caption); flex: 0 0 auto; }
+.card-search-label { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.1em; color: var(--text-caption); flex: 0 0 auto; }
 .card-search {
   flex: 1 1 auto; max-width: 420px;
   padding: 10px 14px; border-radius: 8px;
   background: var(--surface); color: var(--text);
   border: 1px solid rgba(var(--violet-rgb), 0.28);
-  font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: var(--text-body-sm);
+  font-family: var(--font-body); font-size: var(--text-body-sm);
 }
 /* --text-caption, not --text-faint: placeholder text needs the same 4.5:1 as
    body copy, and the label tone doesn't clear it on --surface. */
@@ -589,10 +626,14 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
 }
 
 /* zone pills — shared */
-.zone-pill { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; }
+.zone-pill { font-family: var(--font-mono); font-size: var(--text-label-sm); font-weight: 600; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 6px; }
 /* The filter chips are real <button>s now; strip the UA button chrome so the
-   per-zone rules below still supply all the color and border. */
-#zone-filter .zone-pill { appearance: none; background: none; border: 0; color: inherit; }
+   per-zone rules below still supply all the color and border. :where() so this
+   reset carries ZERO specificity: as `#zone-filter .zone-pill` (1,1,0) it beat
+   the very `.zone-hand`/`.zone-gy`/`.zone-field` rules (0,1,0) it exists to let
+   through, so every chip rendered as plain white text on transparent and the
+   zone color code was live in the card rows but dead in the filter above them. */
+:where(#zone-filter) .zone-pill { appearance: none; background: none; border: 0; color: inherit; }
 #zone-filter .zone-pill { cursor: pointer; user-select: none; opacity: 0.72; transition: opacity .15s, box-shadow .15s; }
 #zone-filter .zone-pill:hover { opacity: 1; }
 #zone-filter .zone-pill.active { opacity: 1; box-shadow: 0 0 0 2px var(--focus-ring); }
@@ -600,6 +641,11 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
 /* touch devices: the primary filter controls need a ~44px tap target */
 @media (pointer: coarse) {
   #zone-filter .zone-pill { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; min-width: 40px; padding: 8px 14px; }
+  /* The section tabs are the third filter axis and were the one primary control
+     with no coarse rule, sitting at 36px while chips, carets and nav links all
+     got 40px. That matters more since they became a horizontally scrollable row
+     under 900px: small targets in a swipeable strip are the easiest to mis-tap. */
+  .tab { min-height: 40px; }
 }
 .zone-hand { color: var(--gold); border: 1px solid #e0c46a55; }
 .zone-gy { color: var(--zone-gy); border: 1px solid #8f9bd055; }
@@ -630,7 +676,7 @@ a.synergy-card:focus-visible { border-color: rgba(224, 196, 106, 0.5); }
   background: linear-gradient(var(--bg), transparent); pointer-events: none;
 }
 .tabs-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.tab { cursor: pointer; padding: 9px 16px; border-radius: 9px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.02em; transition: background-color .15s, color .15s, border-color .15s; background: var(--surface); color: var(--text-dim); border: 1px solid rgba(var(--violet-rgb), 0.18); }
+.tab { cursor: pointer; padding: 9px 16px; border-radius: 9px; font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.02em; transition: background-color .15s, color .15s, border-color .15s; background: var(--surface); color: var(--text-dim); border: 1px solid rgba(var(--violet-rgb), 0.18); }
 .tab .count { opacity: 0.55; font-size: var(--text-label-sm); }
 .tab.active { background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--bg); font-weight: 600; border: 1px solid transparent; }
 
@@ -645,7 +691,7 @@ summary.group-head { cursor: pointer; list-style: none; padding: 4px 0; }
 summary.group-head::-webkit-details-marker { display: none; }
 /* No margin-left:auto: the count belongs beside the title it counts, not
    flung 700px away at the far right of the row. The caret keeps that slot. */
-.group-count { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--text-faint); }
+.group-count { font-family: var(--font-mono); font-size: var(--text-label); color: var(--text-faint); }
 summary.group-head::after {
   content: ""; margin-left: auto; align-self: center; width: 8px; height: 8px;
   border-right: 2px solid var(--text-dim); border-bottom: 2px solid var(--text-dim);
@@ -657,14 +703,21 @@ summary.group-head:hover h2 { color: var(--violet-lt); }
 summary.group-head:hover::after { border-color: var(--violet); }
 /* shown when a filter combination leaves no card group visible */
 .filter-empty { font-size: var(--text-body-sm); color: var(--text-muted); padding: 20px 0 8px; }
-.filter-reset { margin-left: 8px; padding: 6px 14px; border-radius: 8px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.12); border: 1px solid rgba(var(--violet-rgb), 0.28); cursor: pointer; transition: background .15s; }
+/* Echoing the failed query is not a payoff, so it doesn't get gold (The Scarce
+   Gold Rule). Weight and the plain text color carry the emphasis instead. */
+.filter-empty-what { color: var(--text); font-weight: 600; }
+/* The cross-page hint: this deck's compendium deliberately doesn't hold every
+   card in the guide (handtraps live on their own shared page), so a miss here
+   is often a card the site does document, one page over. */
+.filter-empty-hint { display: block; margin-top: 10px; color: var(--text-dim); }
+.filter-reset { margin-left: 8px; padding: 6px 14px; border-radius: 8px; font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.12); border: 1px solid rgba(var(--violet-rgb), 0.28); cursor: pointer; transition: background .15s; }
 .filter-reset:hover { background: rgba(var(--violet-rgb), 0.2); }
 .group-dot { width: 10px; height: 10px; transform: rotate(45deg); }
 .group-head h2 { font-weight: 700; font-size: var(--text-headline); }
-.group-tag { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--text-faint); }
+.group-tag { font-family: var(--font-mono); font-size: var(--text-label); color: var(--text-faint); }
 .group-blurb { font-size: var(--text-body-sm); color: var(--text-dim); margin: 0 0 22px; padding-left: 24px; max-width: 68ch; line-height: 1.55; white-space: pre-line; }
 .card-list { display: flex; flex-direction: column; gap: 16px; }
-.sub-label { display: flex; align-items: center; gap: 12px; margin: 12px 0 2px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.12em; color: var(--text-faint); }
+.sub-label { display: flex; align-items: center; gap: 12px; margin: 12px 0 2px; font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.12em; color: var(--text-faint); }
 .sub-label:first-child { margin-top: 0; }
 .sub-label::after { content: ""; flex: 1; height: 1px; background: var(--border-soft); }
 .card-row { scroll-margin-top: 190px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 210px 1fr; }
@@ -672,28 +725,28 @@ summary.group-head:hover::after { border-color: var(--violet); }
 .card-art.has-img { padding: 16px; background: #120d1f; }
 .card-art img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
 .card-content { padding: 24px 28px; }
-.card-role { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+.card-role { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-bottom: 8px; }
 .card-content h3 { font-weight: 600; font-size: var(--text-title); margin-bottom: 12px; letter-spacing: -0.01em; }
 .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
 .card-cost { display: flex; align-items: center; gap: 10px; margin: -8px 0 20px; font-size: var(--text-meta); color: var(--text-dim); }
-.cost-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.07em; border-radius: 5px; padding: 3px 8px; border: 1px solid currentColor; min-width: 96px; text-align: center; }
+.cost-label { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.07em; border-radius: 5px; padding: 3px 8px; border: 1px solid currentColor; min-width: 96px; text-align: center; }
 /* card-frame accent per Extra Deck type, readable on the dark surface */
 .cost-xyz { color: #b9b4c9; }      /* Xyz: black frame → silver */
 .cost-link { color: #6f97ff; }     /* Link: cobalt blue */
 .cost-synchro { color: #eef0f8; }  /* Synchro: white frame */
 .cost-fusion { color: #c69bff; }   /* Fusion: purple */
 .cost-generic { color: var(--gold); }
-.badge { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: var(--text-dim); border: 1px solid rgba(167, 155, 192, 0.28); }
-.nav-wip { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
-.wip-badge { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.1em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.45); border-radius: 5px; padding: 2px 7px; margin-left: 8px; vertical-align: middle; }
+.badge { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.05em; padding: 3px 8px; border-radius: 5px; color: var(--text-dim); border: 1px solid rgba(167, 155, 192, 0.28); }
+.nav-wip { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+.wip-badge { display: inline-block; font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.1em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.45); border-radius: 5px; padding: 2px 7px; margin-left: 8px; vertical-align: middle; }
 .wip-note { font-size: var(--text-label); color: var(--text-faint); margin-top: 10px; max-width: 68ch; }
-.fs-stat { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label); color: var(--violet-lt); letter-spacing: 0.03em; margin-bottom: 14px; }
+.fs-stat { font-family: var(--font-mono); font-size: var(--text-label); color: var(--violet-lt); letter-spacing: 0.03em; margin-bottom: 14px; }
 /* Both span the card row's full content column, which is ~810px on a wide
    screen: the longer summoning conditions were wrapping at ~120 characters. */
 .fs-pre { font-size: var(--text-label); line-height: 1.5; color: var(--text-faint); font-style: italic; margin-bottom: 14px; max-width: 68ch; }
 .fs-note { font-size: var(--text-label); line-height: 1.5; color: var(--text-faint); margin-top: 14px; max-width: 68ch; }
 .card-cols { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; }
-.col-head { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; margin-bottom: 14px; }
+.col-head { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.1em; margin-bottom: 14px; }
 .col-head.zones-head { color: var(--text-faint); }
 .col-head.tips-head { color: var(--gold); }
 .zones { display: flex; flex-direction: column; gap: 13px; }
@@ -715,7 +768,7 @@ summary.group-head:hover::after { border-color: var(--violet); }
 .card-art.has-img::after {
   content: "\2922\00a0 Zoom"; /* ⤢ */
   position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
-  font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.05em;
+  font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.05em;
   line-height: 1; color: var(--text); background: rgba(10, 7, 18, 0.78);
   border: 1px solid var(--border-soft); border-radius: 999px;
   padding: 5px 11px; pointer-events: none; white-space: nowrap;
@@ -732,7 +785,7 @@ summary.group-head:hover::after { border-color: var(--violet); }
   width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
   border-radius: 999px; cursor: pointer;
   background: rgba(20, 16, 31, 0.82); border: 1px solid var(--border);
-  color: var(--text); font-family: "IBM Plex Mono", monospace; font-size: var(--text-body-sm);
+  color: var(--text); font-family: var(--font-mono); font-size: var(--text-body-sm);
 }
 .lightbox-close:hover { color: var(--violet-lt); }
 .lightbox img {
@@ -758,26 +811,26 @@ summary.group-head:hover::after { border-color: var(--violet); }
    START/END values to ~118 characters. */
 .combo-meta { display: grid; gap: 8px; min-width: 260px; max-width: 560px; }
 .combo-meta-row { display: grid; grid-template-columns: 52px 1fr; gap: 12px; font-size: var(--text-meta); line-height: 1.5; color: var(--text-muted); }
-.combo-meta-k { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--violet-lt); padding-top: 2px; }
+.combo-meta-k { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--violet-lt); padding-top: 2px; }
 .combo-meta-k.end { color: var(--gold); }
 .combo-note { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); margin: 6px 0 28px; max-width: 68ch; }
 .combo-steps { list-style: none; margin: 0; padding: 0; }
 .combo-step { display: grid; grid-template-columns: 40px 1fr; gap: 18px; position: relative; padding-bottom: 26px; }
 .combo-step:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 38px; bottom: -4px; width: 2px; background: linear-gradient(var(--violet-deep), transparent); opacity: 0.5; }
-.combo-n { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: var(--text-body); color: var(--gold); background: var(--surface-alt1); border: 1px solid var(--border); }
-.combo-card { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-body); color: var(--text); margin-bottom: 5px; }
+.combo-n { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: var(--text-body); color: var(--gold); background: var(--surface-alt1); border: 1px solid var(--border); }
+.combo-card { font-family: var(--font-display); font-weight: 600; font-size: var(--text-body); color: var(--text); margin-bottom: 5px; }
 /* 68ch cap: these ran 97-147ch, because prose with no max-width just inherits
    the container. They are the primary reading text on their pages. WHY, INFO
    and WATCH OUT are the same kind of note and get the same cap: the last two
    were missed the first time and were still running ~147ch. */
 .combo-do { font-size: var(--text-body-sm); line-height: 1.6; color: var(--text-dim); max-width: 68ch; }
 .combo-why, .combo-info, .combo-warn { font-size: var(--text-meta); line-height: 1.55; color: var(--text-caption); margin-top: 8px; max-width: 68ch; }
-.combo-why-tag { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold-deep); border: 1px solid #c9a24b40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
-.combo-info-tag { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--zone-gy); border: 1px solid #8f9bd040; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+.combo-why-tag { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold-deep); border: 1px solid #c9a24b40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+.combo-info-tag { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--zone-gy); border: 1px solid #8f9bd040; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
 /* The matchup map's BLANK verdict is the same kind of note as a combo WATCH OUT
    (both say "this will not work"), so it shares the declaration rather than
    growing a near-identical twin that drifts. */
-.combo-warn-tag, .answer-blank { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: #e59a9a; border: 1px solid #e59a9a40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
+.combo-warn-tag, .answer-blank { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.08em; color: #e59a9a; border: 1px solid #e59a9a40; border-radius: 5px; padding: 1px 5px; margin-right: 8px; vertical-align: 1px; }
 .combo-interactions { margin-top: 52px; }
 .combo-interactions .group-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
 .combo-pending { margin-top: 40px; font-size: var(--text-label); color: var(--text-faint); letter-spacing: 0.03em; }
@@ -789,7 +842,7 @@ summary.group-head:hover::after { border-color: var(--violet); }
 .combo-section-head { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; cursor: pointer; list-style: none; padding: 6px 0; margin-bottom: 14px; border-bottom: 1px solid var(--border-soft); }
 .combo-section-head::-webkit-details-marker { display: none; }
 .combo-section-head h2 { font-weight: 700; font-size: var(--text-headline); }
-.combo-section-head .combo-section-hint { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); color: var(--text-faint); letter-spacing: 0.04em; }
+.combo-section-head .combo-section-hint { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-label-sm); color: var(--text-faint); letter-spacing: 0.04em; }
 .combo-section-body { display: block; }
 summary.combo-head { cursor: pointer; list-style: none; }
 summary.combo-head::-webkit-details-marker { display: none; }
@@ -809,7 +862,7 @@ details[open] > summary .chev { transform: rotate(-135deg); }
 .cardhover.tap { pointer-events: auto; }
 .cardhover a { display: block; color: inherit; text-decoration: none; }
 .cardhover img { display: block; width: 100%; height: auto; aspect-ratio: 412 / 600; }
-.cardhover-cta { display: none; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.05em; color: var(--violet-lt); text-align: center; padding: 7px 6px; background: rgba(20, 16, 31, 0.92); border-top: 1px solid var(--border-soft); }
+.cardhover-cta { display: none; font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.05em; color: var(--violet-lt); text-align: center; padding: 7px 6px; background: rgba(20, 16, 31, 0.92); border-top: 1px solid var(--border-soft); }
 .cardhover.tap .cardhover-cta { display: block; }
 @media (max-width: 560px) { .cardhover { width: 210px; } }
 @media (prefers-reduced-motion: reduce) { .cardhover { transform: none; transition: opacity .12s ease; } }
@@ -818,10 +871,10 @@ details[open] > summary .chev { transform: rotate(-135deg); }
    (--space-md) and clearly above the content (--space-lg). At 4px/20px the
    heading, intro, index and first section all ran together as one block. */
 .combo-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: var(--space-md); padding-bottom: var(--space-lg); }
-.combo-jump-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.1em; color: var(--text-faint); }
+.combo-jump-label { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.1em; color: var(--text-faint); }
 .combo-jump a { font-size: var(--text-meta); color: var(--text-dim); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color .15s, border-color .15s; }
 .combo-jump a:hover { color: var(--violet-lt); border-bottom-color: rgba(var(--violet-rgb), 0.4); }
-.combo-jump-wip { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 3px; padding: 0 4px; margin-left: 3px; }
+.combo-jump-wip { font-family: var(--font-mono); font-size: var(--text-label-xs); letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(224, 196, 106, 0.4); border-radius: 3px; padding: 0 4px; margin-left: 3px; }
 
 /* A card row's two columns are squeezed by the 210px art rail long before the
    page itself is narrow: at 1000px the "where it activates" text is only ~30
@@ -883,6 +936,21 @@ details[open] > summary .chev { transform: rotate(-135deg); }
   .matchup-filter .tabs-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
   .matchup-filter .tabs-row::-webkit-scrollbar { display: none; }
   .matchup-filter .tab { flex: 0 0 auto; }
+  /* The compendium's own filter bar gets the same compaction, for the same
+     reason. At 390px it cost ~1.3 screens before the first card row: the label
+     sat inline and squeezed the field to 257px, and seven section tabs wrapped
+     to four rows. All three axes stay at every width (they're all load-bearing);
+     only their height is reclaimed. Groups after the first also ship collapsed
+     here, see card-filter.js, which re-opens any group a filter matches. */
+  .comp-head .card-search-wrap { flex-direction: column; align-items: stretch; gap: 6px; }
+  .tabs:not(.matchup-filter) .tabs-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .tabs:not(.matchup-filter) .tabs-row::-webkit-scrollbar { display: none; }
+  .tabs:not(.matchup-filter) .tab { flex: 0 0 auto; }
+  /* A 98px pill beside the text inside a 344px card left the effect line ~27
+     characters, wrapping every four words on the device the reader is holding
+     mid-game. Stacked, the text gets the full card width. */
+  .zone-row { flex-direction: column; gap: 4px; }
+  .zone-row .zone-pill { min-width: 0; align-self: flex-start; }
   .card-group, .card-row, .hit-deck-block { scroll-margin-top: 80px; }
   /* Sticky bar above it, so an anchored row has to clear header + filter. */
   .threat { scroll-margin-top: 190px; }
@@ -925,10 +993,10 @@ details[open] > summary .chev { transform: rotate(-135deg); }
 
 /* Handtrap filter: multi-select chips. Empty selection shows everything. */
 .trap-filter-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-.trap-filter-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; color: var(--text-faint); }
+.trap-filter-label { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.1em; color: var(--text-faint); }
 /* Padding matches .tab so the clear control is the same height as the chips it
    clears, and stays a reasonable touch target. */
-.trap-clear { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.12); border: 1px solid rgba(var(--violet-rgb), 0.28); border-radius: 8px; padding: 9px 14px; cursor: pointer; transition: background .15s; }
+.trap-clear { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.03em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.12); border: 1px solid rgba(var(--violet-rgb), 0.28); border-radius: 8px; padding: 9px 14px; cursor: pointer; transition: background .15s; }
 .trap-clear:hover { background: rgba(var(--violet-rgb), 0.2); }
 /* Keep its box when idle: display:none would collapse the row and jolt the
    chips down the moment the first chip is picked. */
@@ -962,7 +1030,7 @@ details[open] > summary .chev { transform: rotate(-135deg); }
 .threat-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
 a.threat-art:hover { border-color: rgba(var(--violet-rgb), 0.55); }
 .threat-id { grid-column: 2; min-width: 0; margin-bottom: 12px; }
-.threat-id h3 { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: var(--text-title-sm); line-height: 1.25; letter-spacing: -0.01em; margin: 0; }
+.threat-id h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--text-title-sm); line-height: 1.25; letter-spacing: -0.01em; margin: 0; }
 .threat-id h3 a { color: var(--text); }
 .threat-id h3 a:hover { color: var(--violet-lt); }
 /* What the card does FOR THEM: a subtitle, not a label, so it stays in the body
@@ -980,7 +1048,7 @@ a.threat-art:hover { border-color: rgba(var(--violet-rgb), 0.55); }
 .answer-verdict { justify-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 /* Padding, not a fixed height: the chip has to clear WCAG 2.2 AA's 24px
    minimum target on its own, before the coarse-pointer bump below. */
-.answer-trap { display: inline-flex; align-items: center; min-height: 26px; font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.06em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.1); border: 1px solid rgba(var(--violet-rgb), 0.28); border-radius: 6px; padding: 4px 9px; transition: background .15s, border-color .15s; }
+.answer-trap { display: inline-flex; align-items: center; min-height: 26px; font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.06em; color: var(--violet-lt); background: rgba(var(--violet-rgb), 0.1); border: 1px solid rgba(var(--violet-rgb), 0.28); border-radius: 6px; padding: 4px 9px; transition: background .15s, border-color .15s; }
 .answer-trap:hover { background: rgba(var(--violet-rgb), 0.2); color: var(--violet-lt); }
 /* Same 40px floor the nav uses for touch, rather than a second convention. */
 @media (pointer: coarse) { .answer-trap { min-height: 40px; } }
@@ -998,7 +1066,7 @@ a.threat-art:hover { border-color: rgba(var(--violet-rgb), 0.55); }
 
 /* Handtraps blank across the whole matchup: no single card owns them. */
 .dead-list { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-soft); }
-.dead-head { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 10px; }
+.dead-head { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 10px; }
 
 /* Archetypes with no verified targets yet: one caption line, not six full
    headings. See matchups.js's `unmapped`. */
@@ -1027,7 +1095,7 @@ a.threat-art:hover { border-color: rgba(var(--violet-rgb), 0.55); }
 /* ---- combo video (lite YouTube facade: a thumbnail loads the real player only
        on click, so the page never ships heavy iframes up front) ---- */
 .combo-video { margin: 4px 0 28px; max-width: 640px; }
-.combo-video-label { font-family: "IBM Plex Mono", monospace; font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 8px; }
+.combo-video-label { font-family: var(--font-mono); font-size: var(--text-label-sm); letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 8px; }
 .combo-video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: #000; cursor: pointer; }
 .combo-video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.82; transition: opacity .15s; }
 .combo-video-frame:hover img, .combo-video-frame:focus-visible img { opacity: 1; }

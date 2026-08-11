@@ -27,12 +27,15 @@ export default {
       // 2005 cards getting 2026 support, and the overview's closing paragraph pays
       // it off. Don't "correct" it to an attribute/type like the other two decks.
       id: "sacred-beasts", name: "Sacred Beasts", tagline: "Nostalgia Bait · Fusion",
-      status: "wip", href: "/sacred-beasts/", image: "/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.jpg",
+      status: "wip", href: "/sacred-beasts/", image: "/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.webp",
       body: "Uria, Hamon, and Raviel, three Level 10 monsters that can't be Normal Summoned, fused into a 5000 ATK negate machine. Chaos Origins package documented; older staples and combo lines are still in progress.",
       discord: "https://discord.com/invite/vgWuQXT", accent: "#52d68f",
     },
   ],
   engines: [
     { name: "Handtraps", dot: "#7fd8c6", href: "/handtraps/", body: "The hand disruption run across every deck in this guide, in one shared reference instead of copy-pasted onto each deck page." },
+    // The matchup map was reachable only from the Handtraps nav dropdown, so the
+    // hub, the site's front door, never mentioned one of its two shared pages.
+    { name: "Handtrap Matchups", dot: "#b98cff", href: "/handtraps/matchups/", body: "Which handtrap answers which deck, organized by what you're playing against: what it stops, and when to hold it instead." },
   ],
 };

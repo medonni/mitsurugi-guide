@@ -3,7 +3,7 @@ title: Fiendsmith Overview
 bg: landing
 description: Fiendsmith is a splashable LIGHT Fiend engine, an omni-negate and grindy recursion package that bridges into more than one deck in this guide.
 ---
-{% from "components.njk" import synergyCard, heroArt %}
+{% from "components.njk" import synergyCard, heroArt, deckCta %}
 
 <section class="container hero">
   <div>
@@ -25,6 +25,7 @@ description: Fiendsmith is a splashable LIGHT Fiend engine, an omni-negate and g
 <section id="how-it-works" class="container section">
   <div class="two-col">
     <div>
+      <div class="kicker">// THE ENGINE</div>
       <h2>Two starters, one big payoff</h2>
     </div>
     <div class="prose">
@@ -49,8 +50,4 @@ description: Fiendsmith is a splashable LIGHT Fiend engine, an omni-negate and g
   </div>
 </section>
 
-<section class="container cta">
-  <h2>See every card</h2>
-  <p>Official text and stats for every Fiendsmith card, with tips for real games.</p>
-  <a href="{{ '/fiendsmith/cards/' | url }}" class="btn btn-gold">Open the Card Compendium <span class="mono">→</span></a>
-</section>
+{{ deckCta('/fiendsmith/', 'See every card', 'Official text and stats for every Fiendsmith card, with tips for real games.') }}

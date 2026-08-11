@@ -7,9 +7,11 @@
     "start": "eleventy --serve",
     "start:prod": "eleventy --serve --pathprefix=/mitsurugi-guide/",
     "build": "eleventy",
-    "check": "eleventy --quiet --pathprefix=/mitsurugi-guide/ --output=_check && node check-links.js _check"
+    "check": "eleventy --quiet --pathprefix=/mitsurugi-guide/ --output=_check && node check-links.js _check",
+    "art:webp": "node scripts/to-webp.mjs"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.2"
+    "@11ty/eleventy": "^3.1.2",
+    "sharp": "^0.35.3"
   }
 }

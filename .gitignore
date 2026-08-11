@@ -7,3 +7,4 @@ _check/
 # to a build. .impeccable/ is deliberately NOT here: its config.json/design.json
 # are project config, and critique/*.md are the backlog /impeccable polish reads.
 .playwright-mcp/
+.impeccable/

@@ -101,9 +101,62 @@
    filtering something other than cards can say what it actually hid. #}
 {% macro filterEmpty(lead="No cards") %}
 <p class="filter-empty" id="filter-empty" role="status" aria-live="polite" hidden>
-  {{ lead }} <span class="filter-empty-what em-gold"></span>.
+  {{ lead }} <span class="filter-empty-what"></span>.
   <button type="button" class="filter-reset" id="filter-reset">Clear filters</button>
+  {# Filled by card-filter.js when the query matches a card documented on
+     another page. Inside the aria-live region on purpose: "no results, but it's
+     over here" is the useful half of the announcement. #}
+  <span class="filter-empty-hint"></span>
 </p>
+{% endmacro %}
+
+{# Foot navigation for a deck's Cards and Combos pages, and the third link on
+   its Overview. Those two inner pages are the most search-indexed on the site,
+   and PRODUCT.md's operating context says readers arrive one page deep with no
+   prior visit to the hub: before this, /fiendsmith/cards/ and
+   /sacred-beasts/cards/ held ZERO internal links in <main>, so a cold visitor's
+   only route onward was the header caret. Lives here, and is rendered by the
+   shared cards-page/combos-page includes, so it arrives with the page shape
+   rather than being pasted per deck (the divergence CLAUDE.md records twice).
+   `base` is the deck's overview URL, e.g. "/mitsurugi/"; `here` is the page you
+   are on ("overview" | "cards" | "combos") and is the one link omitted. #}
+{% macro deckFootNav(base, here) %}
+<nav class="foot-nav" aria-label="More on this deck">
+  {% if here != "overview" %}
+  <a class="foot-nav-item" href="{{ base | url }}">
+    <span class="mono foot-nav-dir">← Deck overview</span>
+    <span class="foot-nav-label">What the deck does and how the engine loops</span>
+  </a>
+  {% endif %}
+  {% if here != "cards" %}
+  <a class="foot-nav-item" href="{{ (base ~ 'cards/') | url }}">
+    <span class="mono foot-nav-dir">Card compendium →</span>
+    <span class="foot-nav-label">Every card, by where it activates</span>
+  </a>
+  {% endif %}
+  {% if here != "combos" %}
+  <a class="foot-nav-item" href="{{ (base ~ 'combos/') | url }}">
+    <span class="mono foot-nav-dir">Combo lines →</span>
+    <span class="foot-nav-label">Step by step, from starter to end board</span>
+  </a>
+  {% endif %}
+</nav>
+{% endmacro %}
+
+{# A deck overview's closing call to action. Shared so every deck offers both
+   inner pages: Mitsurugi's overview linked its combos (via the turn panel) and
+   the other two linked only their compendium, stranding fully-written combo
+   pages with no in-body route to them. Copy stays per deck; the link set does
+   not. #}
+{% macro deckCta(base, heading, body) %}
+<section class="container cta">
+  <h2>{{ heading }}</h2>
+  <p>{{ body }}</p>
+  <div class="cta-actions">
+    <a href="{{ (base ~ 'cards/') | url }}" class="btn btn-gold">Open the Card Compendium <span class="mono">→</span></a>
+    <a href="{{ (base ~ 'combos/') | url }}" class="btn btn-outline">See the combo lines <span class="mono">→</span></a>
+  </div>
+</section>
 {% endmacro %}
 
 {# One card row: optional sub-label divider, art, role/name/badges, optional

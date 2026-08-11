@@ -25,6 +25,10 @@ description: A fan-made Yu-Gi-Oh! guide covering multiple Ritual and combo decks
         <h2>{{ d.name }}{% if d.status == "wip" %} <span class="wip-badge">WIP</span>{% endif %}</h2>
         <div class="boss-stat">{{ d.tagline }}</div>
         <div class="boss-desc">{{ d.body }}</div>
+        {# Names the three-page shape before the reader commits, which also makes
+           the header's per-deck dropdown discoverable by implication. Not links:
+           the whole card is already one, and nesting anchors is invalid. #}
+        <div class="boss-pages mono">Overview · Cards · Combos</div>
       </div>
     </a>
     {% endfor %}

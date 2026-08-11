@@ -3,7 +3,7 @@ title: Sacred Beasts Overview
 bg: landing
 description: Sacred Beasts, backed by the new Chaos Origins (CORI) support package, Uria, Hamon, and Raviel, each a Level 10 monster that can't be Normal Summoned, revived and fused into a 5000 ATK negate machine.
 ---
-{% from "components.njk" import heroArt %}
+{% from "components.njk" import heroArt, deckCta %}
 
 <section class="container hero">
   <div>
@@ -17,7 +17,7 @@ description: Sacred Beasts, backed by the new Chaos Origins (CORI) support packa
       <span class="attr-pill attr-gold">FUSION</span>
     </div>
     <h1>Three gods too big to Normal Summon. <span class="wip-badge">WORK IN PROGRESS</span></h1>
-    <p><a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#uria" data-img="{{ '/assets/cards/sacred-beasts/uria.jpg' | url }}">Uria</a>, <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#hamon" data-img="{{ '/assets/cards/sacred-beasts/hamon.jpg' | url }}">Hamon</a>, and <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#raviel" data-img="{{ '/assets/cards/sacred-beasts/raviel.jpg' | url }}">Raviel</a>: three Level 10 monsters that can't be Normal Summoned, each fetching from a different card type when revealed in hand, and each feeding into <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#chaotic-phantasmal-sacred-beasts" data-img="{{ '/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.jpg' | url }}">The Chaotic Phantasmal Sacred Beasts</a>, a 5000 ATK Fusion that shrugs off its first two destructions a turn and negates on demand.</p>
+    <p><a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#uria" data-img="{{ '/assets/cards/sacred-beasts/uria.webp' | url }}">Uria</a>, <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#hamon" data-img="{{ '/assets/cards/sacred-beasts/hamon.webp' | url }}">Hamon</a>, and <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#raviel" data-img="{{ '/assets/cards/sacred-beasts/raviel.webp' | url }}">Raviel</a>: three Level 10 monsters that can't be Normal Summoned, each fetching from a different card type when revealed in hand, and each feeding into <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#chaotic-phantasmal-sacred-beasts" data-img="{{ '/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.webp' | url }}">The Chaotic Phantasmal Sacred Beasts</a>, a 5000 ATK Fusion that shrugs off its first two destructions a turn and negates on demand.</p>
     <div class="hero-cta">
       <a href="{{ '/sacred-beasts/cards/' | url }}" class="btn btn-violet">Explore every card <span class="mono">→</span></a>
       <a href="#how-it-works" class="btn btn-outline">How it works</a>
@@ -29,21 +29,18 @@ description: Sacred Beasts, backed by the new Chaos Origins (CORI) support packa
 <section id="how-it-works" class="container section">
   <div class="two-col">
     <div>
+      <div class="kicker">// THE ARCHETYPE</div>
       <h2>Three gods, one job each</h2>
     </div>
     <div class="prose">
       {# The Scarce Gold Rule: gold marks a payoff, so only the three bosses
          keep it here. The enabler cards are ordinary card links (.clink), which
          is what the combos page already uses for inline references. #}
-      <p>Revealed in hand, each boss adds a different piece: <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#uria" data-img="{{ '/assets/cards/sacred-beasts/uria.jpg' | url }}">Uria</a> grabs a Sacred Beast Trap, <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#hamon" data-img="{{ '/assets/cards/sacred-beasts/hamon.jpg' | url }}">Hamon</a> grabs a Sacred Beast Spell, <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#raviel" data-img="{{ '/assets/cards/sacred-beasts/raviel.jpg' | url }}">Raviel</a> grabs another Sacred Beast monster. None of the three can be Normal Summoned, so getting one onto the field needs a Sacred Beast card doing the work: <a class="clink" href="{{ '/sacred-beasts/cards/' | url }}#fallen-paradise-of-the-sacred-beasts" data-img="{{ '/assets/cards/sacred-beasts/fallen-paradise-of-the-sacred-beasts.jpg' | url }}">Fallen Paradise of the Sacred Beasts</a>, <a class="clink" href="{{ '/sacred-beasts/cards/' | url }}#sacred-beasts-combined-assault" data-img="{{ '/assets/cards/sacred-beasts/sacred-beasts-combined-assault.jpg' | url }}">Sacred Beasts Combined Assault</a>, or a second boss's own summon effect.</p>
-      <p>Feed three Level 10s that can't be Normal Summoned into <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#chaotic-phantasmal-sacred-beasts" data-img="{{ '/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.jpg' | url }}">The Chaotic Phantasmal Sacred Beasts</a> and you end on a 5000/5000 that survives its first two destructions each turn and negates a monster's effects up to three times a turn.</p>
+      <p>Revealed in hand, each boss adds a different piece: <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#uria" data-img="{{ '/assets/cards/sacred-beasts/uria.webp' | url }}">Uria</a> grabs a Sacred Beast Trap, <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#hamon" data-img="{{ '/assets/cards/sacred-beasts/hamon.webp' | url }}">Hamon</a> grabs a Sacred Beast Spell, <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#raviel" data-img="{{ '/assets/cards/sacred-beasts/raviel.webp' | url }}">Raviel</a> grabs another Sacred Beast monster. None of the three can be Normal Summoned, so getting one onto the field needs a Sacred Beast card doing the work: <a class="clink" href="{{ '/sacred-beasts/cards/' | url }}#fallen-paradise-of-the-sacred-beasts" data-img="{{ '/assets/cards/sacred-beasts/fallen-paradise-of-the-sacred-beasts.webp' | url }}">Fallen Paradise of the Sacred Beasts</a>, <a class="clink" href="{{ '/sacred-beasts/cards/' | url }}#sacred-beasts-combined-assault" data-img="{{ '/assets/cards/sacred-beasts/sacred-beasts-combined-assault.webp' | url }}">Sacred Beasts Combined Assault</a>, or a second boss's own summon effect.</p>
+      <p>Feed three Level 10s that can't be Normal Summoned into <a class="gold" href="{{ '/sacred-beasts/cards/' | url }}#chaotic-phantasmal-sacred-beasts" data-img="{{ '/assets/cards/sacred-beasts/chaotic-phantasmal-sacred-beasts.webp' | url }}">The Chaotic Phantasmal Sacred Beasts</a> and you end on a 5000/5000 that survives its first two destructions each turn and negates a monster's effects up to three times a turn.</p>
       <p>Uria, Hamon, and Raviel debuted two decades earlier, and bring a lot of nostalgia with them. Despite looking like shadow versions of the Egyptian Gods, their names are actually Judeo-Christian: Uria is a spelling of Uriah, Hamon comes from the Book of Enoch, and Raviel is a spelling of Raziel.</p>
     </div>
   </div>
 </section>
 
-<section class="container cta">
-  <h2>See every card</h2>
-  <p>Official text and stats for the full Chaos Origins Sacred Beast package.</p>
-  <a href="{{ '/sacred-beasts/cards/' | url }}" class="btn btn-gold">Open the Card Compendium <span class="mono">→</span></a>
-</section>
+{{ deckCta('/sacred-beasts/', 'See every card', 'Official text and stats for the full Chaos Origins Sacred Beast package.') }}

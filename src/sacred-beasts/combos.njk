@@ -3,6 +3,12 @@ title: Sacred Beasts Combos
 bg: combos
 description: Step-by-step combo lines for the Sacred Beast archetype. Coming soon.
 ---
+{# This deck's combo lines aren't written yet, so this page is hand-written
+   rather than going through combos-page.njk. It still gets the shared foot nav
+   from the same macro: a page with no content is the LAST one that should also
+   be a dead end, and a cold visitor landing here from search has nothing else
+   to act on. #}
+{% from "components.njk" import deckFootNav %}
 
 <section class="container-narrow comp-head">
   <div class="kicker">// COMBO LINES · SACRED BEASTS <span class="wip-badge">WORK IN PROGRESS</span></div>
@@ -12,4 +18,6 @@ description: Step-by-step combo lines for the Sacred Beast archetype. Coming soo
 
 <section class="container-narrow combos">
   <p class="combo-placeholder">Check back soon, or see the live <a class="clink" href="{{ '/mitsurugi/combos/' | url }}">Mitsurugi combo lines</a> for the format this page will follow.</p>
+
+  {{ deckFootNav('/sacred-beasts/', "combos") }}
 </section>

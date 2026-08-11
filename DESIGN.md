@@ -15,7 +15,7 @@ colors:
   text-caption: "#8f84af"
   violet: "#b98cff"
   violet-lt: "#cbb0ff"
-  violet-deep: "#8a5cf0"
+  violet-deep: "#9366f2"
   sacred-beasts-accent: "#52d68f"
   sacred-beasts-accent-lt: "#82e6ac"
   sacred-beasts-accent-deep: "#2fa868"
@@ -190,11 +190,11 @@ The identity motif is the **diamond**, a 45-degree rotated square with upright c
 A cool, low-glare palette: a violet-black ground, purple-leaning neutrals, and two disciplined accents that carry all the meaning.
 
 ### Primary
-- **Arcane Violet** (`#b98cff`): The interaction color. Every link, active nav item, filter tab fill, and `// LABEL` eyebrow. Its lighter sibling **Violet Light** (`#cbb0ff`) is the hover/active text state; **Violet Deep** (`#8a5cf0`) is the gradient partner on filled violet buttons and tabs. This is also the default/neutral interaction color: the deck hub and the shared Handtraps page always show it, since they don't belong to one deck. See Per-Deck Accents below.
+- **Arcane Violet** (`#b98cff`): The interaction color. Every link, active nav item, filter tab fill, and `// LABEL` eyebrow. Its lighter sibling **Violet Light** (`#cbb0ff`) is the hover/active text state; **Violet Deep** (`#9366f2`) is the gradient partner on filled violet buttons and tabs. This is also the default/neutral interaction color: the deck hub and the shared Handtraps page always show it, since they don't belong to one deck. See Per-Deck Accents below.
 
 ### Per-Deck Accents
 Violet is Mitsurugi's accent, not the whole site's. Each deck or engine section gets its own interaction color, so a reader always knows which section they're on just from the chrome. Implemented as one CSS custom-property override per section (`body.deck-<id>` sets `--violet`/`--violet-lt`/`--violet-deep`/`--violet-rgb`); everything built from those tokens (links, buttons, nav, tabs, glows, borders) follows automatically, so adding a new section's theme is a four-line block, not a component-by-component reskin.
-- **Mitsurugi** (default): Arcane Violet (`#b98cff` / `#cbb0ff` / `#8a5cf0`), as above.
+- **Mitsurugi** (default): Arcane Violet (`#b98cff` / `#cbb0ff` / `#9366f2`), as above.
 - **Sacred Beasts**: **Emerald** (`#52d68f`, light `#82e6ac`, deep `#2fa868`). Pairs with gold the way emerald and gold classically do, regal rather than competing with gold's warm hue, and reads clearly distinct from violet on the shared purple-black ground.
 - **Fiendsmith**: **Ether Cyan** (`#4fc9e8`, light `#85dcf2`, deep `#2fa0c2`). A cooler, paler blue than Mitsurugi's violet or the zone/frame blues (zone-gy, frame-link), fitting the engine's ghostly LIGHT Fiend flavor, and far enough from Warning Rose that a Fiendsmith combo page's brand color and its "watch out" callouts never get confused for one another.
 
@@ -243,6 +243,10 @@ The frontmatter `colors` / `rounded` / `typography` maps are the *palette, shape
 **Body Font:** IBM Plex Sans (with system-ui, sans-serif)
 **Label/Mono Font:** IBM Plex Mono
 
+Loaded from Google Fonts in `base.njk`, not self-hosted. All three are SIL OFL 1.1, and self-hosting would be redistribution, which obliges the repo to carry the licence text; linking the CDN redistributes nothing. That is a deliberate trade of two third-party round trips for zero licence obligation.
+
+Rules never name a family directly, they ask for `--font-display` / `--font-body` / `--font-mono`. Those three tokens are the entire swap surface: this system was replaced wholesale with public-domain faces (Athabasca / Aileron / Unispace) and brought back, and the return trip cost three lines instead of seventy-two. The CC0 set was rejected on fit, not licence: it read competent but generic, and lost the geometric quirk and humanist warmth this codex depends on. Keep the tokens; the licence question can come back, the typography is settled.
+
 **Character:** A three-face system pairing on a clear contrast axis: Space Grotesk's geometric quirk for anything that names or numbers, IBM Plex Sans's humanist calm for running prose, and IBM Plex Mono for every label and pill. The mono face, wide-tracked and usually uppercase, does most of the identity work: it is the texture that makes the page read as a codex rather than a blog.
 
 ### The ramp
@@ -271,7 +275,7 @@ Ratios widen as the ramp climbs: 1.08–1.10 across the label band, 1.12–1.15 
 
 **The Light-On-Dark Rule.** Body carries `letter-spacing: 0.01em`, and `h1, h2, h3` reset it to `normal`. Light ink on a dark ground reads optically tighter than the same type dark-on-light, so prose gets a hair of tracking back; display sizes need the opposite (they tighten to -0.02em), so the correction must never inherit into a heading.
 
-**The Mono-Label Rule.** Every label, eyebrow, pill, badge, nav item, and caption is IBM Plex Mono, wide-tracked. Never set a label in the body or display face.
+**The Mono-Label Rule.** Every label, eyebrow, pill, badge, nav item, and caption is IBM Plex Mono, set via `var(--font-mono)`, wide-tracked. Never set a label in the body or display face.
 
 **The Eyebrow Rule.** Eyebrows are mono, violet, and prefixed `// LABEL`. Use them deliberately as page or key-section markers, never above every section (an eyebrow over every heading reads as scaffolding, not voice). The numbered form `// 01 · LABEL` is reserved for content that is a true ordered sequence (the tribute engine loop, combo timelines).
 
@@ -323,7 +327,7 @@ The cap is in `ch`, never `px`. A `px` cap only equals its documented measure at
 
 ### Buttons
 - **Shape:** Softly rounded (10–12px). Pill radius is reserved for attribute pills, not buttons.
-- **Primary (violet):** Violet→violet-deep gradient (`#b98cff`→`#8a5cf0`), `#14101f` ink, 14px×24px. The main "explore/see" action.
+- **Primary (violet):** Violet→violet-deep gradient (`#b98cff`→`#9366f2`), `#14101f` ink, 14px×24px. The main "explore/see" action.
 - **Gold:** Gold→gold-deep gradient (`#e0c46a`→`#c9a24b`), `#14101f` ink, 700 weight, 16px×30px, 12px radius. The single strongest closing CTA per page; used sparingly.
 - **Outline:** Transparent with a `rgba(185,140,255,0.28)` border and violet-light text. The secondary/fallback action.
 - **Hover / Focus:** Filled buttons hold their fill and ink color on hover (no wash-out); interaction feedback is subtle. Focus should show a visible ring.
@@ -381,7 +385,7 @@ The compendium's core unit: a left art rail beside a content block of role label
 ### Do:
 - **Do** keep gold and violet in their lanes: gold = payoff/stats/emphasis, violet = interaction/links/eyebrows (The Two Voices Rule).
 - **Do** build depth from tonal surface steps (`#191225` → `#1e1633` → `#241b3d`) and alpha-violet hairline borders, not shadows.
-- **Do** set every label, pill, badge, nav item, and eyebrow in IBM Plex Mono, wide-tracked, usually uppercase.
+- **Do** set every label, pill, badge, nav item, and eyebrow in the mono face, wide-tracked, usually uppercase, via `var(--font-mono)` and never by naming the family.
 - **Do** reserve the big soft shadow (`0 40px 80px -30px rgba(0,0,0,0.8)`) for elements that genuinely float (hero art, boss stack).
 - **Do** use the diamond (45-degree rotated square) as the recurring motif at every scale.
 - **Do** keep body copy purple-leaning off the text ramp and comfortably readable against `#14101f`.

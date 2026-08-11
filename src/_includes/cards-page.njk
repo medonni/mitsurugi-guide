@@ -15,7 +15,13 @@
      intro        raw markup under the h1 (the .intro paragraph, any WIP note)
      showStats    passed to cardRow as showStatLine, see components.njk
      afterGroups  optional raw markup below the compendium #}
-{% from "components.njk" import cardGroup, zoneFilter, sectionTabs, filterEmpty, cardSearch %}
+{% from "components.njk" import cardGroup, zoneFilter, sectionTabs, filterEmpty, cardSearch, deckFootNav %}
+
+{# This include is only ever reached from a deck's <deck>/cards.njk, so the
+   deck's own base URL is this page's URL minus its last segment. Derived rather
+   than passed in: a variable every deck has to remember to set is exactly how
+   the last three compendium features reached one deck and not the others. #}
+{% set deckBase = page.url | replace("cards/", "") %}
 
 <section class="container-narrow comp-head">
   <div class="kicker">{{ kicker | safe }}</div>
@@ -35,6 +41,15 @@
 
   {{ filterEmpty() }}
   {{ afterGroups | safe }}
+
+  {{ deckFootNav(deckBase, "cards") }}
 </section>
 
+{# Every card in the guide, so a search that misses on this page can point at
+   the page that has it. Hrefs go through `| url` here rather than being read
+   root-absolute in JS, so the /mitsurugi-guide/ pathPrefix is already applied
+   and the script never has to know the site is deployed under one. #}
+<script type="application/json" id="all-cards">[
+{%- for c in allCards %}{% if not loop.first %},{% endif %}{"name":{{ c.name | dump | safe }},"href":{{ c.href | url | dump | safe }},"page":{{ c.page | dump | safe }}}{% endfor -%}
+]</script>
 <script src="{{ '/assets/js/card-filter.js' | url }}"></script>

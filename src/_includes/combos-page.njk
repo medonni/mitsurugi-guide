@@ -4,6 +4,10 @@
    needing the same page shape means extract, not copy-paste.
 
    `c` needs: kicker, h1, intro, lines[], interactions[], pending[]. #}
+{% from "components.njk" import deckFootNav %}
+{# Only reached from a deck's <deck>/combos.njk, so the deck base is this URL
+   minus its last segment. Same derivation as cards-page.njk. #}
+{% set deckBase = page.url | replace("combos/", "") %}
 <section class="container-narrow comp-head">
   <div class="kicker">{{ c.kicker }}</div>
   <h1>{{ c.h1 }}</h1>
@@ -106,6 +110,8 @@
   {% if c.pending.length %}
   <p class="combo-pending mono">More lines to document: {{ c.pending | join(" · ") }}</p>
   {% endif %}
+
+  {{ deckFootNav(deckBase, "combos") }}
 </section>
 
 <script>

@@ -103,12 +103,31 @@ with no alias there simply renders as plain text in prose.
 ### Card art
 
 Drop an image at `src/assets/cards/<section>/<id>.<ext>` (`webp`/`png`/`jpg`,
-tried in that order) and it's picked up automatically, no code change. WebP
-preferred, ~600px tall (e.g. 412×600), < 60 KB when available; a plain JPG
-from [YGOPRODeck](https://db.ygoprodeck.com/api/v7/cardinfo.php) resized with
-`sips -Z 600` is the fallback used for Sacred Beasts' art (this machine's
-`sips` can't encode WebP). See
-[`src/assets/cards/README.md`](src/assets/cards/README.md) for details.
+tried in that order) and it's picked up automatically, no code change.
+
+Pull the art from [YGOPRODeck](https://db.ygoprodeck.com/api/v7/cardinfo.php)
+as whatever it gives you (a JPG), drop it in the right folder, then run:
+
+```sh
+npm run art:webp                                  # every card directory
+npm run art:webp -- src/assets/cards/sacred-beasts  # or just one
+npm run art:webp -- --dry                         # preview, change nothing
+```
+
+`scripts/to-webp.mjs` resizes to fit 412×600, encodes WebP at quality 82,
+strips EXIF/ICC/XMP, and deletes the source once it has verified the output is
+readable WebP and actually smaller (`--keep` to keep it, `--force` to redo one
+that already has a `.webp`). Every card on the site lands in the 45–60 KB range
+that way.
+
+**Don't reach for `sips`.** It lists `org.webmproject.webp` in `--formats` and
+accepts `-s format webp` without an error message, then exits 13 and writes no
+file: it decodes WebP but cannot encode it. That trap is why the Sacred Beasts
+package originally shipped as JPGs at ~75 KB each while every other deck was
+WebP. The script uses `sharp` (a devDependency) precisely because it can.
+
+See [`src/assets/cards/README.md`](src/assets/cards/README.md) for the naming
+convention and the full id list.
 
 ### Card compendium filtering
 
@@ -155,6 +174,23 @@ Nothing else: `cardGroup`/`cardRow` already emit the `data-section`/`data-zones`
 attributes the script reads, and `src/assets/js/card-filter.js` is one shared,
 page-agnostic script, don't inline a per-page copy.
 
+Two behaviours the shared kit gives you that are easy to mistake for bugs:
+
+- **Groups after the first ship collapsed under 900px.** All six `<details>`
+  rendering `open` put ~1.3 screens of filter furniture and headings above the
+  first card row on a 23,000px page. `card-filter.js` closes all but the first
+  on load at mobile widths; `apply()` re-opens any group a filter matches, so
+  search and chips behave identically at every width. Desktop is unchanged.
+- **A search that misses points at the page that has the card.** Each
+  compendium deliberately holds one pool (handtraps live on their own shared
+  page), so searching "ash" on a deck compendium used to dead-end on a site that
+  documents Ash Blossom one page over. `src/_data/allCards.js` derives every
+  card in the guide from `src/_lib/card-index.js`, `cards-page.njk` emits it as
+  a `<script type="application/json" id="all-cards">` with hrefs already run
+  through `| url`, and the filter script renders the hint. **A new deck gets
+  this for free**, its cards enter `card-index.js` automatically; the only
+  per-deck thing is a reader-facing page name in `allCards.js`'s `PAGE_NAMES`.
+
 ## Adding a new deck
 
 1. `src/<deck-id>/` with `index.njk` (Overview), `cards.njk`, `combos.njk`,
@@ -180,6 +216,21 @@ page-agnostic script, don't inline a per-page copy.
    one page puts a 50px jog in the left edge between the hero and everything
    under it, which is exactly what Fiendsmith and Sacred Beasts shipped with.
 6. Frame the hero boss stack, see below. The defaults are not a finished job.
+7. Close the Overview with the shared `deckCta(base, heading, body)` macro
+   rather than a hand-written `<section class="cta">`. Copy is per deck; the
+   link set (Cards **and** Combos) is not. Mitsurugi's overview once linked its
+   combos while the other two linked only their compendium, stranding two
+   fully-written combo pages with no in-body route to them.
+
+**Every Cards and Combos page carries `deckFootNav(base, here)`.** The shared
+`cards-page.njk` and `combos-page.njk` render it for you, deriving `base` from
+`page.url`, so a deck using the shared includes gets it automatically and can't
+forget it. A page written by hand instead of through the includes (Sacred
+Beasts' placeholder combos page) has to import the macro and call it itself.
+This matters more than it looks: a compendium is the most search-indexed page
+on the site, PRODUCT.md says readers arrive one page deep from search, and
+before this two of the three decks' Cards pages held *zero* internal links in
+`<main>`, making the header caret the only way onward.
 
 ## Adding combo lines to a deck
 
@@ -268,6 +319,37 @@ Two rules, both of which have already been broken here:
   `min-width: 0` on its children, or a reader at 200% gets a horizontally
   scrolling page. There's a shared rule near the top of the file covering the
   current layouts, add new ones to it.
+
+### Fonts
+
+Space Grotesk (display), IBM Plex Sans (body), IBM Plex Mono (labels), loaded
+from Google Fonts by the `<link>` in `base.njk`. **Not self-hosted, on purpose.**
+
+- **Why the CDN.** All three are SIL OFL 1.1. The OFL permits bundling, but
+  self-hosting *is* redistribution and obliges the repo to ship the licence text
+  alongside the files. Linking the CDN redistributes nothing, so the obligation
+  never arises and there is no NOTICE file to go stale. The known cost is two
+  third-party round trips on the critical path (an audit pass flagged it as P2);
+  the `preconnect` pair ahead of the stylesheet cuts that as far as it can be
+  cut without hosting the files. **If this is ever self-hosted for speed, ship
+  the OFL text with the `.woff2` files** — that is the whole obligation, and
+  skipping it is the one genuinely non-compliant option.
+- **Never name a family in a rule.** Ask for `var(--font-display)`,
+  `var(--font-body)` or `var(--font-mono)`. Those three tokens in `:root` are
+  the entire swap surface. This is load-bearing, not theoretical: the type
+  system was swapped wholesale to public-domain faces and then brought back, and
+  the return trip cost three lines because of the tokens, where the trip out had
+  cost 72 scattered `font-family` declarations.
+- **Only the weights the CSS actually sets** go in the Google Fonts URL. Space
+  Grotesk 400 is deliberately absent: nothing sets the display face below 600,
+  and bare `h1`/`h2`/`h3` inherit the UA's bold. Adding a weight to the URL means
+  using it in `style.css`, and vice versa. Confirm with `document.fonts` rather
+  than assuming.
+- Public-domain alternatives were tried and rejected **on fit, not licence**
+  (Athabasca / Aileron / Unispace, all CC0). They read competent but generic and
+  lost the geometric quirk and humanist warmth the codex depends on. If the
+  licence question returns, that is a delivery decision; the typography is
+  settled.
 
 Prose caps go in `ch` for the same reason, a `px` cap only equals its intended
 measure at a 16px root. Panel widths stay in `px`.

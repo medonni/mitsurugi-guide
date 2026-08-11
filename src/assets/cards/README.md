@@ -17,10 +17,23 @@ src/assets/cards/<section>/<card-id>.<ext>
 
 ## Sizing for performance
 
-Card art is displayed at ~210px wide (compendium) up to ~430px (hero). Export at
-**~600px wide max** (covers 2× retina), WebP quality ~80, aiming for **< 60 KB**
-per card. No need for full-res scans — they'd just slow the page down. Images
-already load lazily (`loading="lazy"`).
+Card art is displayed at ~210px wide (compendium) up to ~430px (hero). Target
+**412×600** (covers 2× retina), WebP quality ~82, **< 60 KB** per card. No need
+for full-res scans — they'd just slow the page down. Images already load lazily
+(`loading="lazy"`).
+
+**You don't have to hit that by hand.** Drop the file here in whatever format
+you got it (YGOPRODeck serves JPG) and run from the repo root:
+
+```sh
+npm run art:webp -- --dry   # preview
+npm run art:webp            # convert
+```
+
+`scripts/to-webp.mjs` handles the resize, the WebP encode, and stripping EXIF /
+ICC / XMP, then removes the source once it has verified the new file is valid
+WebP and smaller. Note that macOS `sips` *looks* like it can do this and cannot:
+it exits 13 and silently writes nothing.
 
 ## Examples
 
